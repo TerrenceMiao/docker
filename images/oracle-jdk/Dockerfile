@@ -17,8 +17,8 @@ RUN echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswit
 
 ## Java Version
 ENV JAVA_VERSION_MAJOR 8
-ENV JAVA_VERSION_MINOR 72
-ENV JAVA_VERSION_BUILD 15
+ENV JAVA_VERSION_MINOR 74
+ENV JAVA_VERSION_BUILD 02
 ENV JAVA_PACKAGE       jdk
 
 ## Download and install Java
