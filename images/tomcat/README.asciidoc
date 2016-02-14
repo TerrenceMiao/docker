@@ -1,7 +1,9 @@
 Apache Tomcat in Docker
 =======================
+[![](https://badge.imagelayers.io/jtech/tomcat:latest.svg)](https://imagelayers.io/?images=jtech/tomcat:latest 'Get your own badge on imagelayers.io')
 
 Build a docker image which has the latest Apache Tomcat inside local images list.
+
 
 Prerequisites
 -------------
