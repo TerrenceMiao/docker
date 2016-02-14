@@ -15,7 +15,7 @@ How to do it
 [source.console]
 ----
 terrence@muffler ~/Projects/docker/images
-13:07:32 189 𝜆 docker build -t docker/tomcat:latest tomat/
+13:07:32 189 𝜆 docker build -t jtech/tomcat:latest tomat/
 
 terrence@muffler ~/Projects/docker/images
 13:07:32 189 𝜆 docker images

@@ -1,6 +1,6 @@
 ## Latest Tomcat distribution
 
-FROM docker/oracle-jdk:latest 
+FROM jtech/oracle-jdk:latest 
 
 MAINTAINER Terrence Miao <TerrenceMiao@users.noreply.github.com>
 
