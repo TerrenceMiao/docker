@@ -29,7 +29,7 @@ $ docker rm $(docker ps -a -q)
 - Remove ALL Docker's images
 [source.console]
 ----
-docker rmi $(docker images -q)
+$ docker rmi $(docker images -q)
 ----
 
 
