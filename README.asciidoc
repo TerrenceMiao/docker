@@ -1,0 +1,16 @@
+What about Docker?
+==================
+
+This project including all the Docker related solutions
+
+
+References
+----------
+- How to set up local Docker Registry, https://docs.docker.com/registry/
+- Store images on Docker Hub, https://docs.docker.com/engine/userguide/containers/dockerrepos/
+- Automated Builds from GitHub, https://docs.docker.com/docker-hub/github/
+
+
+Copying
+-------
+Copyright © 2016 - Terrence Miao. Free use of this software is granted under the terms of the GNU General Public License version 3 (GPLv3).
