@@ -35,10 +35,10 @@ docker rmi $(docker images -q)
 
 References
 ----------
-- Oracle Java 8 Container - Full + Slim - Based off Alpine + CentOS, _https://hub.docker.com/r/lwieske/java-8/_
-- A minimal Docker image based on Alpine Linux with a complete package index and only 5 MB in size, _https://hub.docker.com/_/alpine/_
-- Smaller Java images with Alpine Linux, _https://developer.atlassian.com/blog/2015/08/minimal-java-docker-containers/_
-- How to set up local Docker Registry, _https://docs.docker.com/registry/_
+- Oracle Java 8 Container - Full + Slim - Based off Alpine + CentOS, https://hub.docker.com/r/lwieske/java-8/
+- A minimal Docker image based on Alpine Linux with a complete package index and only 5 MB in size, https://hub.docker.com/_/alpine/
+- Smaller Java images with Alpine Linux, https://developer.atlassian.com/blog/2015/08/minimal-java-docker-containers/
+- How to set up local Docker Registry, https://docs.docker.com/registry/
 
 
 Copying
