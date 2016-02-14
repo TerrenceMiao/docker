@@ -14,7 +14,7 @@ How to do it
 [source.console]
 ----
 terrence@muffler ~/Projects/docker/images
-13:07:32 189 𝜆 docker build -t docker/oracle-jdk:latest oracle-jdk/
+13:07:32 189 𝜆 docker build -t jtech/oracle-jdk:latest oracle-jdk/
 
 terrence@muffler ~/Projects/docker/images
 13:07:32 189 𝜆 docker images
