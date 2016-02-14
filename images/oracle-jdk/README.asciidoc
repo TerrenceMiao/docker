@@ -1,0 +1,46 @@
+Oracle JDK in Docker
+====================
+
+Build a docker image which has the latest Oracle JDK inside local images list, based on the smallest Linux image - Alpine Linux.
+
+Prerequisites
+-------------
+- Install Docker on host
+
+
+How to do it
+------------
+- Under project "/images" directory
+[source.console]
+----
+terrence@muffler ~/Projects/docker/images
+13:07:32 189 𝜆 docker build -t docker/oracle-jdk:latest oracle-jdk/
+
+terrence@muffler ~/Projects/docker/images
+13:07:32 189 𝜆 docker images
+----
+
+- Remove ALL Docker's containers
+[source.console]
+----
+$ docker rm $(docker ps -a -q)
+----
+
+- Remove ALL Docker's images
+[source.console]
+----
+docker rmi $(docker images -q)
+----
+
+
+References
+----------
+- Oracle Java 8 Container - Full + Slim - Based off Alpine + CentOS, _https://hub.docker.com/r/lwieske/java-8/_
+- A minimal Docker image based on Alpine Linux with a complete package index and only 5 MB in size, _https://hub.docker.com/_/alpine/_
+- Smaller Java images with Alpine Linux, _https://developer.atlassian.com/blog/2015/08/minimal-java-docker-containers/_
+- How to set up local Docker Registry, _https://docs.docker.com/registry/_
+
+
+Copying
+-------
+Copyright © 2016 - Terrence Miao. Free use of this software is granted under the terms of the GNU General Public License version 3 (GPLv3).
