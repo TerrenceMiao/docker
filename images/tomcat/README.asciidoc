@@ -1,11 +1,12 @@
-Oracle JDK in Docker
-====================
+Apache Tomcat in Docker
+=======================
 
-Build a docker image which has the latest Oracle JDK inside local images list, based on the smallest Linux image - Alpine Linux.
+Build a docker image which has the latest Apache Tomcat inside local images list.
 
 Prerequisites
 -------------
 - Install Docker on host
+- Pre-built image "docker/oracle-jdk:latest" on local Docker images list
 
 
 How to do it
@@ -14,7 +15,7 @@ How to do it
 [source.console]
 ----
 terrence@muffler ~/Projects/docker/images
-13:07:32 189 𝜆 docker build -t docker/oracle-jdk:latest oracle-jdk/
+13:07:32 189 𝜆 docker build -t docker/tomcat:latest tomat/
 
 terrence@muffler ~/Projects/docker/images
 13:07:32 189 𝜆 docker images
