@@ -54,21 +54,3 @@ ENV PATH ${PATH}:${JAVA_HOME}/bin
 ## Set up Locale
 ENV LANG en_US.UTF-8 
 ENV LC_ALL en_US.UTF-8
-
-
-## Tomcat Version
-ENV TOMCAT_VERSION 8.0.32
-
-## Get Tomcat
-RUN curl -Ls http://apache.rediris.es/tomcat/tomcat-8/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz \
-    | tar -xzf - -C /usr/local && \
-    ln -s /usr/local/apache-tomcat-${TOMCAT_VERSION} /usr/local/tomcat && \
-    rm -rf /usr/local/tomcat/webapps/*
-
-ENV CATALINA_HOME /usr/local/tomcat
-ENV PATH $PATH:$CATALINA_HOME/bin
-
-EXPOSE 8080
-EXPOSE 8009
-
-CMD ["/usr/local/tomcat/bin/catalina.sh", "run"]
