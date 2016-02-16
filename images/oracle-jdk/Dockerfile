@@ -7,7 +7,8 @@ MAINTAINER Terrence Miao <TerrenceMiao@users.noreply.github.com>
 ## Install cURL, ca-certifications, tar then install glibc library
 RUN apk --update add curl ca-certificates tar && \
     curl -Ls https://circle-artifacts.com/gh/andyshinn/alpine-pkg-glibc/6/artifacts/0/home/ubuntu/alpine-pkg-glibc/packages/x86_64/glibc-2.21-r2.apk > /tmp/glibc-2.21-r2.apk && \
-    apk add --allow-untrusted /tmp/glibc-2.21-r2.apk
+    apk add --allow-untrusted /tmp/glibc-2.21-r2.apk && \
+    rm /tmp/glibc-2.21-r2.apk
 
 ## Alpine Linux doesn't use pam, which means that there is no /etc/nsswitch.conf,
 ## but Java relies on /etc/nsswitch.conf to check the order of DNS resolving
