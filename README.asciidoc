@@ -23,6 +23,9 @@ terrence@muffler ~/Projects/docker/images
 13:07:32 189 𝜆 docker build -t jtech/tomcat:latest tomcat/
 
 terrence@muffler ~/Projects/docker/images
+13:07:32 189 𝜆 docker build -t jtech/activemq:latest activemq/
+
+terrence@muffler ~/Projects/docker/images
 13:07:32 189 𝜆 docker images
 ----
 
