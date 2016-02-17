@@ -8,16 +8,16 @@ MAINTAINER Terrence Miao <TerrenceMiao@users.noreply.github.com>
 ENV TOMCAT_MAJOR 8
 ENV TOMCAT_VERSION 8.0.32
 
-## Get Tomcat
-RUN curl -Ls http://apache.rediris.es/tomcat/tomcat-${TOMCAT_MAJOR}/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz \
-    | tar -xzf - -C /usr/local && \
-    ln -s /usr/local/apache-tomcat-${TOMCAT_VERSION} /usr/local/tomcat && \
-    rm -rf /usr/local/tomcat/webapps/*
-
 ENV CATALINA_HOME /usr/local/tomcat
 ENV PATH $PATH:$CATALINA_HOME/bin
 
-EXPOSE 8080
-EXPOSE 8009
+## Get Tomcat
+RUN curl -Ls http://apache.rediris.es/tomcat/tomcat-${TOMCAT_MAJOR}/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz \
+    | tar -xzf - -C /usr/local && \
+    ln -s /usr/local/apache-tomcat-${TOMCAT_VERSION} ${CATALINA_HOME} && \
+    rm -rf ${CATALINA_HOME}/webapps/*
 
-CMD ["/usr/local/tomcat/bin/catalina.sh", "run"]
+EXPOSE 8080 8009
+
+WORKDIR $CATALINA_HOME
+CMD ["/bin/sh", "-c", "bin/catalina.sh", "run"]
