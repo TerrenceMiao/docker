@@ -20,4 +20,4 @@ RUN curl -Ls http://apache.rediris.es/tomcat/tomcat-${TOMCAT_MAJOR}/v${TOMCAT_VE
 EXPOSE 8080 8009
 
 WORKDIR $CATALINA_HOME
-CMD ["/bin/sh", "-c", "bin/catalina.sh", "run"]
+CMD ["bin/catalina.sh", "run"]
