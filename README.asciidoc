@@ -9,6 +9,7 @@ References
 - How to set up local Docker Registry, https://docs.docker.com/registry/
 - Store images on Docker Hub, https://docs.docker.com/engine/userguide/containers/dockerrepos/
 - Automated Builds from GitHub, https://docs.docker.com/docker-hub/github/
+- Running Docker on AWS from the ground up, http://www.ybrikman.com/writing/2015/11/11/running-docker-aws-ground-up/
 
 
 How to build
