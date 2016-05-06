@@ -1,0 +1,127 @@
+Terraform, Amazon EC2 Container Service (ECS) and Docker
+========================================================
+
+This example demos how Terraform provision AWS instances, based on "Infrastructure As Code" principle.
+
+Under this directory, after you run "terraform apply" on these Terraform configuration, a new AWS EC2 instance will be created
+
+Have Terraform installed. Run with command:
+
+[source.console]
+----
+terrence@muffler ~/Projects/docker/terraform
+13:07:32 189 𝜆 /usr/local/terraform/terraform apply -var 'key_name=aws-key' -var 'key_path=/Users/terrence/.ssh/aws-key.pem'
+----
+
+Output on console:
+
+[source.console]
+----
+aws_security_group.default: Creating...
+  description:                          "" => "Security Group for Terraform"
+  egress.#:                             "" => "1"
+  egress.482069346.cidr_blocks.#:       "" => "1"
+  egress.482069346.cidr_blocks.0:       "" => "0.0.0.0/0"
+  egress.482069346.from_port:           "" => "0"
+  egress.482069346.protocol:            "" => "-1"
+  egress.482069346.security_groups.#:   "" => "0"
+  egress.482069346.self:                "" => "0"
+  egress.482069346.to_port:             "" => "0"
+  ingress.#:                            "" => "3"
+  ingress.2214680975.cidr_blocks.#:     "" => "1"
+  ingress.2214680975.cidr_blocks.0:     "" => "0.0.0.0/0"
+  ingress.2214680975.from_port:         "" => "80"
+  ingress.2214680975.protocol:          "" => "tcp"
+  ingress.2214680975.security_groups.#: "" => "0"
+  ingress.2214680975.self:              "" => "0"
+  ingress.2214680975.to_port:           "" => "80"
+  ingress.2541437006.cidr_blocks.#:     "" => "1"
+  ingress.2541437006.cidr_blocks.0:     "" => "0.0.0.0/0"
+  ingress.2541437006.from_port:         "" => "22"
+  ingress.2541437006.protocol:          "" => "tcp"
+  ingress.2541437006.security_groups.#: "" => "0"
+  ingress.2541437006.self:              "" => "0"
+  ingress.2541437006.to_port:           "" => "22"
+  ingress.2617001939.cidr_blocks.#:     "" => "1"
+  ingress.2617001939.cidr_blocks.0:     "" => "0.0.0.0/0"
+  ingress.2617001939.from_port:         "" => "443"
+  ingress.2617001939.protocol:          "" => "tcp"
+  ingress.2617001939.security_groups.#: "" => "0"
+  ingress.2617001939.self:              "" => "0"
+  ingress.2617001939.to_port:           "" => "443"
+  name:                                 "" => "terraform_example"
+  owner_id:                             "" => "<computed>"
+  vpc_id:                               "" => "<computed>"
+aws_security_group.default: Creation complete
+aws_instance.web: Creating...
+  ami:                        "" => "ami-0c95b86f"
+  availability_zone:          "" => "<computed>"
+  ebs_block_device.#:         "" => "<computed>"
+  ephemeral_block_device.#:   "" => "<computed>"
+  instance_state:             "" => "<computed>"
+  instance_type:              "" => "t2.micro"
+  key_name:                   "" => "aws-key"
+  placement_group:            "" => "<computed>"
+  private_dns:                "" => "<computed>"
+  private_ip:                 "" => "<computed>"
+  public_dns:                 "" => "<computed>"
+  public_ip:                  "" => "<computed>"
+  root_block_device.#:        "" => "<computed>"
+  security_groups.#:          "" => "1"
+  security_groups.3483396693: "" => "terraform_example"
+  source_dest_check:          "" => "1"
+  subnet_id:                  "" => "<computed>"
+  tenancy:                    "" => "<computed>"
+  vpc_security_group_ids.#:   "" => "<computed>"
+aws_instance.web: Still creating... (10s elapsed)
+aws_instance.web: Still creating... (20s elapsed)
+aws_instance.web: Provisioning with 'file'...
+aws_instance.web: Still creating... (30s elapsed)
+aws_instance.web: Still creating... (40s elapsed)
+aws_instance.web: Still creating... (50s elapsed)
+aws_instance.web: Still creating... (1m0s elapsed)
+aws_instance.web: Still creating... (1m10s elapsed)
+aws_instance.web: Provisioning with 'remote-exec'...
+aws_instance.web (remote-exec): Connecting to remote host via SSH...
+aws_instance.web (remote-exec):   Host: 54.206.25.205
+aws_instance.web (remote-exec):   User: ec2-user
+aws_instance.web (remote-exec):   Password: false
+aws_instance.web (remote-exec):   Private key: true
+aws_instance.web (remote-exec):   SSH Agent: true
+aws_instance.web (remote-exec): Connected!
+aws_instance.web (remote-exec): /bin/pwd:
+aws_instance.web (remote-exec): /bin/ls:
+----
+
+Logon AWS EC2 instance created by Terraform:
+
+[source.console]
+----
+terrence@muffler /Users/terrence/Projects/docker/terraform
+10:45:57 𝜆 ssh -l ec2-user ec2-54-206-25-205.ap-southeast-2.compute.amazonaws.com
+The authenticity of host 'ec2-54-206-25-205.ap-southeast-2.compute.amazonaws.com (54.206.25.205)' can't be established.
+ECDSA key fingerprint is SHA256:5c3w+X1FXuhUwDQS6vTj5jdS10uwDTkoZWG3u3SQ8+I.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'ec2-54-206-25-205.ap-southeast-2.compute.amazonaws.com,54.206.25.205' (ECDSA) to the list of known hosts.
+Last login: Fri May  6 00:04:53 2016 from 155.144.40.20
+
+       __|  __|_  )
+       _|  (     /   Amazon Linux AMI
+      ___|\___|___|
+
+https://aws.amazon.com/amazon-linux-ami/2016.03-release-notes/
+----
+
+
+References
+----------
+- Terraform getting started, https://www.terraform.io/intro/getting-started/install.html
+- Running Docker on AWS from the ground up, http://www.ybrikman.com/writing/2015/11/11/running-docker-aws-ground-up/
+- Guide to automating a multi-tiered application securely on AWS with Docker and Terraform, https://www.airpair.com/aws/posts/ntiered-aws-docker-terraform-guide
+- Infrastructure as code with Terraform and docker, http://www.juancarlosgpelaez.com/terraform-aws-wso2-esb-docker-sample/
+- Rebuilding Our Infrastructure with Docker, ECS, and Terraform, https://segment.com/blog/rebuilding-our-infrastructure/
+
+
+Copying
+-------
+Copyright © 2016 - Terrence Miao. Free use of this software is granted under the terms of the GNU General Public License version 3 (GPLv3).
