@@ -18,7 +18,7 @@ Then run with command:
 [source.console]
 ----
 terrence@muffler ~/Projects/docker/terraform
-13:07:32 189 𝜆 terraform apply -var 'key_name=aws-key' -var 'key_path=~/.ssh/aws-key.pem'
+13:07:32 189 𝜆 terraform apply -var 'key_name=aws-key' -var 'key_path=/Users/terrence/.ssh/aws-key.pem'
 ----
 
 Output on console:
