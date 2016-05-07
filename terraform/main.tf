@@ -8,7 +8,7 @@ provider "aws" {
 
 ## Specify default security group to access the instances over SSH and HTTP
 resource "aws_security_group" "default" {
-    name = "terraform_example"
+    name = "Terraform-example"
     description = "Security Group for Terraform"
 
     # SSH access from anywhere
@@ -45,7 +45,7 @@ resource "aws_security_group" "default" {
 }
 
 resource "aws_elb" "web" {
-    name = "terraform-example-elb"
+    name = "Terraform-example-elb"
 
     # The same availability zone as our instance
     availability_zones = ["${aws_instance.web.availability_zone}"]
