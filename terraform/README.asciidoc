@@ -97,8 +97,52 @@ aws_instance.web (remote-exec):   Password: false
 aws_instance.web (remote-exec):   Private key: true
 aws_instance.web (remote-exec):   SSH Agent: true
 aws_instance.web (remote-exec): Connected!
-aws_instance.web (remote-exec): /bin/pwd:
-aws_instance.web (remote-exec): /bin/ls:
+aws_instance.web (remote-exec): /home/ec2-user
+aws_instance.web (remote-exec): total 24
+aws_instance.web (remote-exec): drwx------ 3 ec2-user ec2-user 4096 May  7 10:34 .
+aws_instance.web (remote-exec): drwxr-xr-x 3 root     root     4096 May  7 10:34 ..
+aws_instance.web (remote-exec): -rw-r--r-- 1 ec2-user ec2-user   18 Feb 19 20:05 .bash_logout
+aws_instance.web (remote-exec): -rw-r--r-- 1 ec2-user ec2-user  193 Feb 19 20:05 .bash_profile
+aws_instance.web (remote-exec): -rw-r--r-- 1 ec2-user ec2-user  124 Feb 19 20:05 .bashrc
+aws_instance.web (remote-exec): drwx------ 2 ec2-user ec2-user 4096 May  7 10:34 .ssh
+aws_instance.web: Creation complete
+aws_elb.web: Creating...
+  availability_zones.#:                   "" => "1"
+  availability_zones.3148583350:          "" => "ap-southeast-2a"
+  connection_draining:                    "" => "0"
+  connection_draining_timeout:            "" => "300"
+  dns_name:                               "" => "<computed>"
+  health_check.#:                         "" => "<computed>"
+  idle_timeout:                           "" => "60"
+  instances.#:                            "" => "1"
+  instances.1931268037:                   "" => "i-bb253864"
+  internal:                               "" => "<computed>"
+  listener.#:                             "" => "1"
+  listener.3057123346.instance_port:      "" => "80"
+  listener.3057123346.instance_protocol:  "" => "http"
+  listener.3057123346.lb_port:            "" => "80"
+  listener.3057123346.lb_protocol:        "" => "http"
+  listener.3057123346.ssl_certificate_id: "" => ""
+  name:                                   "" => "Terraform-example-elb"
+  security_groups.#:                      "" => "<computed>"
+  source_security_group:                  "" => "<computed>"
+  source_security_group_id:               "" => "<computed>"
+  subnets.#:                              "" => "<computed>"
+  zone_id:                                "" => "<computed>"
+aws_elb.web: Creation complete
+
+Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
+
+The state of your infrastructure has been saved to the path
+below. This state is required to modify and destroy your
+infrastructure, so keep it safe. To inspect the complete state
+use the `terraform show` command.
+
+State path: terraform.tfstate
+
+Outputs:
+
+  ebs_address = Terraform-example-elb-297157247.ap-southeast-2.elb.amazonaws.com
 ----
 
 Logon AWS EC2 instance created by Terraform:
