@@ -251,6 +251,39 @@ root      2895  0.0  0.7  24052  7896 ?        Ssl  02:31   0:00 /usr/libexec/am
 
 [ec2-user@ip-172-31-35-87 ~]$ ps axuw | grep docker
 root      2615  4.7  4.2 665576 43264 ?        Sl   02:30   0:33 /usr/bin/docker daemon --default-ulimit nofile=1024:4096
+
+[ec2-user@ip-172-31-35-87 ~]$ docker info
+Containers: 1
+Images: 6
+Server Version: 1.9.1
+Storage Driver: devicemapper
+ Pool Name: docker-202:1-263557-pool
+ Pool Blocksize: 65.54 kB
+ Base Device Size: 107.4 GB
+ Backing Filesystem: xfs
+ Data file: /dev/loop0
+ Metadata file: /dev/loop1
+ Data Space Used: 82.12 MB
+ Data Space Total: 107.4 GB
+ Data Space Available: 6.993 GB
+ Metadata Space Used: 700.4 kB
+ Metadata Space Total: 2.147 GB
+ Metadata Space Available: 2.147 GB
+ Udev Sync Supported: true
+ Deferred Removal Enabled: false
+ Deferred Deletion Enabled: false
+ Deferred Deleted Device Count: 0
+ Data loop file: /var/lib/docker/devicemapper/devicemapper/data
+ Metadata loop file: /var/lib/docker/devicemapper/devicemapper/metadata
+ Library Version: 1.02.93-RHEL7 (2015-01-28)
+Execution Driver: native-0.2
+Logging Driver: json-file
+Kernel Version: 4.4.8-20.46.amzn1.x86_64
+Operating System: Amazon Linux AMI 2016.03
+CPUs: 1
+Total Memory: 995.4 MiB
+Name: ip-172-31-42-22
+ID: G72R:RJFU:HTBC:PXDN:PMPC:XFYZ:SHIR:Z7AJ:6GHS:G6AP:47HM:WI5P
 ----
 
 Make change of plan and apply for it:
