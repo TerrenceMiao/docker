@@ -99,6 +99,8 @@ resource "aws_instance" "web" {
         inline = [
             # Install the ecs-init package
             "sudo yum install -y ecs-init",
+            # Add AWS instance into Auto Scaling cluster
+            "sudo echo ECS_CLUSTER=Terraform-example-ecs-cluster > /etc/ecs/ecs.config",
             # Start the Docker daemon
             "sudo service docker start",
             # Start the ecs-init upstart job
