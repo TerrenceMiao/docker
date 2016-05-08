@@ -19,12 +19,6 @@ Then run with command:
 ----
 terrence@muffler ~/Projects/docker/terraform
 13:07:32 189 𝜆 terraform apply -var 'key_name=aws-key' -var 'key_path=/Users/terrence/.ssh/aws-key.pem'
-----
-
-Output on console:
-
-[source.console]
-----
 aws_security_group.default: Creating...
   description:                          "" => "Security Group for Terraform"
   egress.#:                             "" => "1"
