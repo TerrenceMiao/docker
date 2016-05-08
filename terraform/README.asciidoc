@@ -13,7 +13,8 @@ access_key = "This is AWS account's Access Key"
 secret_key = "This is AWS account's Secret Key"
 ----
 
-==== Then run with command, it will create AWS instance, install ECS agent and start Docker container:
+==== Kick off 
+Run with these commands, create AWS instance, install ECS agent and start Docker container:
 
 [source.console]
 ----
@@ -228,7 +229,7 @@ Outputs:
   ebs_address = Terraform-example-elb-1356197901.ap-southeast-2.elb.amazonaws.com
 ----
 
-==== Logon AWS EC2 instance created by Terraform:
+==== Logon AWS EC2 instance
 
 [source.console]
 ----
@@ -286,7 +287,7 @@ Name: ip-172-31-42-22
 ID: G72R:RJFU:HTBC:PXDN:PMPC:XFYZ:SHIR:Z7AJ:6GHS:G6AP:47HM:WI5P
 ----
 
-==== Deploy first Dockerised application:
+==== Deploy first Dockerised application
 
 [source.console]
 ----
@@ -302,7 +303,7 @@ Get AWS instance public URL, e.g., ec2-54-206-43-82.ap-southeast-2.compute.amazo
 
 http://ec2-54-206-43-82.ap-southeast-2.compute.amazonaws.com
 
-=== Now when make change of plan and apply for it:
+=== Change provision plan
 
 [source.console]
 ----
@@ -354,7 +355,7 @@ Outputs:
   ebs_address = Terraform-example-elb-297157247.ap-southeast-2.elb.amazonaws.com
 ----
 
-==== Destroy all Terraform resource created:
+==== Destroy Terraform resource
 
 [source.console]
 ----
