@@ -164,6 +164,86 @@ Last login: Fri May  6 00:04:53 2016 from 155.144.40.20
 https://aws.amazon.com/amazon-linux-ami/2016.03-release-notes/
 ----
 
+Make change of plan and apply for it:
+
+[source.console]
+----
+terrence@muffler /Users/terrence/Projects/docker/terraform
+20:34:38 𝜆 terraform plan -var 'key_name=aws-key' -var 'key_path=/Users/terrence/.ssh/aws-key.pem'
+Refreshing Terraform state prior to plan...
+
+aws_security_group.default: Refreshing state... (ID: sg-443f9f20)
+aws_instance.web: Refreshing state... (ID: i-bb253864)
+aws_elb.web: Refreshing state... (ID: Terraform-example-elb)
+
+The Terraform execution plan has been generated and is shown below.
+Resources are shown in alphabetical order for quick scanning. Green resources
+will be created (or destroyed and then created if an existing resource
+exists), yellow resources are being changed in-place, and red resources
+will be destroyed.
+
+Note: You didn't specify an "-out" parameter to save this plan, so when
+"apply" is called, Terraform can't guarantee this is what will execute.
+
+~ aws_instance.web
+    tags.#:    "0" => "1"
+    tags.Name: "" => "terraform-example"
+
+
+Plan: 0 to add, 1 to change, 0 to destroy.
+
+terrence@muffler /Users/terrence/Projects/docker/terraform
+11:37:45 𝜆 terraform apply -var 'key_name=aws-key' -var 'key_path=/Users/terrence/.ssh/aws-key.pem'
+aws_security_group.default: Refreshing state... (ID: sg-443f9f20)
+aws_instance.web: Refreshing state... (ID: i-bb253864)
+aws_elb.web: Refreshing state... (ID: Terraform-example-elb)
+aws_instance.web: Modifying...
+  tags.#:    "0" => "1"
+  tags.Name: "" => "terraform-example"
+aws_instance.web: Modifications complete
+
+Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
+
+The state of your infrastructure has been saved to the path
+below. This state is required to modify and destroy your
+infrastructure, so keep it safe. To inspect the complete state
+use the `terraform show` command.
+
+State path: terraform.tfstate
+
+Outputs:
+
+  ebs_address = Terraform-example-elb-297157247.ap-southeast-2.elb.amazonaws.com
+----
+
+Destroy all Terraform resource created:
+
+[source.console]
+----
+terrence@muffler /Users/terrence/Projects/docker/terraform
+11:42:29 𝜆 terraform destroy -var 'key_name=aws-key' -var 'key_path=/Users/terrence/.ssh/aws-key.pem'
+Do you really want to destroy?
+  Terraform will delete all your managed infrastructure.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value: yes
+
+aws_security_group.default: Refreshing state... (ID: sg-443f9f20)
+aws_instance.web: Refreshing state... (ID: i-bb253864)
+aws_elb.web: Refreshing state... (ID: Terraform-example-elb)
+aws_elb.web: Destroying...
+aws_elb.web: Destruction complete
+aws_instance.web: Destroying...
+aws_instance.web: Still destroying... (10s elapsed)
+aws_instance.web: Still destroying... (20s elapsed)
+aws_instance.web: Still destroying... (30s elapsed)
+aws_instance.web: Destruction complete
+aws_security_group.default: Destroying...
+aws_security_group.default: Destruction complete
+
+Apply complete! Resources: 0 added, 0 changed, 3 destroyed.
+----
+
 
 References
 ----------
