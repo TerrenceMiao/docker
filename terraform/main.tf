@@ -8,8 +8,8 @@ provider "aws" {
 
 ## Specify default security group to access the instances over SSH and HTTP
 resource "aws_security_group" "default" {
-    name = "Terraform-example"
-    description = "Security Group for Terraform"
+    name = "Terraform-example-sg"
+    description = "Security Group for Terraform example"
 
     # SSH access from anywhere
     ingress {
@@ -74,7 +74,7 @@ resource "aws_instance" "web" {
     instance_type = "t2.micro"
 
     tags {
-        Name = "terraform-example"
+        Name = "Terraform-example"
     }
 
     # Lookup the correct AMI based on the region specified
@@ -97,8 +97,12 @@ resource "aws_instance" "web" {
 
     provisioner "remote-exec" {
         inline = [
-            "pwd",
-            "ls -al"        
+            # Install the ecs-init package
+            "sudo yum install -y ecs-init",
+            # Start the Docker daemon
+            "sudo service docker start",
+            # Start the ecs-init upstart job
+            "sudo start ecs"
         ]
     }
 }
