@@ -243,6 +243,7 @@ References
 ----------
 - Terraform getting started, https://www.terraform.io/intro/getting-started/install.html
 - Running Docker on AWS from the ground up, http://www.ybrikman.com/writing/2015/11/11/running-docker-aws-ground-up/
+- Installing the Amazon ECS Container Agent, http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-install.html
 - Guide to automating a multi-tiered application securely on AWS with Docker and Terraform, https://www.airpair.com/aws/posts/ntiered-aws-docker-terraform-guide
 - Infrastructure as code with Terraform and docker, http://www.juancarlosgpelaez.com/terraform-aws-wso2-esb-docker-sample/
 - Rebuilding Our Infrastructure with Docker, ECS, and Terraform, https://segment.com/blog/rebuilding-our-infrastructure/
