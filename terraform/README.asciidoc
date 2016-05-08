@@ -13,12 +13,11 @@ access_key = "This is AWS account's Access Key"
 secret_key = "This is AWS account's Secret Key"
 ----
 
-Then run with command:
+Then run with command, it will create AWS instance, install ECS agent and start Docker container:
 
 [source.console]
 ----
-terrence@muffler ~/Projects/docker/terraform
-13:07:32 189 𝜆 terraform apply -var 'key_name=aws-key' -var 'key_path=/Users/terrence/.ssh/aws-key.pem'
+12:29:09 𝜆 /usr/local/terraform/terraform apply -var 'key_name=aws-key' -var 'key_path=/Users/terrence/.ssh/aws-key.pem'
 aws_security_group.default: Creating...
   description:                          "" => "Security Group for Terraform"
   egress.#:                             "" => "1"
@@ -51,65 +50,155 @@ aws_security_group.default: Creating...
   ingress.2617001939.security_groups.#: "" => "0"
   ingress.2617001939.self:              "" => "0"
   ingress.2617001939.to_port:           "" => "443"
-  name:                                 "" => "terraform_example"
+  name:                                 "" => "Terraform-example"
   owner_id:                             "" => "<computed>"
   vpc_id:                               "" => "<computed>"
 aws_security_group.default: Creation complete
 aws_instance.web: Creating...
-  ami:                        "" => "ami-0c95b86f"
-  availability_zone:          "" => "<computed>"
-  ebs_block_device.#:         "" => "<computed>"
-  ephemeral_block_device.#:   "" => "<computed>"
-  instance_state:             "" => "<computed>"
-  instance_type:              "" => "t2.micro"
-  key_name:                   "" => "aws-key"
-  placement_group:            "" => "<computed>"
-  private_dns:                "" => "<computed>"
-  private_ip:                 "" => "<computed>"
-  public_dns:                 "" => "<computed>"
-  public_ip:                  "" => "<computed>"
-  root_block_device.#:        "" => "<computed>"
-  security_groups.#:          "" => "1"
-  security_groups.3483396693: "" => "terraform_example"
-  source_dest_check:          "" => "1"
-  subnet_id:                  "" => "<computed>"
-  tenancy:                    "" => "<computed>"
-  vpc_security_group_ids.#:   "" => "<computed>"
+  ami:                       "" => "ami-0c95b86f"
+  availability_zone:         "" => "<computed>"
+  ebs_block_device.#:        "" => "<computed>"
+  ephemeral_block_device.#:  "" => "<computed>"
+  instance_state:            "" => "<computed>"
+  instance_type:             "" => "t2.micro"
+  key_name:                  "" => "aws-key"
+  placement_group:           "" => "<computed>"
+  private_dns:               "" => "<computed>"
+  private_ip:                "" => "<computed>"
+  public_dns:                "" => "<computed>"
+  public_ip:                 "" => "<computed>"
+  root_block_device.#:       "" => "<computed>"
+  security_groups.#:         "" => "1"
+  security_groups.259444290: "" => "Terraform-example"
+  source_dest_check:         "" => "1"
+  subnet_id:                 "" => "<computed>"
+  tags.#:                    "" => "1"
+  tags.Name:                 "" => "terraform-example"
+  tenancy:                   "" => "<computed>"
+  vpc_security_group_ids.#:  "" => "<computed>"
 aws_instance.web: Still creating... (10s elapsed)
 aws_instance.web: Still creating... (20s elapsed)
-aws_instance.web: Provisioning with 'file'...
 aws_instance.web: Still creating... (30s elapsed)
+aws_instance.web: Provisioning with 'file'...
 aws_instance.web: Still creating... (40s elapsed)
 aws_instance.web: Still creating... (50s elapsed)
 aws_instance.web: Still creating... (1m0s elapsed)
 aws_instance.web: Still creating... (1m10s elapsed)
+aws_instance.web: Still creating... (1m20s elapsed)
 aws_instance.web: Provisioning with 'remote-exec'...
 aws_instance.web (remote-exec): Connecting to remote host via SSH...
-aws_instance.web (remote-exec):   Host: 54.206.25.205
+aws_instance.web (remote-exec):   Host: 54.206.45.123
 aws_instance.web (remote-exec):   User: ec2-user
 aws_instance.web (remote-exec):   Password: false
 aws_instance.web (remote-exec):   Private key: true
 aws_instance.web (remote-exec):   SSH Agent: true
 aws_instance.web (remote-exec): Connected!
-aws_instance.web (remote-exec): /home/ec2-user
-aws_instance.web (remote-exec): total 24
-aws_instance.web (remote-exec): drwx------ 3 ec2-user ec2-user 4096 May  7 10:34 .
-aws_instance.web (remote-exec): drwxr-xr-x 3 root     root     4096 May  7 10:34 ..
-aws_instance.web (remote-exec): -rw-r--r-- 1 ec2-user ec2-user   18 Feb 19 20:05 .bash_logout
-aws_instance.web (remote-exec): -rw-r--r-- 1 ec2-user ec2-user  193 Feb 19 20:05 .bash_profile
-aws_instance.web (remote-exec): -rw-r--r-- 1 ec2-user ec2-user  124 Feb 19 20:05 .bashrc
-aws_instance.web (remote-exec): drwx------ 2 ec2-user ec2-user 4096 May  7 10:34 .ssh
+aws_instance.web (remote-exec): Loaded plugins: priorities, update-motd,
+aws_instance.web (remote-exec):               : upgrade-helper
+aws_instance.web (remote-exec): Resolving Dependencies
+aws_instance.web (remote-exec): --> Running transaction check
+aws_instance.web (remote-exec): ---> Package ecs-init.x86_64 0:1.8.2-1.amzn1 will be installed
+aws_instance.web (remote-exec): --> Processing Dependency: docker <= 1.9.1 for package: ecs-init-1.8.2-1.amzn1.x86_64
+aws_instance.web (remote-exec): --> Processing Dependency: docker >= 1.6.0 for package: ecs-init-1.8.2-1.amzn1.x86_64
+aws_instance.web (remote-exec): --> Running transaction check
+aws_instance.web (remote-exec): ---> Package docker.x86_64 0:1.9.1-1.3.amzn1 will be installed
+aws_instance.web (remote-exec): --> Processing Dependency: xfsprogs for package: docker-1.9.1-1.3.amzn1.x86_64
+aws_instance.web (remote-exec): --> Running transaction check
+aws_instance.web (remote-exec): ---> Package xfsprogs.x86_64 0:3.2.2-2.20.amzn1 will be installed
+aws_instance.web (remote-exec): --> Finished Dependency Resolution
+
+aws_instance.web (remote-exec): Dependencies Resolved
+
+aws_instance.web (remote-exec): ========================================
+aws_instance.web (remote-exec):  Package  Arch   Version
+aws_instance.web (remote-exec):                      Repository    Size
+aws_instance.web (remote-exec): ========================================
+aws_instance.web (remote-exec): Installing:
+aws_instance.web (remote-exec):  ecs-init x86_64 1.8.2-1.amzn1
+aws_instance.web (remote-exec):                      amzn-updates 1.8 M
+aws_instance.web (remote-exec): Installing for dependencies:
+aws_instance.web (remote-exec):  docker   x86_64 1.9.1-1.3.amzn1
+aws_instance.web (remote-exec):                      amzn-main    9.9 M
+aws_instance.web (remote-exec):  xfsprogs x86_64 3.2.2-2.20.amzn1
+aws_instance.web (remote-exec):                      amzn-main    1.7 M
+
+aws_instance.web (remote-exec): Transaction Summary
+aws_instance.web (remote-exec): ========================================
+aws_instance.web (remote-exec): Install  1 Package (+2 Dependent packages)
+
+aws_instance.web (remote-exec): Total download size: 13 M
+aws_instance.web (remote-exec): Installed size: 45 M
+aws_instance.web (remote-exec): Downloading packages:
+aws_instance.web (remote-exec): (1/3): doc (40%) | 5.4 MB     --:-- ETA
+aws_instance.web (remote-exec): (1/3): docker-1. | 9.9 MB     00:00
+aws_instance.web (remote-exec): (2/3): ecs-init- | 1.8 MB     00:00
+aws_instance.web (remote-exec): (3/3): xfsprogs- | 1.7 MB     00:00
+aws_instance.web (remote-exec): ----------------------------------------
+aws_instance.web (remote-exec): Total       15 MB/s |  13 MB  00:00
+aws_instance.web (remote-exec): Running transaction check
+aws_instance.web (remote-exec): Running transaction test
+aws_instance.web (remote-exec): Transaction test succeeded
+aws_instance.web (remote-exec): Running transaction
+aws_instance.web (remote-exec):   Installing : xfsprogs [         ] 1/3
+aws_instance.web (remote-exec):   Installing : xfsprogs [#        ] 1/3
+aws_instance.web (remote-exec):   Installing : xfsprogs [##       ] 1/3
+aws_instance.web (remote-exec):   Installing : xfsprogs [###      ] 1/3
+aws_instance.web (remote-exec):   Installing : xfsprogs [####     ] 1/3
+aws_instance.web (remote-exec):   Installing : xfsprogs [#####    ] 1/3
+aws_instance.web (remote-exec):   Installing : xfsprogs [######   ] 1/3
+aws_instance.web (remote-exec):   Installing : xfsprogs [#######  ] 1/3
+aws_instance.web (remote-exec):   Installing : xfsprogs [######## ] 1/3
+aws_instance.web (remote-exec):   Installing : xfsprogs-3.2.2-2.2   1/3
+aws_instance.web (remote-exec):   Installing : docker-1 [         ] 2/3
+aws_instance.web (remote-exec):   Installing : docker-1 [#        ] 2/3
+aws_instance.web (remote-exec):   Installing : docker-1 [##       ] 2/3
+aws_instance.web (remote-exec):   Installing : docker-1 [###      ] 2/3
+aws_instance.web (remote-exec):   Installing : docker-1 [####     ] 2/3
+aws_instance.web (remote-exec):   Installing : docker-1 [#####    ] 2/3
+aws_instance.web (remote-exec):   Installing : docker-1 [######   ] 2/3
+aws_instance.web (remote-exec):   Installing : docker-1 [#######  ] 2/3
+aws_instance.web (remote-exec):   Installing : docker-1 [######## ] 2/3
+aws_instance.web (remote-exec):   Installing : docker-1.9.1-1.3.a   2/3
+aws_instance.web (remote-exec):   Installing : ecs-init [         ] 3/3
+aws_instance.web (remote-exec):   Installing : ecs-init [#        ] 3/3
+aws_instance.web (remote-exec):   Installing : ecs-init [##       ] 3/3
+aws_instance.web (remote-exec):   Installing : ecs-init [###      ] 3/3
+aws_instance.web (remote-exec):   Installing : ecs-init [####     ] 3/3
+aws_instance.web (remote-exec):   Installing : ecs-init [#####    ] 3/3
+aws_instance.web (remote-exec):   Installing : ecs-init [######   ] 3/3
+aws_instance.web (remote-exec):   Installing : ecs-init [#######  ] 3/3
+aws_instance.web (remote-exec):   Installing : ecs-init [######## ] 3/3
+aws_instance.web (remote-exec):   Installing : ecs-init-1.8.2-1.a   3/3
+aws_instance.web (remote-exec):   Verifying  : ecs-init-1.8.2-1.a   1/3
+aws_instance.web (remote-exec):   Verifying  : xfsprogs-3.2.2-2.2   2/3
+aws_instance.web (remote-exec):   Verifying  : docker-1.9.1-1.3.a   3/3
+
+aws_instance.web (remote-exec): Installed:
+aws_instance.web (remote-exec):   ecs-init.x86_64 0:1.8.2-1.amzn1
+
+aws_instance.web (remote-exec): Dependency Installed:
+aws_instance.web (remote-exec):   docker.x86_64 0:1.9.1-1.3.amzn1
+aws_instance.web (remote-exec):   xfsprogs.x86_64 0:3.2.2-2.20.amzn1
+
+aws_instance.web (remote-exec): Complete!
+aws_instance.web (remote-exec): Starting cgconfig service: [  OK  ]
+aws_instance.web (remote-exec): Starting docker:
+aws_instance.web: Still creating... (1m30s elapsed)
+aws_instance.web (remote-exec): .                          [  OK  ]
+aws_instance.web: Still creating... (1m40s elapsed)
+aws_instance.web: Still creating... (1m50s elapsed)
+aws_instance.web (remote-exec): ecs start/running, process 2895
 aws_instance.web: Creation complete
 aws_elb.web: Creating...
   availability_zones.#:                   "" => "1"
-  availability_zones.3148583350:          "" => "ap-southeast-2a"
+  availability_zones.1436938394:          "" => "ap-southeast-2c"
   connection_draining:                    "" => "0"
   connection_draining_timeout:            "" => "300"
   dns_name:                               "" => "<computed>"
   health_check.#:                         "" => "<computed>"
   idle_timeout:                           "" => "60"
   instances.#:                            "" => "1"
-  instances.1931268037:                   "" => "i-bb253864"
+  instances.885364928:                    "" => "i-fabcd178"
   internal:                               "" => "<computed>"
   listener.#:                             "" => "1"
   listener.3057123346.instance_port:      "" => "80"
@@ -136,7 +225,7 @@ State path: terraform.tfstate
 
 Outputs:
 
-  ebs_address = Terraform-example-elb-297157247.ap-southeast-2.elb.amazonaws.com
+  ebs_address = Terraform-example-elb-1356197901.ap-southeast-2.elb.amazonaws.com
 ----
 
 Logon AWS EC2 instance created by Terraform:
@@ -144,11 +233,11 @@ Logon AWS EC2 instance created by Terraform:
 [source.console]
 ----
 terrence@muffler /Users/terrence/Projects/docker/terraform
-10:45:57 𝜆 ssh -l ec2-user ec2-54-206-25-205.ap-southeast-2.compute.amazonaws.com
-The authenticity of host 'ec2-54-206-25-205.ap-southeast-2.compute.amazonaws.com (54.206.25.205)' can't be established.
+10:45:57 𝜆 ssh -l ec2-user ec2-54-206-45-123.ap-southeast-2.compute.amazonaws.com
+The authenticity of host 'ec2-54-206-45-123.ap-southeast-2.compute.amazonaws.com (54.206.45.123)' can't be established.
 ECDSA key fingerprint is SHA256:5c3w+X1FXuhUwDQS6vTj5jdS10uwDTkoZWG3u3SQ8+I.
 Are you sure you want to continue connecting (yes/no)? yes
-Warning: Permanently added 'ec2-54-206-25-205.ap-southeast-2.compute.amazonaws.com,54.206.25.205' (ECDSA) to the list of known hosts.
+Warning: Permanently added 'ec2-54-206-45-123.ap-southeast-2.compute.amazonaws.com,54.206.45.123' (ECDSA) to the list of known hosts.
 Last login: Fri May  6 00:04:53 2016 from 155.144.40.20
 
        __|  __|_  )
@@ -156,6 +245,12 @@ Last login: Fri May  6 00:04:53 2016 from 155.144.40.20
       ___|\___|___|
 
 https://aws.amazon.com/amazon-linux-ami/2016.03-release-notes/
+
+[ec2-user@ip-172-31-35-87 ~]$ ps axuw | grep ecs
+root      2895  0.0  0.7  24052  7896 ?        Ssl  02:31   0:00 /usr/libexec/amazon-ecs-init start
+
+[ec2-user@ip-172-31-35-87 ~]$ ps axuw | grep docker
+root      2615  4.7  4.2 665576 43264 ?        Sl   02:30   0:33 /usr/bin/docker daemon --default-ulimit nofile=1024:4096
 ----
 
 Make change of plan and apply for it:
