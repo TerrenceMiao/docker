@@ -102,7 +102,9 @@ resource "aws_instance" "web" {
             # Start the Docker daemon
             "sudo service docker start",
             # Start the ecs-init upstart job
-            "sudo start ecs"
+            "sudo start ecs",
+            # Add ec2-user to the docker group
+            "sudo usermod -a -G docker ec2-user"
         ]
     }
 }
