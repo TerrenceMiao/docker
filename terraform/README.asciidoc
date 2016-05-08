@@ -13,8 +13,109 @@ access_key = "This is AWS account's Access Key"
 secret_key = "This is AWS account's Secret Key"
 ----
 
-==== Kick off 
-Run with these commands, create AWS instance, install ECS agent and start Docker container:
+==== Verify provision plan 
+[source.console]
+----
+12:29:09 𝜆 /usr/local/terraform/terraform plan -var 'key_name=aws-key' -var 'key_path=/Users/terrence/.ssh/aws-key.pem'
+Refreshing Terraform state prior to plan...
+
+
+The Terraform execution plan has been generated and is shown below.
+Resources are shown in alphabetical order for quick scanning. Green resources
+will be created (or destroyed and then created if an existing resource
+exists), yellow resources are being changed in-place, and red resources
+will be destroyed.
+
+Note: You didn't specify an "-out" parameter to save this plan, so when
+"apply" is called, Terraform can't guarantee this is what will execute.
+
++ aws_elb.web
+    availability_zones.#:                   "" => "<computed>"
+    connection_draining:                    "" => "0"
+    connection_draining_timeout:            "" => "300"
+    dns_name:                               "" => "<computed>"
+    health_check.#:                         "" => "<computed>"
+    idle_timeout:                           "" => "60"
+    instances.#:                            "" => "<computed>"
+    internal:                               "" => "<computed>"
+    listener.#:                             "" => "1"
+    listener.3057123346.instance_port:      "" => "80"
+    listener.3057123346.instance_protocol:  "" => "http"
+    listener.3057123346.lb_port:            "" => "80"
+    listener.3057123346.lb_protocol:        "" => "http"
+    listener.3057123346.ssl_certificate_id: "" => ""
+    name:                                   "" => "terraform-elb"
+    security_groups.#:                      "" => "<computed>"
+    source_security_group:                  "" => "<computed>"
+    source_security_group_id:               "" => "<computed>"
+    subnets.#:                              "" => "<computed>"
+    zone_id:                                "" => "<computed>"
+
++ aws_instance.web
+    ami:                        "" => "ami-0c95b86f"
+    availability_zone:          "" => "<computed>"
+    ebs_block_device.#:         "" => "<computed>"
+    ephemeral_block_device.#:   "" => "<computed>"
+    instance_state:             "" => "<computed>"
+    instance_type:              "" => "t2.micro"
+    key_name:                   "" => "aws-key"
+    placement_group:            "" => "<computed>"
+    private_dns:                "" => "<computed>"
+    private_ip:                 "" => "<computed>"
+    public_dns:                 "" => "<computed>"
+    public_ip:                  "" => "<computed>"
+    root_block_device.#:        "" => "<computed>"
+    security_groups.#:          "" => "1"
+    security_groups.4051241745: "" => "terraform-sg"
+    source_dest_check:          "" => "1"
+    subnet_id:                  "" => "<computed>"
+    tags.#:                     "" => "1"
+    tags.Name:                  "" => "terraform"
+    tenancy:                    "" => "<computed>"
+    vpc_security_group_ids.#:   "" => "<computed>"
+
++ aws_security_group.default
+    description:                          "" => "Security Group for Terraform example"
+    egress.#:                             "" => "1"
+    egress.482069346.cidr_blocks.#:       "" => "1"
+    egress.482069346.cidr_blocks.0:       "" => "0.0.0.0/0"
+    egress.482069346.from_port:           "" => "0"
+    egress.482069346.protocol:            "" => "-1"
+    egress.482069346.security_groups.#:   "" => "0"
+    egress.482069346.self:                "" => "0"
+    egress.482069346.to_port:             "" => "0"
+    ingress.#:                            "" => "3"
+    ingress.2214680975.cidr_blocks.#:     "" => "1"
+    ingress.2214680975.cidr_blocks.0:     "" => "0.0.0.0/0"
+    ingress.2214680975.from_port:         "" => "80"
+    ingress.2214680975.protocol:          "" => "tcp"
+    ingress.2214680975.security_groups.#: "" => "0"
+    ingress.2214680975.self:              "" => "0"
+    ingress.2214680975.to_port:           "" => "80"
+    ingress.2541437006.cidr_blocks.#:     "" => "1"
+    ingress.2541437006.cidr_blocks.0:     "" => "0.0.0.0/0"
+    ingress.2541437006.from_port:         "" => "22"
+    ingress.2541437006.protocol:          "" => "tcp"
+    ingress.2541437006.security_groups.#: "" => "0"
+    ingress.2541437006.self:              "" => "0"
+    ingress.2541437006.to_port:           "" => "22"
+    ingress.2617001939.cidr_blocks.#:     "" => "1"
+    ingress.2617001939.cidr_blocks.0:     "" => "0.0.0.0/0"
+    ingress.2617001939.from_port:         "" => "443"
+    ingress.2617001939.protocol:          "" => "tcp"
+    ingress.2617001939.security_groups.#: "" => "0"
+    ingress.2617001939.self:              "" => "0"
+    ingress.2617001939.to_port:           "" => "443"
+    name:                                 "" => "terraform-sg"
+    owner_id:                             "" => "<computed>"
+    vpc_id:                               "" => "<computed>"
+
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+----
+
+==== Run 
+Create AWS instance, install ECS agent and start Docker container:
 
 [source.console]
 ----
