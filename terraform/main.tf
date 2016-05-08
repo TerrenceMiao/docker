@@ -73,6 +73,10 @@ resource "aws_instance" "web" {
 
     instance_type = "t2.micro"
 
+    tags {
+        Name = "terraform-example"
+    }
+
     # Lookup the correct AMI based on the region specified
     ami = "${lookup(var.aws_amis, var.aws_region)}"
 
