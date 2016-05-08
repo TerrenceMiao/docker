@@ -5,7 +5,7 @@ This example demos how Terraform provision AWS instances, based on *"Infrastruct
 
 Under this directory, after you run *"terraform apply"* on these Terraform configuration, a new AWS EC2 instance will be created.
 
-Have Terraform installed. Create a file *"terraform.tfvars"* which including AWS access and secret keys:
+Have Terraform installed. Create a file *"terraform.tfvars"* which including AWS access and secret keys (terraform.tfvars.sample file):
 
 [source.console]
 ----
