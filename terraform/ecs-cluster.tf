@@ -1,6 +1,6 @@
 ## Configure the AWS Provider
 provider "aws" {
-    region = "${var.region}"
+    region = "${var.aws_region}"
 }
 
 ## The ECS Cluster
@@ -33,10 +33,10 @@ resource "aws_autoscaling_group" "ecs_cluster_instances" {
 resource "aws_launch_configuration" "ecs_instance" {
     name_prefix = "Terraform-example-ecs-instance-"
     instance_type = "t2.micro"
-    key_name = "${var.key_pair_name}"
+    key_name = "${var.key_name}"
     iam_instance_profile = "${aws_iam_instance_profile.ecs_instance.name}"
     security_groups = ["${aws_security_group.ecs_instance.id}"]
-    image_id = "${lookup(var.ami, var.region)}"
+    image_id = "${lookup(var.aws_amis, var.aws_region)}"
 
     # A shell script that will execute when on each EC2 instance when it first boots to configure the ECS Agent to talk
     # to the right ECS cluster
@@ -141,16 +141,16 @@ resource "aws_security_group" "ecs_instance" {
 
     # Inbound HTTP for the rails-frontend from anywhere
     ingress {
-        from_port = "${var.rails_frontend_port}"
-        to_port = "${var.rails_frontend_port}"
+        from_port = 80
+        to_port = 80
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }
 
     # Inbound HTTP for the sinatra-backend from anywhere
     ingress {
-        from_port = "${var.sinatra_backend_port}"
-        to_port = "${var.sinatra_backend_port}"
+        from_port = 443
+        to_port = 443
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }

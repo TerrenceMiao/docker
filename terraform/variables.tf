@@ -20,3 +20,11 @@ variable "aws_amis" {
         ap-southeast-2 = "ami-0c95b86f"
     }
 }
+
+variable "vpc_id" {
+  	description = "The id of the VPC where the ECS cluster should run"
+}
+
+variable "ecs_cluster_subnet_ids" {
+  	description = "A comma-separated list of subnets where the EC2 instances for the ECS cluster should be deployed"
+}
