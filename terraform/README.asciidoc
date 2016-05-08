@@ -303,7 +303,7 @@ Get AWS instance public URL, e.g., ec2-54-206-43-82.ap-southeast-2.compute.amazo
 
 http://ec2-54-206-43-82.ap-southeast-2.compute.amazonaws.com
 
-=== Change provision plan
+==== Change provision plan
 
 [source.console]
 ----
