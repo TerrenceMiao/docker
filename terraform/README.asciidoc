@@ -286,7 +286,21 @@ Name: ip-172-31-42-22
 ID: G72R:RJFU:HTBC:PXDN:PMPC:XFYZ:SHIR:Z7AJ:6GHS:G6AP:47HM:WI5P
 ----
 
-Make change of plan and apply for it:
+Deploy first Dockerised application:
+
+[source.console]
+----
+[ec2-user@ip-172-31-35-87 ~]$ docker run -d -p 80:5000 training/webapp:latest python app.py
+
+[ec2-user@ip-172-31-35-87 ~]$ curl http://localhost
+Hello world!
+----
+
+Test in browser, get AWS instance public URL, e.g., ec2-54-206-43-82.ap-southeast-2.compute.amazonaws.com. Go to:
+
+http://ec2-54-206-43-82.ap-southeast-2.compute.amazonaws.com
+
+Now when make change of plan and apply for it:
 
 [source.console]
 ----
