@@ -8,7 +8,7 @@ provider "aws" {
 
 ## Specify default security group to access the instances over SSH and HTTP
 resource "aws_security_group" "default" {
-    name = "Terraform-example-sg"
+    name = "terraform-sg"
     description = "Security Group for Terraform example"
 
     # SSH access from anywhere
@@ -45,7 +45,7 @@ resource "aws_security_group" "default" {
 }
 
 resource "aws_elb" "web" {
-    name = "Terraform-example-elb"
+    name = "terraform-elb"
 
     # The same availability zone as our instance
     availability_zones = ["${aws_instance.web.availability_zone}"]
@@ -74,7 +74,7 @@ resource "aws_instance" "web" {
     instance_type = "t2.micro"
 
     tags {
-        Name = "Terraform-example"
+        Name = "terraform"
     }
 
     # Lookup the correct AMI based on the region specified
@@ -100,7 +100,7 @@ resource "aws_instance" "web" {
             # Install the ecs-init package
             "sudo yum install -y ecs-init",
             # Add AWS instance into Auto Scaling cluster
-            "sudo echo ECS_CLUSTER=Terraform-example-ecs-cluster | sudo tee /etc/ecs/ecs.config > /dev/null",
+            "sudo echo ECS_CLUSTER=terraform-ecs-cluster | sudo tee /etc/ecs/ecs.config > /dev/null",
             # Start the Docker daemon
             "sudo service docker start",
             # Start the ecs-init upstart job
