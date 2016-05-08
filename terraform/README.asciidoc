@@ -16,7 +16,7 @@ secret_key = "This is AWS account's Secret Key"
 ==== Verify provision plan 
 [source.console]
 ----
-12:29:09 𝜆 /usr/local/terraform/terraform plan -var 'key_name=aws-key' -var 'key_path=/Users/terrence/.ssh/aws-key.pem'
+12:29:09 𝜆 terraform plan -var 'key_name=aws-key' -var 'key_path=/Users/terrence/.ssh/aws-key.pem'
 Refreshing Terraform state prior to plan...
 
 
