@@ -23,7 +23,7 @@ resource "aws_autoscaling_group" "ecs_cluster_instances" {
     vpc_zone_identifier = ["${split(",", var.ecs_cluster_subnet_ids)}"]
 
     tag {
-        key = "Name"
+        key = "ecs-cluster-instances-name"
         value = "terraform-ecs-cluster-instances"
         propagate_at_launch = true
     }
