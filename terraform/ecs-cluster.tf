@@ -136,7 +136,7 @@ EOF
 
 ## Security group that controls what network traffic is allowed to go in and out of each EC2 instance in the cluster
 resource "aws_security_group" "ecs_instance" {
-    name = "terraform-ecs-instance"
+    name = "terraform-ecs-instance-sg"
     description = "Security group for the EC2 instances in the ECS cluster"
     vpc_id = "${var.vpc_id}"
 
