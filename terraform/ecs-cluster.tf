@@ -42,7 +42,16 @@ resource "aws_launch_configuration" "ecs_instance" {
     # to the right ECS cluster
     user_data = <<EOF
 #!/bin/bash
-echo "ECS_CLUSTER=${aws_ecs_cluster.example_cluster.name}" >> /etc/ecs/ecs.config
+# Install the ecs-init package
+yum install -y ecs-init
+# Add AWS instance into Auto Scaling cluster
+echo "ECS_CLUSTER=${aws_ecs_cluster.example_cluster.name}" > /etc/ecs/ecs.config
+# Start the Docker daemon
+service docker start
+# Start the ecs-init upstart job
+start ecs
+# Add ec2-user to the docker group
+usermod -a -G docker ec2-user
 EOF
 
     # Important note: whenever using a launch configuration with an auto scaling
