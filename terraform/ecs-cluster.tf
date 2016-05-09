@@ -72,7 +72,7 @@ resource "aws_iam_instance_profile" "ecs_instance" {
 
 ## An IAM role that we attach to the EC2 Instances in ECS.
 resource "aws_iam_role" "ecs_instance" {
-    name = "terraform-ecs-instance"
+    name = "terraform-ecs-instance-role"
     assume_role_policy = <<EOF
 {
     "Version": "2008-10-17",
