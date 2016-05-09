@@ -5,7 +5,7 @@ provider "aws" {
 
 ## The ECS Cluster
 resource "aws_ecs_cluster" "example_cluster" {
-    name = "Terraform-example-ecs-cluster"
+    name = "terraform-ecs-cluster"
 
     # aws_launch_configuration.ecs_instance sets create_before_destroy to true, which means every resource it depends on,
     # including this one, must also set the create_before_destroy flag to true, or you'll get a cyclic dependency error.
@@ -16,7 +16,7 @@ resource "aws_ecs_cluster" "example_cluster" {
 
 ## The Auto Scaling Group that determines how many EC2 Instances we will be running
 resource "aws_autoscaling_group" "ecs_cluster_instances" {
-    name = "Terraform-example-ecs-cluster-instances"
+    name = "terraform-ecs-cluster-instances"
     min_size = 1
     max_size = 1
     launch_configuration = "${aws_launch_configuration.ecs_instance.name}"
@@ -24,14 +24,14 @@ resource "aws_autoscaling_group" "ecs_cluster_instances" {
 
     tag {
         key = "Name"
-        value = "Terraform-example-ecs-cluster-instances"
+        value = "terraform-ecs-cluster-instances"
         propagate_at_launch = true
     }
 }
 
 ## The launch configuration for each EC2 Instance that will run in the ECS Cluster
 resource "aws_launch_configuration" "ecs_instance" {
-    name_prefix = "Terraform-example-ecs-instance-"
+    name_prefix = "terraform-ecs-instance-"
     instance_type = "t2.micro"
     key_name = "${var.key_name}"
     iam_instance_profile = "${aws_iam_instance_profile.ecs_instance.name}"
@@ -60,7 +60,7 @@ EOF
 
 ## An IAM instance profile we can attach to an EC2 instance
 resource "aws_iam_instance_profile" "ecs_instance" {
-    name = "Terraform-example-ecs-instance"
+    name = "terraform-ecs-instance"
     roles = ["${aws_iam_role.ecs_instance.name}"]
 
     # aws_launch_configuration.ecs_instance sets create_before_destroy to true, which means every resource it depends on,
@@ -72,7 +72,7 @@ resource "aws_iam_instance_profile" "ecs_instance" {
 
 ## An IAM role that we attach to the EC2 Instances in ECS.
 resource "aws_iam_role" "ecs_instance" {
-    name = "Terraform-example-ecs-instance"
+    name = "terraform-ecs-instance"
     assume_role_policy = <<EOF
 {
     "Version": "2008-10-17",
@@ -99,7 +99,7 @@ EOF
 ## IAM policy we add to our EC2 Instance Role that allows an ECS Agent running
 ## on the EC2 Instance to communicate with the ECS cluster
 resource "aws_iam_role_policy" "ecs_cluster_permissions" {
-    name = "Terraform-example-ecs-cluster-permissions"
+    name = "terraform-ecs-cluster-permissions"
     role = "${aws_iam_role.ecs_instance.id}"
     policy = <<EOF
 {
@@ -127,7 +127,7 @@ EOF
 
 ## Security group that controls what network traffic is allowed to go in and out of each EC2 instance in the cluster
 resource "aws_security_group" "ecs_instance" {
-    name = "Terraform-example-ecs-instance"
+    name = "terraform-ecs-instance"
     description = "Security group for the EC2 instances in the ECS cluster"
     vpc_id = "${var.vpc_id}"
 
@@ -173,7 +173,7 @@ resource "aws_security_group" "ecs_instance" {
 ## An IAM Role that we attach to ECS Services. See the
 ## aws_aim_role_policy below to see what permissions this role has
 resource "aws_iam_role" "ecs_service_role" {
-    name = "Terraform-example-ecs-service-role"
+    name = "terraform-ecs-service-role"
     assume_role_policy = <<EOF
 {
     "Version": "2008-10-17",
@@ -193,7 +193,7 @@ EOF
 
 ## IAM Policy that allows an ECS Service to communicate with EC2 Instances.
 resource "aws_iam_role_policy" "ecs_service_policy" {
-    name = "Terraform-example-ecs-service-policy"
+    name = "terraform-ecs-service-policy"
     role = "${aws_iam_role.ecs_service_role.id}"
     policy = <<EOF
 {
