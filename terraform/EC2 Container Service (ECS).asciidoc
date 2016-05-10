@@ -48,6 +48,8 @@ cfn-stack-name-prefix       = amazon-ecs-cli-setup-
 
 ===== Test ECS 
 
+- List task definitions
+
 [source.console]
 ----
 terrence@muffler /Users/terrence/.ecs
@@ -58,6 +60,8 @@ terrence@muffler /Users/terrence/.ecs
     ]
 }
 ----
+
+- List clusters
 
 [source.console]
 ----
@@ -70,6 +74,8 @@ terrence@muffler /Users/terrence/.ecs
 }
 ----
 
+- List services
+
 [source.console]
 ----
 terrence@muffler /Users/terrence/.ecs
@@ -81,6 +87,8 @@ terrence@muffler /Users/terrence/.ecs
 }
 ----
 
+- List container instances
+
 [source.console]
 ----
 terrence@muffler /Users/terrence/.ecs
@@ -91,6 +99,8 @@ terrence@muffler /Users/terrence/.ecs
     ]
 }
 ----
+
+- Check image run in containers status
 
 [source.console]
 ----
