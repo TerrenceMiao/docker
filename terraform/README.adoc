@@ -1,7 +1,4 @@
-Embedded Gist in ASCIIDOC
-=========================
-
-
+++++
 <p>
 Content in a passthrough block is passed to the output unprocessed.
 That means you can include raw HTML, like this embedded Gist:
@@ -9,8 +6,4 @@ That means you can include raw HTML, like this embedded Gist:
 
 <script src="http://gist.github.com/mojavelinux/5333524.js">
 </script>
-
-
-Copying
--------
-Copyright © 2016 - Terrence Miao. Free use of this software is granted under the terms of the GNU General Public License version 3 (GPLv3).
+++++
