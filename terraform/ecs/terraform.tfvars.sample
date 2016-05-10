@@ -1,0 +1,2 @@
+access_key = "This is AWS account's Access Key"
+secret_key = "This is AWS account's Secret Key"
