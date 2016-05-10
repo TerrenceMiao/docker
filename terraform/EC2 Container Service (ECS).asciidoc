@@ -1,0 +1,113 @@
+EC2 Container Service (ECS)
+===========================
+
+This doc explains how to set up and run ECS CLI. Assume AWS CLI and ECS CLI have been installed. AWS EC2 environment and ECS cluster have been set up. An ECS task has been running in ECS cluster.
+
+=== AWS EC2
+
+[source.console]
+----
+terrence@muffler /Users/terrence/.aws
+10:04:09 𝜆 cat config
+[default]
+output = json
+region = ap-southeast-2
+
+terrence@muffler /Users/terrence/.aws
+10:05:15 𝜆 cat credentials
+[default]
+aws_access_key_id = This is AWS account's Access Key
+aws_secret_access_key = This is AWS account's Secret Key
+----
+
+
+=== AWS ECS
+
+[source.console]
+----
+terrence@muffler /Users/terrence/.ecs
+09:15:54 𝜆 ecs-cli configure --region ap-southeast-2 --access-key "This is AWS account's Access Key" --secret-key "This is AWS account's Secret Key" --cluster terraform-ecs-cluster
+----
+
+===== Check ECS configuration set up
+
+[source.console]
+----
+terrence@muffler /Users/terrence/.ecs
+09:18:43 𝜆 cat config
+[ecs]
+cluster                     = terraform-ecs-cluster
+aws_profile                 =
+region                      = ap-southeast-2
+aws_access_key_id           = This is AWS account's Access Key
+aws_secret_access_key       = This is AWS account's Secret Key
+compose-project-name-prefix = ecscompose-
+compose-service-name-prefix = ecscompose-service-
+cfn-stack-name-prefix       = amazon-ecs-cli-setup-
+----
+
+===== Test ECS 
+
+[source.console]
+----
+terrence@muffler /Users/terrence/.ecs
+10:03:30 𝜆 aws ecs list-task-definitions
+{
+    "taskDefinitionArns": [
+        "arn:aws:ecs:ap-southeast-2:776952239476:task-definition/hello-world-task:1"
+    ]
+}
+----
+
+[source.console]
+----
+terrence@muffler /Users/terrence/.ecs
+10:08:30 𝜆 aws ecs list-clusters
+{
+    "clusterArns": [
+        "arn:aws:ecs:ap-southeast-2:776952239476:cluster/terraform-ecs-cluster"
+    ]
+}
+----
+
+[source.console]
+----
+terrence@muffler /Users/terrence/.ecs
+10:10:38 𝜆 aws ecs list-services --cluster terraform-ecs-cluster
+{
+    "serviceArns": [
+        "arn:aws:ecs:ap-southeast-2:776952239476:service/hello-world-service"
+    ]
+}
+----
+
+[source.console]
+----
+terrence@muffler /Users/terrence/.ecs
+10:12:34 𝜆 aws ecs list-container-instances --cluster terraform-ecs-cluster
+{
+    "containerInstanceArns": [
+        "arn:aws:ecs:ap-southeast-2:776952239476:container-instance/4e14b09f-27ab-4e57-97bb-c69ef000b55a"
+    ]
+}
+----
+
+[source.console]
+----
+terrence@muffler /Users/terrence/.ecs
+09:19:50 𝜆 ecs-cli ps
+Name                                                        State    Ports                       TaskDefinition
+5bf68e3d-dafc-42e6-a118-fae10efc78cb/hello-world-container  RUNNING  54.206.33.198:80->5000/tcp  hello-world-task:1
+----
+
+
+References
+----------
+- Using the Amazon ECS Command Line Interface, http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_CLI.html
+- AWS ECS Command Line Interface, http://docs.aws.amazon.com/cli/latest/reference/ecs
+- Installing the AWS Command Line Interface, http://docs.aws.amazon.com/cli/latest/userguide/installing.html
+
+
+Copying
+-------
+Copyright © 2016 - Terrence Miao. Free use of this software is granted under the terms of the GNU General Public License version 3 (GPLv3).
