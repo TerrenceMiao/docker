@@ -5,6 +5,8 @@ This doc explains how to set up and run ECS CLI. Assume AWS CLI and ECS CLI have
 
 === AWS EC2
 
+===== Configuration
+
 [source.console]
 ----
 terrence@muffler /Users/terrence/.aws
@@ -12,7 +14,12 @@ terrence@muffler /Users/terrence/.aws
 [default]
 output = json
 region = ap-southeast-2
+----
 
+===== Credentials
+
+[source.console]
+----
 terrence@muffler /Users/terrence/.aws
 10:05:15 𝜆 cat credentials
 [default]
