@@ -119,7 +119,7 @@ Create AWS instance, install ECS agent and start Docker container:
 
 [source.console]
 ----
-12:29:09 𝜆 /usr/local/terraform/terraform apply -var 'key_name=aws-key' -var 'key_path=/Users/terrence/.ssh/aws-key.pem'
+12:29:09 𝜆 terraform apply -var 'key_name=aws-key' -var 'key_path=/Users/terrence/.ssh/aws-key.pem'
 aws_security_group.default: Creating...
   description:                          "" => "Security Group for Terraform"
   egress.#:                             "" => "1"
@@ -334,7 +334,6 @@ Outputs:
 
 [source.console]
 ----
-terrence@muffler /Users/terrence/Projects/docker/terraform
 10:45:57 𝜆 ssh -l ec2-user ec2-54-206-45-123.ap-southeast-2.compute.amazonaws.com
 The authenticity of host 'ec2-54-206-45-123.ap-southeast-2.compute.amazonaws.com (54.206.45.123)' can't be established.
 ECDSA key fingerprint is SHA256:5c3w+X1FXuhUwDQS6vTj5jdS10uwDTkoZWG3u3SQ8+I.
@@ -408,7 +407,6 @@ http://ec2-54-206-43-82.ap-southeast-2.compute.amazonaws.com
 
 [source.console]
 ----
-terrence@muffler /Users/terrence/Projects/docker/terraform
 20:34:38 𝜆 terraform plan -var 'key_name=aws-key' -var 'key_path=/Users/terrence/.ssh/aws-key.pem'
 Refreshing Terraform state prior to plan...
 
@@ -460,7 +458,6 @@ Outputs:
 
 [source.console]
 ----
-terrence@muffler /Users/terrence/Projects/docker/terraform
 11:42:29 𝜆 terraform destroy -var 'key_name=aws-key' -var 'key_path=/Users/terrence/.ssh/aws-key.pem'
 Do you really want to destroy?
   Terraform will delete all your managed infrastructure.
