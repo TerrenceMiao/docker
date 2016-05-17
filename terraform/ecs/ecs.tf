@@ -1,5 +1,6 @@
 ## The ECS Cluster
 resource "aws_ecs_cluster" "ecs_cluster" {
+    # This name MUST match ECS_CLUSTER set in /etc/ecs/ecs.config file on AWS instance
     name = "terraform-ecs-cluster"
 
     # aws_launch_configuration.ecs_instance sets create_before_destroy to true, which means every resource it depends on,
