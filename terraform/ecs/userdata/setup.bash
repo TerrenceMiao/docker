@@ -4,7 +4,7 @@
 yum install -y ecs-init
 
 # Add AWS instance into Auto Scaling cluster
-#echo "ECS_CLUSTER=${aws_ecs_cluster.ecs_cluster.name}" > /etc/ecs/ecs.config
+# ECS_CLUSTER should be as SAME as ${aws_ecs_cluster.ecs_cluster.name}" in configuration 
 echo "ECS_CLUSTER=terraform-ecs-cluster" > /etc/ecs/ecs.config
 
 # Start the Docker daemon
