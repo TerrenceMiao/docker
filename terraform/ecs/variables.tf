@@ -34,3 +34,9 @@ variable "ecs_cluster_subnet_ids" {
 	  #	https://ap-southeast-2.console.aws.amazon.com/vpc/home?region=ap-southeast-2#subnets:
 	  default = "subnet-e51b5080,subnet-02732244,subnet-96bccde1"
 }
+
+variable "availability_zones" {
+    description = "The availability zones"
+    # https://ap-southeast-2.console.aws.amazon.com/ec2/v2/home?region=ap-southeast-2
+    default = "ap-southeast-2a,ap-southeast-2b,ap-southeast-2c"
+}
