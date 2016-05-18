@@ -6,6 +6,8 @@ resource "aws_autoscaling_group" "ecs_autoscaling_group" {
     launch_configuration = "${aws_launch_configuration.ecs_launch_configuration.name}"
     vpc_zone_identifier = ["${split(",", var.ecs_cluster_subnet_ids)}"]
 
+    load_balancers = ["${split(",", aws_elb.ecs_elb.name)}"]
+
     tag {
         key = "ecs-autoscaling-group"
         value = "terraform-ecs-autoscaling-group"
