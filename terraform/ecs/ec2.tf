@@ -38,3 +38,30 @@ resource "aws_launch_configuration" "ecs_launch_configuration" {
         create_before_destroy = true
     }
 }
+
+## Elastic Load Balancer for ECS
+resource "aws_elb" "ecs_elb" {
+    name = "terraform-ecs-elb"
+    availability_zones = ["${split(",", var.availability_zones)}"]
+
+    listener {
+        instance_port = 5000
+        instance_protocol = "http"
+        lb_port = 80
+        lb_protocol = "http"
+    }
+
+    health_check {
+        healthy_threshold = 2
+        unhealthy_threshold = 2
+        timeout = 3
+        target = "HTTP:5000/"
+        interval = 30
+    }
+
+    connection_draining = false
+
+    tags {
+        Name = "terraform-ecs-elb"
+    }
+}
