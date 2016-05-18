@@ -1,0 +1,36 @@
+[
+    {
+        "volumesFrom": [],
+        "memory": 128,
+        "extraHosts": null,
+        "dnsServers": null,
+        "disableNetworking": null,
+        "dnsSearchDomains": null,
+        "portMappings": [
+            {
+                "hostPort": 5000,
+                "containerPort": 5000,
+                "protocol": "tcp"
+            }
+        ],
+        "hostname": null,
+        "essential": true,
+        "entryPoint": null,
+        "mountPoints": [],
+        "name": "hello-world-container",
+        "ulimits": null,
+        "dockerSecurityOptions": null,
+        "environment": [],
+        "links": null,
+        "workingDirectory": null,
+        "readonlyRootFilesystem": null,
+        "image": "training/webapp:latest",
+        "command": null,
+        "user": null,
+        "dockerLabels": null,
+        "logConfiguration": null,
+        "cpu": 0,
+        "privileged": null,
+        "expanded": true
+    }
+]
