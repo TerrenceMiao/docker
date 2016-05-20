@@ -37,6 +37,15 @@ Create AWS instance, install ECS agent and start Docker container:
 ...
 ----
 
+==== Check Docker application status
+
+[source.console]
+----
+09:13:57 𝜆 ecs-cli ps
+Name                                                        State    Ports                         TaskDefinition
+7e4d36f1-b016-487a-9dfc-f808c995a3f6/hello-world-container  RUNNING  54.206.39.253:5000->5000/tcp  hello-world-task:5
+----
+
 
 References
 ----------
