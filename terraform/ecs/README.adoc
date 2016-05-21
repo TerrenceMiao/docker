@@ -46,6 +46,38 @@ Name                                                        State    Ports      
 7e4d36f1-b016-487a-9dfc-f808c995a3f6/hello-world-container  RUNNING  54.206.39.253:5000->5000/tcp  hello-world-task:5
 ----
 
+==== Add and run a new Docker application
+
+[source.console]
+----
+𝜆 ecs-cli compose --project-name camel-spring --file docker-compose.yml create
+INFO[0000] Using ECS task definition                     TaskDefinition=ecscompose-camel-spring:1
+
+𝜆 ecs-cli compose --project-name camel-spring --file docker-compose.yml service up
+INFO[0000] Using ECS task definition                     TaskDefinition=ecscompose-camel-spring:2
+INFO[0000] Created an ECS service                        service=ecscompose-service-camel-spring taskDefinition=ecscompose-camel-spring:2
+INFO[0000] Updated ECS service successfully              desiredCount=1 serviceName=ecscompose-service-camel-spring
+INFO[0000] Describe ECS Service status                   desiredCount=1 runningCount=0 serviceName=ecscompose-service-camel-spring
+INFO[0030] Describe ECS Service status                   desiredCount=1 runningCount=0 serviceName=ecscompose-service-camel-spring
+INFO[0045] ECS Service has reached a stable state        desiredCount=1 runningCount=1 serviceName=ecscompose-service-camel-spring
+
+𝜆 ecs-cli ps
+Name                                                        State                  Ports                         TaskDefinition
+4f3101ca-0ed6-460b-8c1e-11d4cee912b1/hello-world-container  RUNNING                54.206.39.253:5000->5000/tcp  hello-world-task:5
+912d879b-9803-4a7e-99eb-1b747fbdc592/demo                   RUNNING                54.206.39.253:8080->8080/tcp  ecscompose-camel-spring:2
+----
+
+==== Stop Docker application service in ECS
+
+[source.console]
+----
+𝜆 ecs-cli compose --project-name camel-spring --file docker-compose.yml service rm
+INFO[0000] Updated ECS service successfully              desiredCount=0 serviceName=ecscompose-service-camel-spring
+INFO[0000] ECS Service has reached a stable state        desiredCount=0 runningCount=0 serviceName=ecscompose-service-camel-spring
+INFO[0000] Deleted ECS service                           service=ecscompose-service-camel-spring
+INFO[0000] ECS Service has reached a stable state        desiredCount=0 runningCount=0 serviceName=ecscompose-service-camel-spring
+----
+
 
 References
 ----------
