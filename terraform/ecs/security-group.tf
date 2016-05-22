@@ -12,6 +12,14 @@ resource "aws_security_group" "ecs_instance_sg" {
         cidr_blocks = ["0.0.0.0/0"]
     }
 
+    # Inbound HTTP for port 8080 from anywhere
+    ingress {
+        from_port = 8080
+        to_port = 8080
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
     # Inbound HTTP for port 5000 from anywhere
     ingress {
         from_port = 5000
