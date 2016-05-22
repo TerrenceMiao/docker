@@ -67,6 +67,10 @@ Name                                                        State               
 912d879b-9803-4a7e-99eb-1b747fbdc592/demo                   RUNNING                54.206.39.253:8080->8080/tcp  ecscompose-camel-spring:2
 ----
 
+==== Verify new Docker application
+
+Go to URL, e.g.: http://terraform-ecs-elb-223796138.ap-southeast-2.elb.amazonaws.com:8080/hawtio/index.html. terraform-ecs-elb-223796138.ap-southeast-2.elb.amazonaws.com is the interface on Load Balancer.
+
 ==== Stop Docker application service in ECS
 
 [source.console]
