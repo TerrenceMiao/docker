@@ -45,6 +45,7 @@ resource "aws_launch_configuration" "ecs_launch_configuration" {
 resource "aws_elb" "ecs_elb" {
     name = "terraform-ecs-elb"
     availability_zones = ["${split(",", var.availability_zones)}"]
+    security_groups = ["${aws_security_group.ecs_elb_sg.id}"]
 
     listener {
         instance_port = 5000

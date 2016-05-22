@@ -50,3 +50,39 @@ resource "aws_security_group" "ecs_instance_sg" {
         create_before_destroy = true
     }
 }
+
+resource "aws_security_group" "ecs_elb_sg" {
+    name = "terraform-ecs-elb-sg"
+    description = "Security group for the Load Balancers in front of EC2 instances in the ECS cluster"
+    vpc_id = "${var.vpc_id}"
+
+    # Outbound Everything
+    egress {
+        from_port = 0
+        to_port = 0
+        protocol = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    # Inbound HTTP for port 8080 from anywhere
+    ingress {
+        from_port = 8080
+        to_port = 8080
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    # Inbound HTTP for port 80 from anywhere
+    ingress {
+        from_port = 80
+        to_port = 80
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    # aws_launch_configuration.ecs_instance sets create_before_destroy to true, which means every resource it depends on,
+    # including this one, must also set the create_before_destroy flag to true, or you'll get a cyclic dependency error.
+    lifecycle {
+        create_before_destroy = true
+    }
+}
