@@ -90,9 +90,7 @@ References
 - AWS Tips I Wish I'd Known Before I Started, https://wblinks.com/notes/aws-tips-i-wish-id-known-before-i-started/
 - ECS CLI Command Line Reference, http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_CLI_reference.html
 - Amazon EC2 Container Service (Amazon ECS) Command Line Reference, http://docs.aws.amazon.com/cli/latest/reference/ecs/
-- Terraform AWS ECS + Docker Registry, https://github.com/Capgemini/terraform-amazon-ecs
 - Setup local / private Docker Registry, http://slides.com/victororlov/docker-registry-presentation, https://github.com/fforloff/docker-registry-presentation
-- Test Docker images with Python, https://docs.google.com/presentation/d/1EzA8Zpq0GdTvbPzs0Ou6gXZZlJGfug0vsoEbxeyERsg/edit?usp=sharing
 
 
 Copying
