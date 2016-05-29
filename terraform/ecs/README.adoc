@@ -88,7 +88,8 @@ References
 - Terraform and AWS ECS - Transforming infrastructure provision into programming code, https://prezi.com/flhqxtm-r4ys/terraform-and-aws-ecs/
 - A Comprehensive Guide to Building a Scalable Web App on Amazon Web Services - Part 1, https://www.airpair.com/aws/posts/building-a-scalable-web-app-on-amazon-web-services-p1
 - AWS Tips I Wish I'd Known Before I Started, https://wblinks.com/notes/aws-tips-i-wish-id-known-before-i-started/
-- How to add SumoLogic to a Dockerized App, http://paislee.io/how-to-add-sumologic-to-a-dockerized-app/
+- Four Ways to Collect Docker Logs in Sumo Logic, https://www.sumologic.com/blog-using-sumo/four-ways-to-collect-docker-logs-in-sumo-logic/
+- Sumo Logic Collector for Docker, https://github.com/SumoLogic/sumologic-collector-docker, https://hub.docker.com/r/sumologic/collector/
 - ECS CLI Command Line Reference, http://docs.aws.amazon.com/AmazonECS/latest/developerguide/ECS_CLI_reference.html
 - Amazon EC2 Container Service (Amazon ECS) Command Line Reference, http://docs.aws.amazon.com/cli/latest/reference/ecs/
 - Setup local / private Docker Registry, http://slides.com/victororlov/docker-registry-presentation, https://github.com/fforloff/docker-registry-presentation
