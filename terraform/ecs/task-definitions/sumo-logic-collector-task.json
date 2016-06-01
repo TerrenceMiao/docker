@@ -1,0 +1,36 @@
+[
+    {
+        "volumesFrom": [],
+        "memory": 256,
+        "extraHosts": null,
+        "dnsServers": null,
+        "disableNetworking": null,
+        "dnsSearchDomains": null,
+        "portMappings": [],
+        "hostname": null,
+        "essential": true,
+        "entryPoint": null,
+        "mountPoints": [{
+            "containerPath": "/tmp/clogs",
+            "sourceVolume": "sumo-logic-collector-volume",
+            "readOnly": false
+        }],
+        "name": "sumo-logic-collector-container",
+        "ulimits": null,
+        "dockerSecurityOptions": null,
+        "environment": [],
+        "links": null,
+        "workingDirectory": null,
+        "readonlyRootFilesystem": false,
+        "image": "sumologic/collector:latest-file",
+        "command": [
+            "suMEK2du3NmSR8",
+            "AQcAleNU8bqumNDGucQySY2gYerDshhzTh1nyJOtMg2GVkuuQ7VgifGtq864AWt0"
+        ],
+        "user": null,
+        "dockerLabels": null,
+        "logConfiguration": null,
+        "cpu": 1,
+        "privileged": null
+    }
+]
