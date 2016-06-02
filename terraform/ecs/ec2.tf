@@ -41,14 +41,14 @@ resource "aws_launch_configuration" "ecs_launch_configuration" {
     }
 }
 
-## Elastic Load Balancer for ECS
+## Elastic Load Balancer for Docker app i.e. "Hello World" listens on port 80 and and "Camel Spring" on 8080
 resource "aws_elb" "ecs_elb" {
     name = "terraform-ecs-elb"
     availability_zones = ["${split(",", var.availability_zones)}"]
     security_groups = ["${aws_security_group.ecs_elb_sg.id}"]
 
     listener {
-        instance_port = 5000
+        instance_port = 80
         instance_protocol = "http"
         lb_port = 80
         lb_protocol = "http"
@@ -65,7 +65,7 @@ resource "aws_elb" "ecs_elb" {
         healthy_threshold = 2
         unhealthy_threshold = 2
         timeout = 3
-        target = "HTTP:5000/"
+        target = "HTTP:80/"
         interval = 30
     }
 
@@ -75,3 +75,32 @@ resource "aws_elb" "ecs_elb" {
         Name = "terraform-ecs-elb"
     }
 }
+
+## Elastic Load Balancer for Docker app e.g. "Camel Spring" listens on port 8080
+## Each ECS service should on an individual load balancer
+#resource "aws_elb" "camel_spring_elb" {
+#    name = "camel-spring-elb"
+#    availability_zones = ["${split(",", var.availability_zones)}"]
+#    security_groups = ["${aws_security_group.ecs_elb_sg.id}"]
+
+#    listener {
+#        instance_port = 8080
+#        instance_protocol = "http"
+#        lb_port = 8080
+#        lb_protocol = "http"
+#    }
+
+#    health_check {
+#        healthy_threshold = 2
+#        unhealthy_threshold = 2
+#        timeout = 3
+#        target = "HTTP:8080/"
+#        interval = 30
+#    }
+
+#    connection_draining = false
+
+#    tags {
+#        Name = "camel-spring-elb"
+#    }
+#}

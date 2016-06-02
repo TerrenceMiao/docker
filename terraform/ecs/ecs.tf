@@ -27,7 +27,7 @@ resource "aws_ecs_service" "ecs_service" {
   	load_balancer {
     	elb_name = "${aws_elb.ecs_elb.id}"
     	container_name = "hello-world-container"
-    	container_port = 5000
+    	container_port = 80
   	}
 }
 

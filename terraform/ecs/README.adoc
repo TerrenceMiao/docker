@@ -43,7 +43,7 @@ Create AWS instance, install ECS agent and start Docker container:
 ----
 09:13:57 𝜆 ecs-cli ps
 Name                                                        State    Ports                         TaskDefinition
-7e4d36f1-b016-487a-9dfc-f808c995a3f6/hello-world-container  RUNNING  54.206.39.253:5000->5000/tcp  hello-world-task:5
+7e4d36f1-b016-487a-9dfc-f808c995a3f6/hello-world-container  RUNNING  54.206.39.253:80->80/tcp      hello-world-task:5
 ----
 
 ==== Add and run a new Docker application
@@ -63,13 +63,18 @@ INFO[0045] ECS Service has reached a stable state        desiredCount=1 runningC
 
 𝜆 ecs-cli ps
 Name                                                        State                  Ports                         TaskDefinition
-4f3101ca-0ed6-460b-8c1e-11d4cee912b1/hello-world-container  RUNNING                54.206.39.253:5000->5000/tcp  hello-world-task:5
+4f3101ca-0ed6-460b-8c1e-11d4cee912b1/hello-world-container  RUNNING                54.206.39.253:80->80/tcp      hello-world-task:5
 912d879b-9803-4a7e-99eb-1b747fbdc592/demo                   RUNNING                54.206.39.253:8080->8080/tcp  ecscompose-camel-spring:2
 ----
 
-==== Verify new Docker application
+==== Verify Docker applications
 
-Go to URL, e.g.: http://terraform-ecs-elb-223796138.ap-southeast-2.elb.amazonaws.com:8080/hawtio/index.html. terraform-ecs-elb-223796138.ap-southeast-2.elb.amazonaws.com is the interface on Load Balancer.
+Go to URLs: 
+
+http://terraform-ecs-elb-223796138.ap-southeast-2.elb.amazonaws.com
+http://terraform-ecs-elb-223796138.ap-southeast-2.elb.amazonaws.com:8080/hawtio/index.html
+
+terraform-ecs-elb-223796138.ap-southeast-2.elb.amazonaws.com is the interface on Load Balancer.
 
 ==== Stop Docker application service in ECS
 

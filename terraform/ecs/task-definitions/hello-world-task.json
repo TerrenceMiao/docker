@@ -8,8 +8,8 @@
         "dnsSearchDomains": null,
         "portMappings": [
             {
-                "hostPort": 5000,
-                "containerPort": 5000,
+                "hostPort": 80,
+                "containerPort": 80,
                 "protocol": "tcp"
             }
         ],
@@ -24,7 +24,7 @@
         "links": null,
         "workingDirectory": null,
         "readonlyRootFilesystem": null,
-        "image": "training/webapp:latest",
+        "image": "dockercloud/hello-world:latest",
         "command": null,
         "user": null,
         "dockerLabels": null,
