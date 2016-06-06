@@ -15,3 +15,8 @@ start ecs
 
 # Add ec2-user to the docker group
 usermod -a -G docker ec2-user
+
+# Install and run Weave Scope
+wget -O /usr/local/bin/scope https://git.io/scope
+chmod a+x /usr/local/bin/scope
+/usr/local/bin/scope launch
