@@ -19,4 +19,4 @@ usermod -a -G docker ec2-user
 # Install and run Weave Scope
 wget -O /usr/local/bin/scope https://git.io/scope
 chmod a+x /usr/local/bin/scope
-/usr/local/bin/scope launch
+/usr/local/bin/scope launch --service-token=iew8q7twf3d56t4rmtdis3yfgqsi61ig
