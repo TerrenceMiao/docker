@@ -20,6 +20,14 @@ secret_key = "This is AWS account's Secret Key"
 ...
 ----
 
+==== Generate resources dependencies Graphviz' graph 
+[source.console]
+----
+12:29:09 𝜆 terraform graph > terraform.dot
+----
+
+image::terraform.dot.png[Terraform Resources Dependencies]
+
 ==== Run 
 Create AWS instance, install ECS agent and start Docker container:
 

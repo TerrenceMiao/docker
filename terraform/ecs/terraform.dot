@@ -1,0 +1,53 @@
+digraph {
+	compound = "true"
+	newrank = "true"
+	subgraph "root" {
+		"[root] aws_autoscaling_group.ecs_autoscaling_group" [label = "aws_autoscaling_group.ecs_autoscaling_group", shape = "box"]
+		"[root] aws_ecs_cluster.ecs_cluster" [label = "aws_ecs_cluster.ecs_cluster", shape = "box"]
+		"[root] aws_ecs_service.ecs_service" [label = "aws_ecs_service.ecs_service", shape = "box"]
+		"[root] aws_ecs_service.sumo_logic_collector_service" [label = "aws_ecs_service.sumo_logic_collector_service", shape = "box"]
+		"[root] aws_ecs_task_definition.ecs_task_definition" [label = "aws_ecs_task_definition.ecs_task_definition", shape = "box"]
+		"[root] aws_ecs_task_definition.sumo_logic_collector_task_definition" [label = "aws_ecs_task_definition.sumo_logic_collector_task_definition", shape = "box"]
+		"[root] aws_elb.ecs_elb" [label = "aws_elb.ecs_elb", shape = "box"]
+		"[root] aws_iam_instance_profile.ecs_instance_profile" [label = "aws_iam_instance_profile.ecs_instance_profile", shape = "box"]
+		"[root] aws_iam_role.ecs_instance_role" [label = "aws_iam_role.ecs_instance_role", shape = "box"]
+		"[root] aws_iam_role.ecs_service_role" [label = "aws_iam_role.ecs_service_role", shape = "box"]
+		"[root] aws_iam_role_policy.ecs_instance_role_policy" [label = "aws_iam_role_policy.ecs_instance_role_policy", shape = "box"]
+		"[root] aws_iam_role_policy.ecs_service_policy" [label = "aws_iam_role_policy.ecs_service_policy", shape = "box"]
+		"[root] aws_launch_configuration.ecs_launch_configuration" [label = "aws_launch_configuration.ecs_launch_configuration", shape = "box"]
+		"[root] aws_security_group.ecs_elb_sg" [label = "aws_security_group.ecs_elb_sg", shape = "box"]
+		"[root] aws_security_group.ecs_instance_sg" [label = "aws_security_group.ecs_instance_sg", shape = "box"]
+		"[root] provider.aws" [label = "provider.aws", shape = "diamond"]
+		"[root] aws_autoscaling_group.ecs_autoscaling_group" -> "[root] aws_elb.ecs_elb"
+		"[root] aws_autoscaling_group.ecs_autoscaling_group" -> "[root] aws_launch_configuration.ecs_launch_configuration"
+		"[root] aws_autoscaling_group.ecs_autoscaling_group" -> "[root] provider.aws"
+		"[root] aws_ecs_cluster.ecs_cluster" -> "[root] provider.aws"
+		"[root] aws_ecs_service.ecs_service" -> "[root] aws_ecs_cluster.ecs_cluster"
+		"[root] aws_ecs_service.ecs_service" -> "[root] aws_ecs_task_definition.ecs_task_definition"
+		"[root] aws_ecs_service.ecs_service" -> "[root] aws_elb.ecs_elb"
+		"[root] aws_ecs_service.ecs_service" -> "[root] aws_iam_role.ecs_service_role"
+		"[root] aws_ecs_service.ecs_service" -> "[root] aws_iam_role_policy.ecs_service_policy"
+		"[root] aws_ecs_service.ecs_service" -> "[root] provider.aws"
+		"[root] aws_ecs_service.sumo_logic_collector_service" -> "[root] aws_ecs_cluster.ecs_cluster"
+		"[root] aws_ecs_service.sumo_logic_collector_service" -> "[root] aws_ecs_task_definition.sumo_logic_collector_task_definition"
+		"[root] aws_ecs_service.sumo_logic_collector_service" -> "[root] provider.aws"
+		"[root] aws_ecs_task_definition.ecs_task_definition" -> "[root] provider.aws"
+		"[root] aws_ecs_task_definition.sumo_logic_collector_task_definition" -> "[root] provider.aws"
+		"[root] aws_elb.ecs_elb" -> "[root] aws_security_group.ecs_elb_sg"
+		"[root] aws_elb.ecs_elb" -> "[root] provider.aws"
+		"[root] aws_iam_instance_profile.ecs_instance_profile" -> "[root] aws_iam_role.ecs_instance_role"
+		"[root] aws_iam_instance_profile.ecs_instance_profile" -> "[root] provider.aws"
+		"[root] aws_iam_role.ecs_instance_role" -> "[root] provider.aws"
+		"[root] aws_iam_role.ecs_service_role" -> "[root] provider.aws"
+		"[root] aws_iam_role_policy.ecs_instance_role_policy" -> "[root] aws_iam_role.ecs_instance_role"
+		"[root] aws_iam_role_policy.ecs_instance_role_policy" -> "[root] provider.aws"
+		"[root] aws_iam_role_policy.ecs_service_policy" -> "[root] aws_iam_role.ecs_service_role"
+		"[root] aws_iam_role_policy.ecs_service_policy" -> "[root] provider.aws"
+		"[root] aws_launch_configuration.ecs_launch_configuration" -> "[root] aws_iam_instance_profile.ecs_instance_profile"
+		"[root] aws_launch_configuration.ecs_launch_configuration" -> "[root] aws_security_group.ecs_instance_sg"
+		"[root] aws_launch_configuration.ecs_launch_configuration" -> "[root] provider.aws"
+		"[root] aws_security_group.ecs_elb_sg" -> "[root] provider.aws"
+		"[root] aws_security_group.ecs_instance_sg" -> "[root] provider.aws"
+	}
+}
+
