@@ -33,6 +33,7 @@ resource "aws_iam_role_policy" "ecs_service_policy" {
     policy = "${file("policies/ecs-service-role-policy.json")}"
 }
 
+
 ## An IAM instance profile we can attach to an EC2 instance
 resource "aws_iam_instance_profile" "ecs_instance_profile" {
     name = "terraform-ecs-instance-profile"

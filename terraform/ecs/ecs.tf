@@ -10,6 +10,7 @@ resource "aws_ecs_cluster" "ecs_cluster" {
     }
 }
 
+
 ## Docker application "Hello World" ECS task and service definitions for running container
 resource "aws_ecs_task_definition" "ecs_task_definition" {
 	family = "hello-world-task"
@@ -30,6 +31,7 @@ resource "aws_ecs_service" "ecs_service" {
     	container_port = 80
   	}
 }
+
 
 ## Docker application "Sumo Logic Collector" ECS task and service definitions for running container
 resource "aws_ecs_task_definition" "sumo_logic_collector_task_definition" {
