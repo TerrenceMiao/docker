@@ -101,6 +101,7 @@ INFO[0000] ECS Service has reached a stable state        desiredCount=0 runningC
 References
 ----------
 - Terraform and AWS ECS - Transforming infrastructure provision into programming code, https://prezi.com/flhqxtm-r4ys/terraform-and-aws-ecs/
+- Error creating launch configuration: ValidationError: You are not authorized to perform this operation, https://github.com/hashicorp/terraform/issues/7198
 - A Comprehensive Guide to Building a Scalable Web App on Amazon Web Services - Part 1, https://www.airpair.com/aws/posts/building-a-scalable-web-app-on-amazon-web-services-p1
 - AWS Tips I Wish I'd Known Before I Started, https://wblinks.com/notes/aws-tips-i-wish-id-known-before-i-started/
 - Four Ways to Collect Docker Logs in Sumo Logic, https://www.sumologic.com/blog-using-sumo/four-ways-to-collect-docker-logs-in-sumo-logic/
