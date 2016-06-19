@@ -88,11 +88,13 @@ terraform-ecs-elb-223796138.ap-southeast-2.elb.amazonaws.com is the interface on
 
 [source.console]
 ----
-𝜆 ecs-cli compose --project-name camel-spring --file docker-compose.yml service rm
+𝜆 ecs-cli compose --project-name camel-spring --file docker-compose.yml service stop
 INFO[0000] Updated ECS service successfully              desiredCount=0 serviceName=ecscompose-service-camel-spring
 INFO[0000] ECS Service has reached a stable state        desiredCount=0 runningCount=0 serviceName=ecscompose-service-camel-spring
 INFO[0000] Deleted ECS service                           service=ecscompose-service-camel-spring
 INFO[0000] ECS Service has reached a stable state        desiredCount=0 runningCount=0 serviceName=ecscompose-service-camel-spring
+
+𝜆 ecs-cli compose --project-name camel-spring --file docker-compose.yml stop
 ----
 
 
