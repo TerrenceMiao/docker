@@ -1,9 +1,4 @@
-++++
-<p>
-Content in a passthrough block is passed to the output unprocessed.
-That means you can include raw HTML, like this embedded Gist:
-</p>
+Terraform and ECS (EC2 Container Service)
+=========================================
 
-<script src="http://gist.github.com/mojavelinux/5333524.js">
-</script>
-++++
+This project includes two solutions provision an infrastructure to AWS EC2 and ECS.
