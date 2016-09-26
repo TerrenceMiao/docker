@@ -41,6 +41,17 @@ terrence@muffler ~/kibana
 13:07:32 193 𝜆 docker run -v "$PWD/installedPlugins":/opt/kibana/installedPlugins --link elasticsearch:elasticsearch --name kibana -p 5601:5601 -d kibana
 ----
 
+- Log on ElasticSearch and Kibana container instances with SHELL
+[source.console]
+----
+terrence@muffler ~
+13:07:32 192 𝜆 docker exec -it elasticsearch /bin/bash
+
+terrence@muffler ~
+13:07:32 193 𝜆 docker exec -it kibana /bin/bash
+----
+
+
 - Visit ElsticSearch plugins
   * http://localhost:9200/_plugin/head/
   * http://localhost:9200/_plugin/kopf/
