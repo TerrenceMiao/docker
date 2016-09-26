@@ -48,7 +48,7 @@ terrence@muffler ~/kibana
 
 - Visit Kibana and its plugins
   * http://0.0.0.0:5601/app/kibana
-  * http://0.0.0.0:5601/app/sense
+  * http://0.0.0.0:5601/app/sense - To avoid CORS in Sense plugin, ElasticSearch has to use hostname of IP address not localhost, e.g., http://10.101.22.83:9200/postaladdress/_search
 
 
 References
