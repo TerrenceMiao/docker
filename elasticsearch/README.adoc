@@ -33,9 +33,9 @@ terrence@muffler ~/elasticsearch
 ----
 
 - Visit ElsticSearch plugins
-http://localhost:9200/_plugin/head/
-http://localhost:9200/_plugin/kopf/
-http://localhost:9200/_plugin/dejaVu/
+  * http://localhost:9200/_plugin/head/
+  * http://localhost:9200/_plugin/kopf/
+  * http://localhost:9200/_plugin/dejaVu/
 
 - Visit Kibana
 http://localhost:5601/app/kibana
