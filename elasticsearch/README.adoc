@@ -29,7 +29,7 @@ terrence@muffler ~/elasticsearch
 13:07:32 192 𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/plugins":/usr/share/elasticsearch/plugins -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
 
 terrence@muffler ~/elasticsearch
-13:07:32 193 𝜆 docker run --link elasticsearch:elasticsearch --name kibana -p 5601:5601 -d kibana
+13:07:32 193 𝜆 docker run --link elasticsearch:elasticsearch -p 5601:5601 --name kibana -d kibana
 ----
 
 - Visit ElsticSearch plugins
