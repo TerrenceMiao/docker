@@ -1,6 +1,6 @@
 Oracle JDK in Docker
 ====================
-[![](https://badge.imagelayers.io/jtech/oracle-jdk:latest.svg)](https://imagelayers.io/?images=jtech/oracle-jdk:latest 'Get your own badge on imagelayers.io')
+[![](https://images.microbadger.com/badges/image/jtech/oracle-jdk.svg)](https://microbadger.com/images/jtech/oracle-jdk "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/jtech/oracle-jdk.svg)](https://microbadger.com/images/jtech/oracle-jdk "Get your own version badge on microbadger.com")
 
 Build a docker image which has the latest Oracle JDK inside local images list, based on the smallest Linux image - Alpine Linux.
 
