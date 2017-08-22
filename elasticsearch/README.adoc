@@ -1,7 +1,7 @@
 Step by step run ElasticSearch / Kibana Docker images
 =====================================================
 
-This project including instructions to run ElasticSearch / Kibana Docker images on localhost. 
+This project including instructions to run ElasticSearch / Kibana Docker images on localhost.
 
 - Create shared volumes / mounted directories
 [source.console]
@@ -38,7 +38,14 @@ terrence@muffler ~/elasticsearch
 13:07:32 192 𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/plugins":/usr/share/elasticsearch/plugins -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
 
 terrence@muffler ~/kibana
-13:07:32 193 𝜆 docker run -v "$PWD/installedPlugins":/opt/kibana/installedPlugins --link elasticsearch:elasticsearch --name kibana -p 5601:5601 -d kibana
+13:07:32 193 𝜆 docker run -d -v "$PWD/installedPlugins":/opt/kibana/installedPlugins --link elasticsearch:elasticsearch -p 5601:5601 --name kibana kibana
+----
+
+- Start ElasticSearch plugins
+[source.console]
+----
+terrence@muffler ~/elasticsearch
+13:07:32 194 𝜆 docker run -d -p 9100:9100 --name elasticsearch-head mobz/elasticsearch-head:5
 ----
 
 - Log on ElasticSearch and Kibana container instances with SHELL
@@ -53,19 +60,20 @@ terrence@muffler ~
 
 
 - Visit ElsticSearch plugins
-  * http://localhost:9200/_plugin/head/
-  * http://localhost:9200/_plugin/kopf/
-  * http://localhost:9200/_plugin/dejaVu/
+  * elasticsearch-head, http://localhost:9100
+  * kopf, http://localhost:9200/_plugin/kopf/
+  * dejaVu, http://localhost:9200/_plugin/dejaVu/
 
 - Visit Kibana and its plugins
-  * http://0.0.0.0:5601/app/kibana
-  * http://0.0.0.0:5601/app/sense - To avoid CORS in Sense plugin, ElasticSearch has to use hostname (muffler) of IP address (10.0.0.110), not localhost, e.g., http://muffler:9200/postaladdress/_search
+  * Kibana, http://0.0.0.0:5601/app/kibana
+  * Sense, http://0.0.0.0:5601/app/sense - To avoid CORS in Sense plugin, ElasticSearch has to use hostname (muffler) of IP address (10.0.0.110), not localhost, e.g., http://muffler:9200/postaladdress/_search
 
 
 References
 ----------
 - ElaticSearch Docker image, https://hub.docker.com/_/elasticsearch/
 - Kibana Docker image, https://hub.docker.com/_/kibana/
+- ElasticSearch plugin *elasticsearch-head,* https://github.com/mobz/elasticsearch-head
 
 
 Copying
