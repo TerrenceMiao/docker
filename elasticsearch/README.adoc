@@ -31,12 +31,35 @@ terrence@muffler ~/kibana
 sense
 ----
 
-- Start ElasticSearch and Kibana
+- CORS
+
+To make sure you enable CORS settings for your ElasticSearch instance, add the following lines in the ES configuration file - elasticsearch.yml
+
+[source.console]
+----
+http.cors.enabled: true
+http.cors.allow-origin: "/.*/"
+http.cors.allow-credentials: true
+http.cors.allow-headers: "Authorization, X-Requested-With, Content-Type, Content-Length"
+----
+
+- Start ElasticSearch
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
 13:07:32 192 𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/plugins":/usr/share/elasticsearch/plugins -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
+----
 
+- Start ElasticSearch (CORS enabled)
+[source.console]
+----
+terrence@muffler ~/elasticsearch
+13:07:32 192 𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/plugins":/usr/share/elasticsearch/plugins -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
+----
+
+- Start Kibana
+[source.console]
+----
 terrence@muffler ~/kibana
 13:07:32 193 𝜆 docker run -d -v "$PWD/installedPlugins":/opt/kibana/installedPlugins --link elasticsearch:elasticsearch -p 5601:5601 --name kibana kibana
 ----
@@ -46,6 +69,10 @@ terrence@muffler ~/kibana
 ----
 terrence@muffler ~/elasticsearch
 13:07:32 194 𝜆 docker run -d -p 9100:9100 --name elasticsearch-head mobz/elasticsearch-head:5
+
+13:07:32 195 𝜆 docker run -d -p 1358:1358 --name dejavu appbaseio/dejavu
+
+13:07:32 196 𝜆 docker run -d -p 3030:3030 --name mirage appbaseio/mirage
 ----
 
 - Log on ElasticSearch and Kibana container instances with SHELL
@@ -58,11 +85,11 @@ terrence@muffler ~
 13:07:32 193 𝜆 docker exec -it kibana /bin/bash
 ----
 
-
 - Visit ElsticSearch plugins
   * elasticsearch-head, http://localhost:9100
-  * kopf, http://localhost:9200/_plugin/kopf/
-  * dejaVu, http://localhost:9200/_plugin/dejaVu/
+  * dejaVu, with app name / index (e.g. addresses) and connection URL http://localhost:9200 (without "/"), http://localhost:1358/live
+  * mirage, with app name / index (e.g. addresses) and connection URL http://localhost:9200 (without "/"), http://localhost:3030
+  * #kopf (deprecated), http://localhost:9200/_plugin/kopf/#
 
 - Visit Kibana and its plugins
   * Kibana, http://0.0.0.0:5601/app/kibana
