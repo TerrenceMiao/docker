@@ -33,7 +33,7 @@ sense
 
 - CORS
 
-To make sure you enable CORS settings for your ElasticSearch instance, add the following lines in the ES configuration file - elasticsearch.yml
+To make sure you enable CORS settings for your ElasticSearch instance, add the following lines in the ES configuration file - *elasticsearch.yml*
 
 [source.console]
 ----
@@ -89,7 +89,7 @@ terrence@muffler ~
   * elasticsearch-head, http://localhost:9100
   * dejaVu, with app name / index (e.g. addresses) and connection URL http://localhost:9200 (without "/"), http://localhost:1358/live
   * mirage, with app name / index (e.g. addresses) and connection URL http://localhost:9200 (without "/"), http://localhost:3030
-  * #kopf (deprecated), http://localhost:9200/_plugin/kopf/#
+  * #kopf# (deprecated), http://localhost:9200/_plugin/kopf/
 
 - Visit Kibana and its plugins
   * Kibana, http://0.0.0.0:5601/app/kibana
