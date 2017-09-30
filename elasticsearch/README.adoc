@@ -85,11 +85,15 @@ terrence@muffler ~
 13:07:32 193 𝜆 docker exec -it kibana /bin/bash
 ----
 
-- Visit ElsticSearch plugins
+- Visit ElasticSearch plugins
   * elasticsearch-head, http://localhost:9100
   * dejaVu, with app name / index (e.g. addresses) and connection URL http://localhost:9200 (without "/"), http://localhost:1358/live
   * mirage, with app name / index (e.g. addresses) and connection URL http://localhost:9200 (without "/"), http://localhost:3030
-  * kopf (deprecated), http://localhost:9200/_plugin/kopf/
+
+- ElasticSearch deprecated plugins (ElasticSearch version 2.3.3.x)
+  * head, [line-through]#http://localhost:9200/_plugin/head/#
+  * dejaVu, , [line-through]#http://localhost:9200/_plugin/dejaVu/#
+  * kopf, [line-through]#http://localhost:9200/_plugin/kopf/#
 
 - Visit Kibana and its plugins
   * Kibana, http://0.0.0.0:5601/app/kibana
