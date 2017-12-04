@@ -7,22 +7,17 @@ This project including instructions to run ElasticSearch / Kibana Docker images 
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
-13:07:32 189 𝜆 mkdir data plugins
+13:07:32 189 𝜆 mkdir data config
 
 iterrence@muffler ~/kibana
 13:07:32 189 𝜆 mkdir installedPlugins
 ----
 
-- Copy ALL exiting, installed plugins from to shared, mounted directory
+- Copy ALL exiting data, installed plugins from to shared, mounted directory
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
-13:07:32 190 𝜆 cp -a /usr/local/elasticsearch/plugins/* plugins
-
-13:07:32 191 𝜆 ls -1 plugins/
-dejaVu
-head
-kopf
+13:07:32 190 𝜆 cp -a /usr/local/elasticsearch/data/* data
 
 terrence@muffler ~/kibana
 13:07:32 190 𝜆 cp -a /usr/local/kibana/installedPlugins/* installedPlugins
@@ -31,9 +26,9 @@ terrence@muffler ~/kibana
 sense
 ----
 
-- CORS
+- CORS (Cross Origin Resource Sharing)
 
-To make sure you enable CORS settings for your ElasticSearch instance, add the following lines in the ES configuration file - *elasticsearch.yml*
+To make sure you enable CORS settings for your ElasticSearch instance, for example ElasticSearch and UI both run on localhost, add the following lines into the ES configuration file - **config/elasticsearch.yml**
 
 [source.console]
 ----
@@ -41,7 +36,45 @@ http.cors.enabled: true
 http.cors.allow-origin: "/.*/"
 http.cors.allow-credentials: true
 http.cors.allow-headers: "Authorization, X-Requested-With, Content-Type, Content-Length"
+
+terrence@muffler ~/elasticsearch
+13:07:32 190 𝜆 ls -al config/
+total 16
+drwxr-xr-x  5 terrence  staff  170  4 Dec 16:30 .
+drwxr-xr-x  5 terrence  staff  170  4 Dec 16:14 ..
+-rw-r--r--@ 1 terrence  staff  347  4 Dec 16:30 elasticsearch.yml
+-rw-r--r--  1 terrence  staff  272  4 Dec 16:27 log4j2.properties
+drwxr-xr-x  2 terrence  staff   68  4 Dec 16:28 scripts
+
+terrence@muffler ~/elasticsearch
+13:07:32 190 𝜆 cat config/elasticsearch.yml
+
+http.host: 0.0.0.0
+
+# Uncomment the following lines for a production cluster deployment
+#transport.host: 0.0.0.0
+#discovery.zen.minimum_master_nodes: 1
+
+## CORS enabled
+http.cors.enabled: true
+http.cors.allow-origin: "/.*/"
+http.cors.allow-credentials: true
+http.cors.allow-headers: "Authorization, X-Requested-With, Content-Type, Content-Length"
+
+terrence@muffler ~/elasticsearch
+13:07:32 190 𝜆 cat config/log4j2.properties
+status = error
+
+appender.console.type = Console
+appender.console.name = console
+appender.console.layout.type = PatternLayout
+appender.console.layout.pattern = [%d{ISO8601}][%-5p][%-25c{1.}] %marker%m%n
+
+rootLogger.level = info
+rootLogger.appenderRef.console.ref = console
 ----
+
+With CORS enabled in ElasticSearch, browser like Google Chrome DOESN'T need to have extension like _Allow-Control-Allow-Origin: *_ installed.
 
 - Start ElasticSearch
 [source.console]
@@ -54,7 +87,7 @@ terrence@muffler ~/elasticsearch
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
-13:07:32 192 𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/plugins":/usr/share/elasticsearch/plugins -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
+13:07:32 192 𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/plugins":/usr/share/elasticsearch/plugins -v "$PWD/config":/usr/share/elasticsearch/config -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
 ----
 
 - Start Kibana
@@ -64,7 +97,7 @@ terrence@muffler ~/kibana
 13:07:32 193 𝜆 docker run -d -v "$PWD/installedPlugins":/opt/kibana/installedPlugins --link elasticsearch:elasticsearch -p 5601:5601 --name kibana kibana
 ----
 
-- Start ElasticSearch plugins
+- Start ElasticSearch plugins (docker images)
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
@@ -89,11 +122,7 @@ terrence@muffler ~
   * elasticsearch-head, http://localhost:9100
   * dejaVu, with app name / index (e.g. addresses) and connection URL http://localhost:9200 (without "/"), http://localhost:1358/live
   * mirage, with app name / index (e.g. addresses) and connection URL http://localhost:9200 (without "/"), http://localhost:3030
-
-- ElasticSearch deprecated plugins (ElasticSearch version 2.3.3.x)
-  * head, [blue yellow-background line-through]#http://localhost:9200/_plugin/head/#
-  * dejaVu, [blue yellow-background line-through]#http://localhost:9200/_plugin/dejaVu/#
-  * kopf, [blue yellow-background line-through]#http://localhost:9200/_plugin/kopf/#
+  * kopf **(Deprecated)**, [blue yellow-background line-through]#http://localhost:9200/_plugin/kopf/#
 
 - Visit Kibana and its plugins
   * Kibana, http://0.0.0.0:5601/app/kibana
