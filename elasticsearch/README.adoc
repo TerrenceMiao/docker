@@ -128,6 +128,70 @@ terrence@muffler ~
   * Kibana, http://0.0.0.0:5601/app/kibana
   * Sense, http://0.0.0.0:5601/app/sense - To avoid CORS in Sense plugin, ElasticSearch has to use hostname (muffler) of IP address (10.0.0.110), not localhost, e.g., http://muffler:9200/postaladdress/_search
 
+Backup and Restore
+------------------
+
+Make sure ElasticSearch is bind to a network interface (not localhost, not 127.0.0.1). For example, **network.host: 10.101.32.53** in config/elasticsearch.yml file.
+
+- Backup ElasticSearch Index's mapping and data to JSON files
+
+[source.console]
+----
+𝜆 docker run --rm -ti -v /Users/terrence/elasticsearch/backup:/tmp taskrabbit/elasticsearch-dump --input=http://10.101.32.53:9200/location --output=/tmp/location-mapping.json --type=mapping
+Mon, 04 Dec 2017 06:59:50 GMT | starting dump
+Mon, 04 Dec 2017 06:59:50 GMT | got 1 objects from source elasticsearch (offset: 0)
+Mon, 04 Dec 2017 06:59:50 GMT | sent 1 objects to destination file, wrote 1
+Mon, 04 Dec 2017 06:59:50 GMT | got 0 objects from source elasticsearch (offset: 1)
+Mon, 04 Dec 2017 06:59:50 GMT | Total Writes: 1
+Mon, 04 Dec 2017 06:59:50 GMT | dump complete
+
+𝜆 docker run --rm -ti -v /Users/terrence/elasticsearch/backup:/tmp taskrabbit/elasticsearch-dump --input=http://10.101.32.53:9200/location --output=/tmp/location.json --type=data --limit=10000
+Mon, 04 Dec 2017 07:07:12 GMT | starting dump
+Mon, 04 Dec 2017 07:07:12 GMT | got 10000 objects from source elasticsearch (offset: 0)
+Mon, 04 Dec 2017 07:07:13 GMT | sent 10000 objects to destination file, wrote 10000
+Mon, 04 Dec 2017 07:07:13 GMT | got 10000 objects from source elasticsearch (offset: 10000)
+Mon, 04 Dec 2017 07:07:13 GMT | sent 10000 objects to destination file, wrote 10000
+Mon, 04 Dec 2017 07:07:13 GMT | got 1348 objects from source elasticsearch (offset: 20000)
+Mon, 04 Dec 2017 07:07:13 GMT | sent 1348 objects to destination file, wrote 1348
+Mon, 04 Dec 2017 07:07:13 GMT | got 0 objects from source elasticsearch (offset: 21348)
+Mon, 04 Dec 2017 07:07:13 GMT | Total Writes: 21348
+Mon, 04 Dec 2017 07:07:13 GMT | dump complete
+
+...
+
+𝜆 docker run --rm -ti -v /Users/terrence/elasticsearch/backup:/tmp taskrabbit/elasticsearch-dump --input=http://10.101.32.53:9200/postaladdress --output=/tmp/postaladdress-mapping.json --type=mapping
+
+𝜆 docker run --rm -ti -v /Users/terrence/elasticsearch/backup:/tmp taskrabbit/elasticsearch-dump --input=http://10.101.32.53:9200/postaladdress --output=/tmp/postaladdress.json --type=data --limit=100000
+----
+
+- Restore Index's mapping and data JSON data to ElasticSearch
+
+[source.console]
+----
+𝜆 docker run --rm -ti -v /Users/terrence/elasticsearch/backup:/tmp taskrabbit/elasticsearch-dump --input=/tmp/location-mapping.json --output=http://10.101.32.53:9200/location --type=mapping
+Mon, 04 Dec 2017 07:46:13 GMT | starting dump
+Mon, 04 Dec 2017 07:46:13 GMT | got 1 objects from source file (offset: 0)
+Mon, 04 Dec 2017 07:46:13 GMT | sent 1 objects to destination elasticsearch, wrote 2
+Mon, 04 Dec 2017 07:46:13 GMT | got 0 objects from source file (offset: 1)
+Mon, 04 Dec 2017 07:46:13 GMT | Total Writes: 2
+Mon, 04 Dec 2017 07:46:13 GMT | dump complete
+
+𝜆 docker run --rm -ti -v /Users/terrence/elasticsearch/backup:/tmp taskrabbit/elasticsearch-dump --input=/tmp/location.json --output=http://10.101.32.53:9200/location --type=data --limit=10000
+Mon, 04 Dec 2017 07:50:24 GMT | starting dump
+Mon, 04 Dec 2017 07:50:25 GMT | got 10000 objects from source file (offset: 0)
+Mon, 04 Dec 2017 07:50:27 GMT | sent 10000 objects to destination elasticsearch, wrote 10000
+Mon, 04 Dec 2017 07:50:27 GMT | got 10057 objects from source file (offset: 10000)
+Mon, 04 Dec 2017 07:50:28 GMT | sent 10057 objects to destination elasticsearch, wrote 10057
+Mon, 04 Dec 2017 07:50:28 GMT | got 1291 objects from source file (offset: 20057)
+Mon, 04 Dec 2017 07:50:28 GMT | sent 1291 objects to destination elasticsearch, wrote 1291
+Mon, 04 Dec 2017 07:50:28 GMT | got 0 objects from source file (offset: 21348)
+Mon, 04 Dec 2017 07:50:28 GMT | Total Writes: 21348
+Mon, 04 Dec 2017 07:50:28 GMT | dump complete
+
+𝜆 docker run --rm -ti -v /Users/terrence/elasticsearch/backup:/tmp taskrabbit/elasticsearch-dump --input=/tmp/postaladdress-mapping.json --output=http://10.101.32.53:9200/postaladdress --type=mapping
+
+𝜆 docker run --rm -ti -v /Users/terrence/elasticsearch/backup:/tmp taskrabbit/elasticsearch-dump --input=/tmp/postaladdress.json --output=http://10.101.32.53:9200/postaladdress --type=data --limit=100000
+----
 
 References
 ----------
