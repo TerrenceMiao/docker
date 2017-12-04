@@ -188,6 +188,8 @@ Mon, 04 Dec 2017 07:50:28 GMT | got 0 objects from source file (offset: 21348)
 Mon, 04 Dec 2017 07:50:28 GMT | Total Writes: 21348
 Mon, 04 Dec 2017 07:50:28 GMT | dump complete
 
+...
+
 𝜆 docker run --rm -ti -v /Users/terrence/elasticsearch/backup:/tmp taskrabbit/elasticsearch-dump --input=/tmp/postaladdress-mapping.json --output=http://10.101.32.53:9200/postaladdress --type=mapping
 
 𝜆 docker run --rm -ti -v /Users/terrence/elasticsearch/backup:/tmp taskrabbit/elasticsearch-dump --input=/tmp/postaladdress.json --output=http://10.101.32.53:9200/postaladdress --type=data --limit=100000
