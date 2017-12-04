@@ -83,7 +83,7 @@ terrence@muffler ~/elasticsearch
 13:07:32 192 𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/plugins":/usr/share/elasticsearch/plugins -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
 ----
 
-- Start ElasticSearch (CORS enabled)
+- Start ElasticSearch with own configuration files
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
