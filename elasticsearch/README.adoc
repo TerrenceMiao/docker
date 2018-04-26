@@ -28,7 +28,7 @@ sense
 
 - CORS (Cross Origin Resource Sharing)
 
-To make sure you enable CORS settings for your ElasticSearch instance, for example ElasticSearch and UI both run on localhost, add the following lines into the ES configuration file - **config/elasticsearch.yml**
+To make sure you **enable CORS** settings for your ElasticSearch instance, for example ElasticSearch and UI both run on localhost, add the following lines into the ES configuration file - **config/elasticsearch.yml**
 
 [source.console]
 ----
@@ -74,34 +74,50 @@ rootLogger.level = info
 rootLogger.appenderRef.console.ref = console
 ----
 
-With CORS enabled in ElasticSearch, browser like Google Chrome DOESN'T need to have extension like _Allow-Control-Allow-Origin: *_ installed.
+With CORS enabled in ElasticSearch (5.x.x), browser like Google Chrome DOESN'T need to have extension installed like _Allow-Control-Allow-Origin: *_
 
-- Start ElasticSearch
+ElaticSearch from version 6.x.x doesn't support Content-Type header [application/x-www-form-urlencoded]. You have to add Content-Type application/json to send a successful request to ElasticSearch.
+
+- Start ElasticSearch (5.x.x)
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
 13:07:32 192 𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/plugins":/usr/share/elasticsearch/plugins -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
 ----
 
-- Start ElasticSearch with own configuration files
+- Start ElasticSearch (5.x.x) with own configuration files
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
 13:07:32 192 𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/plugins":/usr/share/elasticsearch/plugins -v "$PWD/config":/usr/share/elasticsearch/config -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
 ----
 
-- Start Kibana
+- Start ElasticSearch (6.x.x)
+[source.console]
+----
+terrence@igloo /Users/terrence
+10:48:37 𝜆 docker run -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticsearch docker.elastic.co/elasticsearch/elasticsearch:6.2.4
+----
+
+- Start Kibana (5.x.x)
 [source.console]
 ----
 terrence@muffler ~/kibana
 13:07:32 193 𝜆 docker run -d -v "$PWD/installedPlugins":/opt/kibana/installedPlugins --link elasticsearch:elasticsearch -p 5601:5601 --name kibana kibana
 ----
 
+- Start Kibana (6.x.x)
+[source.console]
+----
+terrence@igloo /Users/terrence
+10:51:00 𝜆 docker run -d --link elasticsearch:elasticsearch -p 5601:5601 --name kibana docker.elastic.co/kibana/kibana:6.2.4
+----
+
 - Start ElasticSearch plugins (docker images)
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
-13:07:32 194 𝜆 docker run -d -p 9100:9100 --name elasticsearch-head mobz/elasticsearch-head:5
+13:07:32 194 𝜆 docker run -d -p 9100:9100 --name elasticsearch-head mobz/elasticsearch-head:5-alpine
 
 13:07:32 195 𝜆 docker run -d -p 1358:1358 --name dejavu appbaseio/dejavu
 
