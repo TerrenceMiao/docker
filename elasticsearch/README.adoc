@@ -104,15 +104,15 @@ terrence@muffler ~/kibana
 - Start ElasticSearch (6.x.x) with data shared from old version ElasticSearch
 [source.console]
 ----
-terrence@igloo /Users/terrence
-10:48:37 𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticsearch6 docker.elastic.co/elasticsearch/elasticsearch:6.2.4
+terrence@muffler ~/elasticsearch
+13:07:32 195 𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticsearch6 docker.elastic.co/elasticsearch/elasticsearch:6.2.4
 ----
 
 - Start Kibana (6.x.x)
 [source.console]
 ----
-terrence@igloo /Users/terrence
-10:51:00 𝜆 docker run -d --link elasticsearch6:elasticsearch -p 5601:5601 --name kibana6 docker.elastic.co/kibana/kibana:6.2.4
+terrence@muffler /Users/terrence
+10:51:00 196 𝜆 docker run -d --link elasticsearch6:elasticsearch -p 5601:5601 --name kibana6 docker.elastic.co/kibana/kibana:6.2.4
 ----
 
 - Start ElasticSearch plugins (docker images)
