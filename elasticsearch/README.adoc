@@ -92,13 +92,6 @@ terrence@muffler ~/elasticsearch
 13:07:32 192 𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/plugins":/usr/share/elasticsearch/plugins -v "$PWD/config":/usr/share/elasticsearch/config -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
 ----
 
-- Start ElasticSearch (6.x.x)
-[source.console]
-----
-terrence@igloo /Users/terrence
-10:48:37 𝜆 docker run -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticsearch docker.elastic.co/elasticsearch/elasticsearch:6.2.4
-----
-
 - Start Kibana (5.x.x)
 [source.console]
 ----
@@ -106,11 +99,18 @@ terrence@muffler ~/kibana
 13:07:32 193 𝜆 docker run -d -v "$PWD/installedPlugins":/opt/kibana/installedPlugins --link elasticsearch:elasticsearch -p 5601:5601 --name kibana kibana
 ----
 
+- Start ElasticSearch (6.x.x)
+[source.console]
+----
+terrence@igloo /Users/terrence
+10:48:37 𝜆 docker run -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticsearch6 docker.elastic.co/elasticsearch/elasticsearch:6.2.4
+----
+
 - Start Kibana (6.x.x)
 [source.console]
 ----
 terrence@igloo /Users/terrence
-10:51:00 𝜆 docker run -d --link elasticsearch:elasticsearch -p 5601:5601 --name kibana docker.elastic.co/kibana/kibana:6.2.4
+10:51:00 𝜆 docker run -d --link elasticsearch6:elasticsearch -p 5601:5601 --name kibana6 docker.elastic.co/kibana/kibana:6.2.4
 ----
 
 - Start ElasticSearch plugins (docker images)
