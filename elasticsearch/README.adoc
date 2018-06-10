@@ -78,6 +78,8 @@ With CORS enabled in ElasticSearch (5.x.x), browser like Google Chrome DOESN'T n
 
 ElaticSearch from version 6.x.x doesn't support Content-Type header [application/x-www-form-urlencoded]. You have to add Content-Type application/json to send a successful request to ElasticSearch.
 
+NOTE: Due to ElasticSearch Head doesn't support ElasticSearch till version 5.x, you can check out "ElasticSearch Head" Chrome plugin at: https://chrome.google.com/webstore/detail/elasticsearch-head/ffmkiejjmecolpfloofpjologoblkegm which can run along with latest ElasticSearch and without needing of **CORS** setting enabled.
+
 - Start ElasticSearch (5.x.x)
 [source.console]
 ----
@@ -99,11 +101,11 @@ terrence@muffler ~/kibana
 13:07:32 193 𝜆 docker run -d -v "$PWD/installedPlugins":/opt/kibana/installedPlugins --link elasticsearch:elasticsearch -p 5601:5601 --name kibana kibana
 ----
 
-- Start ElasticSearch (6.x.x)
+- Start ElasticSearch (6.x.x) with data shared from old version ElasticSearch
 [source.console]
 ----
 terrence@igloo /Users/terrence
-10:48:37 𝜆 docker run -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticsearch6 docker.elastic.co/elasticsearch/elasticsearch:6.2.4
+10:48:37 𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticsearch6 docker.elastic.co/elasticsearch/elasticsearch:6.2.4
 ----
 
 - Start Kibana (6.x.x)
