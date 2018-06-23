@@ -101,11 +101,28 @@ terrence@muffler ~/kibana
 13:07:32 193 𝜆 docker run -d -v "$PWD/installedPlugins":/opt/kibana/installedPlugins --link elasticsearch:elasticsearch -p 5601:5601 --name kibana kibana
 ----
 
-- Start ElasticSearch (6.x.x) with data shared from old version ElasticSearch
+- Start ElasticSearch (6.x.x) with data shared from old version ElasticSearch, and its own ElasticSearch configuration (CORS enabled)
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
-13:07:32 195 𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticsearch6 docker.elastic.co/elasticsearch/elasticsearch:6.2.4
+13:07:32 195 𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/config/elasticsearch.yml":/usr/share/elasticsearch/config/elasticsearch.yml -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticsearch6 docker.elastic.co/elasticsearch/elasticsearch:6.2.4
+
+terrence@igloo ~/elasticsearch
+04:16:44 𝜆 cat config/elasticsearch.yml
+cluster.name: "docker-cluster"
+http.host: 0.0.0.0
+
+# minimum_master_nodes need to be explicitly set when bound on a public IP
+# set to 1 to allow single node clusters
+# Details: https://github.com/elastic/elasticsearch/pull/17288
+discovery.zen.minimum_master_nodes: 1
+xpack.license.self_generated.type: basic
+
+# CORS enabled
+http.cors.enabled: true
+http.cors.allow-origin: "/.*/"
+http.cors.allow-credentials: true
+http.cors.allow-headers: "Authorization, X-Requested-With, Content-Type, Content-Length"
 ----
 
 - Start Kibana (6.x.x)
