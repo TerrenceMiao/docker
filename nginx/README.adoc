@@ -135,6 +135,16 @@ Verify the web server is working, visit:
     http://localhost:8080/
 
 
+Change nginx.conf file and restart Nginx docker:
+
+[source.console]
+----
+terrence@igloo ~
+00:53:31 𝜆 docker restart nginx
+nginx
+----
+
+
 References
 ----------
 
