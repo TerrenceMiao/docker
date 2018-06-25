@@ -1,19 +1,11 @@
 What about Docker?
 ==================
 
-This project including all the Docker related solutions
+This project including all the Docker related solutions and good parts of Docker.
 
+Build Docker image
+------------------
 
-References
-----------
-- How to set up local Docker Registry, https://docs.docker.com/registry/
-- Store images on Docker Hub, https://docs.docker.com/engine/userguide/containers/dockerrepos/
-- Automated Builds from GitHub, https://docs.docker.com/docker-hub/github/
-- Running Docker on AWS from the ground up, http://www.ybrikman.com/writing/2015/11/11/running-docker-aws-ground-up/
-
-
-How to build
-------------
 - Under project "/images" directory
 [source.console]
 ----
@@ -30,6 +22,9 @@ terrence@muffler ~/Projects/docker/images
 13:07:32 189 𝜆 docker images
 ----
 
+Basic Docker commands
+---------------------
+
 - Remove ALL Docker's containers
 [source.console]
 ----
@@ -41,6 +36,145 @@ $ docker rm $(docker ps -a -q)
 ----
 $ docker rmi $(docker images -q)
 ----
+
+Advanced Docker commands
+------------------------
+
+- Create Docker configuration
+
+It's about using a Docker config instead of creating an image with an embedded configuration.
+
+[source.console]
+----
+terrence@igloo ~
+22:41:43 𝜆 docker config create proxy /Users/terrence/Projects/docker/nginx/nginx.conf
+Error response from daemon: This node is not a swarm manager. Use "docker swarm init" or "docker swarm join" to connect this node to swarm and try again.
+
+terrence@igloo ~
+22:45:08 𝜆 docker swarm init
+Swarm initialized: current node (w0u981p4w6niv1jlhe7jr17h8) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-20b6sut51kutqji6hkmip5ny8fzerr9xvri0o6d5xpjcz48ejf-91jed5bny1ewzmk0xmrk9jewl 192.168.65.3:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+terrence@igloo ~
+22:47:25 𝜆 docker config create proxy /Users/terrence/Projects/docker/nginx/nginx.conf
+akk1h6bhipwki6xip54xf0pop
+
+terrence@igloo ~
+22:55:21 𝜆 docker config ls
+ID                          NAME                CREATED             UPDATED
+akk1h6bhipwki6xip54xf0pop   proxy               16 seconds ago      16 seconds ago
+
+terrence@igloo ~
+22:48:56 𝜆 docker config inspect proxy
+[
+    {
+        "ID": "akk1h6bhipwki6xip54xf0pop",
+        "Version": {
+            "Index": 11
+        },
+        "CreatedAt": "2018-06-23T12:48:34.4320822Z",
+        "UpdatedAt": "2018-06-23T12:48:34.4320822Z",
+        "Spec": {
+            "Name": "proxy",
+            "Labels": {},
+            "Data": "CnVzZXIgIG5naW54Owp3b3Jr ... ... AgICB9Cn0K"
+        }
+    }
+]
+
+terrence@igloo ~
+22:58:17 𝜆 docker config inspect -f '{{json .Spec.Data }}' proxy | cut -d'"' -f2 | base64 -D
+
+user  nginx;
+worker_processes  1;
+
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+
+    ...
+
+    upstream lookup {
+        server 10.0.0.100:3000;
+    }
+
+    server {
+        listen 80;
+
+        location = / {
+            proxy_set_header Host $host;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+            rewrite /(.*) /$1 break;
+
+            proxy_pass http://lookup;
+        }
+    }
+}
+----
+
+- Create Docker network
+[source.console]
+----
+terrence@igloo ~
+23:57:47 𝜆 docker network create --driver overlay frontend
+20omepayc1a3si4smbuztde7b
+
+terrence@igloo ~
+23:57:47 𝜆 docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+766daaf81995        bridge              bridge              local
+197dddde9392        docker_gwbridge     bridge              local
+58d334ea2dce        docker_spijnet      bridge              local
+20omepayc1a3        frontend            overlay             swarm
+8396b574599b        host                host                local
+hp3s91uqn6qi        ingress             overlay             swarm
+1978faecc702        none                null                local
+----
+
+- Create Docker service
+[source.console]
+----
+terrence@igloo ~
+10:12:26 𝜆 docker service create --name proxy --network frontend --config src=proxy,target=/etc/nginx/nginx.conf -p 8080:80 -d nginx
+ojbn1jxphpf0rlth3uh4vesml
+
+terrence@igloo ~
+10:13:51 𝜆 docker service ls
+ID                  NAME                MODE                REPLICAS            IMAGE               PORTS
+ojbn1jxphpf0        proxy               replicated          1/1                 nginx:latest        *:8080->80/tc
+
+terrence@igloo ~
+10:22:26 𝜆 docker ps -a
+CONTAINER ID        IMAGE                                                 COMMAND                  CREATED             STATUS                     PORTS                                            NAMES
+4b2b0c9f093f        nginx:latest                                          "nginx -g 'daemon of…"   16 seconds ago      Up 16 seconds              80/tcp                                           proxy.1.pnntko0oc5qvn135mvty9l35e
+----
+
+Visit web application via reversed proxy at: http://10.101.36.82:8080
+
+- Update Docker configuration (TBC)
+
+- Update Docker service (TBC)
+
+
+References
+----------
+- How to set up local Docker Registry, https://docs.docker.com/registry/
+- Store images on Docker Hub, https://docs.docker.com/engine/userguide/containers/dockerrepos/
+- Automated Builds from GitHub, https://docs.docker.com/docker-hub/github/
+- Running Docker on AWS from the ground up, http://www.ybrikman.com/writing/2015/11/11/running-docker-aws-ground-up/
+- About Using Docker Config, https://medium.com/lucjuggery/about-using-docker-config-e967d4a74b83
 
 
 Copying
