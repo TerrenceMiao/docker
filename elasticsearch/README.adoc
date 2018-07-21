@@ -32,11 +32,6 @@ To make sure you **enable CORS** settings for your ElasticSearch instance, for e
 
 [source.console]
 ----
-http.cors.enabled: true
-http.cors.allow-origin: "/.*/"
-http.cors.allow-credentials: true
-http.cors.allow-headers: "Authorization, X-Requested-With, Content-Type, Content-Length"
-
 terrence@muffler ~/elasticsearch
 13:07:32 190 𝜆 ls -al config/
 total 16
