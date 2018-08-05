@@ -7,22 +7,22 @@ This project including instructions to run ElasticSearch / Kibana Docker images 
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
-13:07:32 189 𝜆 mkdir data config
+𝜆 mkdir data config
 
 iterrence@muffler ~/kibana
-13:07:32 189 𝜆 mkdir installedPlugins
+𝜆 mkdir installedPlugins
 ----
 
 - Copy ALL exiting data, installed plugins from to shared, mounted directory
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
-13:07:32 190 𝜆 cp -a /usr/local/elasticsearch/data/* data
+𝜆 cp -a /usr/local/elasticsearch/data/* data
 
 terrence@muffler ~/kibana
-13:07:32 190 𝜆 cp -a /usr/local/kibana/installedPlugins/* installedPlugins
+𝜆 cp -a /usr/local/kibana/installedPlugins/* installedPlugins
 
-13:07:32 191 𝜆 ls -1 installedPlugins/
+𝜆 ls -1 installedPlugins/
 sense
 ----
 
@@ -33,7 +33,7 @@ To make sure you **enable CORS** settings for your ElasticSearch instance, for e
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
-13:07:32 190 𝜆 ls -al config/
+𝜆 ls -al config/
 total 16
 drwxr-xr-x  5 terrence  staff  170  4 Dec 16:30 .
 drwxr-xr-x  5 terrence  staff  170  4 Dec 16:14 ..
@@ -42,7 +42,7 @@ drwxr-xr-x  5 terrence  staff  170  4 Dec 16:14 ..
 drwxr-xr-x  2 terrence  staff   68  4 Dec 16:28 scripts
 
 terrence@muffler ~/elasticsearch
-13:07:32 190 𝜆 cat config/elasticsearch.yml
+𝜆 cat config/elasticsearch.yml
 
 http.host: 0.0.0.0
 
@@ -57,7 +57,7 @@ http.cors.allow-credentials: true
 http.cors.allow-headers: "Authorization, X-Requested-With, Content-Type, Content-Length"
 
 terrence@muffler ~/elasticsearch
-13:07:32 190 𝜆 cat config/log4j2.properties
+𝜆 cat config/log4j2.properties
 status = error
 
 appender.console.type = Console
@@ -79,31 +79,31 @@ NOTE: Due to ElasticSearch Head doesn't support ElasticSearch till version 5.x, 
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
-13:07:32 192 𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/plugins":/usr/share/elasticsearch/plugins -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
+𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/plugins":/usr/share/elasticsearch/plugins -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
 ----
 
 - Start ElasticSearch (5.x.x) with own configuration files
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
-13:07:32 192 𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/plugins":/usr/share/elasticsearch/plugins -v "$PWD/config":/usr/share/elasticsearch/config -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
+𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/plugins":/usr/share/elasticsearch/plugins -v "$PWD/config":/usr/share/elasticsearch/config -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
 ----
 
 - Start Kibana (5.x.x)
 [source.console]
 ----
 terrence@muffler ~/kibana
-13:07:32 193 𝜆 docker run -d -v "$PWD/installedPlugins":/opt/kibana/installedPlugins --link elasticsearch:elasticsearch -p 5601:5601 --name kibana kibana
+𝜆 docker run -d -v "$PWD/installedPlugins":/opt/kibana/installedPlugins --link elasticsearch:elasticsearch -p 5601:5601 --name kibana kibana
 ----
 
 - Start ElasticSearch (6.x.x) with data shared from old version ElasticSearch, and its own ElasticSearch configuration (CORS enabled)
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
-13:07:32 195 𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/config/elasticsearch.yml":/usr/share/elasticsearch/config/elasticsearch.yml -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticsearch6 docker.elastic.co/elasticsearch/elasticsearch:6.2.4
+𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/config/elasticsearch.yml":/usr/share/elasticsearch/config/elasticsearch.yml -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticsearch6 docker.elastic.co/elasticsearch/elasticsearch:6.3.2
 
 terrence@igloo ~/elasticsearch
-04:16:44 𝜆 cat config/elasticsearch.yml
+𝜆 cat config/elasticsearch.yml
 cluster.name: "docker-cluster"
 http.host: 0.0.0.0
 
@@ -126,28 +126,28 @@ http.cors.allow-credentials: true
 [source.console]
 ----
 terrence@muffler /Users/terrence
-10:51:00 196 𝜆 docker run -d --link elasticsearch6:elasticsearch -p 5601:5601 --name kibana6 docker.elastic.co/kibana/kibana:6.2.4
+𝜆 docker run -d --link elasticsearch6:elasticsearch -p 5601:5601 --name kibana6 docker.elastic.co/kibana/kibana:6.3.2
 ----
 
 - Start ElasticSearch plugins (docker images)
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
-13:07:32 194 𝜆 docker run -d -p 9100:9100 --name elasticsearch-head mobz/elasticsearch-head:5-alpine
+𝜆 docker run -d -p 9100:9100 --name elasticsearch-head mobz/elasticsearch-head:5-alpine
 
-13:07:32 195 𝜆 docker run -d -p 1358:1358 --name dejavu appbaseio/dejavu
+𝜆 docker run -d -p 1358:1358 --name dejavu appbaseio/dejavu
 
-13:07:32 196 𝜆 docker run -d -p 3030:3030 --name mirage appbaseio/mirage
+𝜆 docker run -d -p 3030:3030 --name mirage appbaseio/mirage
 ----
 
 - Log on ElasticSearch and Kibana container instances with SHELL
 [source.console]
 ----
 terrence@muffler ~
-13:07:32 192 𝜆 docker exec -it elasticsearch /bin/bash
+𝜆 docker exec -it elasticsearch /bin/bash
 
 terrence@muffler ~
-13:07:32 193 𝜆 docker exec -it kibana /bin/bash
+𝜆 docker exec -it kibana /bin/bash
 ----
 
 - Visit ElasticSearch plugins
@@ -226,6 +226,7 @@ Mon, 04 Dec 2017 07:50:28 GMT | dump complete
 
 𝜆 docker run --rm -ti -v /Users/terrence/elasticsearch/backup:/tmp taskrabbit/elasticsearch-dump --input=/tmp/postaladdress.json --output=http://10.101.32.53:9200/postaladdress --type=data --limit=100000
 ----
+
 
 References
 ----------
