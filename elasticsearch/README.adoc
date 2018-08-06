@@ -79,14 +79,14 @@ NOTE: Due to ElasticSearch Head doesn't support ElasticSearch till version 5.x, 
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
-𝜆 docker run -d -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch:5.6.10-alpine
+𝜆 docker run -d -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
 ----
 
 - Start ElasticSearch (5.x.x) with own data, plugins and configuration
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
-𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/plugins":/usr/share/elasticsearch/plugins -v "$PWD/config":/usr/share/elasticsearch/config -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch:5.6.10
+𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/plugins":/usr/share/elasticsearch/plugins -v "$PWD/config":/usr/share/elasticsearch/config -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
 ----
 
 - Start Kibana (5.x.x)
