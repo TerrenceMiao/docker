@@ -75,18 +75,18 @@ ElaticSearch from version 6.x.x doesn't support Content-Type header [application
 
 NOTE: Due to ElasticSearch Head doesn't support ElasticSearch till version 5.x, you can check out "ElasticSearch Head" Chrome plugin at: https://chrome.google.com/webstore/detail/elasticsearch-head/ffmkiejjmecolpfloofpjologoblkegm which can run along with latest ElasticSearch and without needing of **CORS** setting enabled.
 
-- Start ElasticSearch (5.x.x)
+- Start ElasticSearch (5.x.x), minimum dependencies
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
-𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/plugins":/usr/share/elasticsearch/plugins -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
+𝜆 docker run -d -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch:5.6.10-alpine
 ----
 
-- Start ElasticSearch (5.x.x) with own configuration files
+- Start ElasticSearch (5.x.x) with own data, plugins and configuration
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
-𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/plugins":/usr/share/elasticsearch/plugins -v "$PWD/config":/usr/share/elasticsearch/config -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
+𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/plugins":/usr/share/elasticsearch/plugins -v "$PWD/config":/usr/share/elasticsearch/config -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch:5.6.10
 ----
 
 - Start Kibana (5.x.x)
