@@ -1,7 +1,7 @@
 Working with Nginx docker image
 ===============================
 
-Download Nginx docker image from Docker hub _https://hub.docker.com/_/nginx/_
+Download Nginx docker image from Docker hub https://hub.docker.com/_/nginx/
 
 [source.console]
 ----
