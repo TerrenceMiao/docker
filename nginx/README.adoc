@@ -153,6 +153,8 @@ terrence@igloo ~
 
 Verify the web server is working, visit _http://localhost:8080/_
 
+Browser ElasticSearch contents at _http://lcoalhost:9200/_
+
 Change nginx.conf file and restart Nginx docker:
 
 [source.console]
