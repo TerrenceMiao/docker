@@ -1,8 +1,6 @@
 Working with Nginx docker image
 ===============================
 
-- Getting Nginx docker image
-
 Download Nginx docker image from Docker hub https://hub.docker.com/_/nginx/
 
 [source.console]
@@ -44,10 +42,10 @@ terrence@igloo ~
 
 Verify the web server is working, visit:
 
-_http://localhost:8080/blog/_
-_http://127.0.0.1:8080/blog/_
-_http://0.0.0.0:8080/blog/_
-_http://10.0.0.100:8080/blog/_
+    http://localhost:8080/blog/
+    http://127.0.0.1:8080/blog/
+    http://0.0.0.0:8080/blog/
+    http://10.0.0.100:8080/blog/
 
 
 Nginx as HTTP reverse proxy
