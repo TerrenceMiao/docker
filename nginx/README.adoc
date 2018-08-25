@@ -100,11 +100,11 @@ http {
 
     ## Postal Address Lookup 
     upstream address-lookup {
-        server 192.168.99.100:30080;
+        server 192.168.99.100:30300;
     }
 
     server {
-        listen 80;
+        listen 8080;
 
         server_name localhost;
 
