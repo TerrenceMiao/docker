@@ -75,10 +75,9 @@ ElaticSearch from version 6.x.x doesn't support Content-Type header [application
 
 NOTE: Due to ElasticSearch Head doesn't support ElasticSearch till version 5.x, you can check out "ElasticSearch Head" Chrome plugin at: https://chrome.google.com/webstore/detail/elasticsearch-head/ffmkiejjmecolpfloofpjologoblkegm which can run along with latest ElasticSearch and without needing of **CORS** setting enabled.
 
-- Start ElasticSearch (5.x.x), minimum dependencies
+- Start ElasticSearch (5.x.x), with minimum dependencies
 [source.console]
 ----
-terrence@muffler ~/elasticsearch
 𝜆 docker run -d -p 9200:9200 -p 9300:9300 --name elasticsearch elasticsearch
 ----
 
@@ -100,7 +99,7 @@ terrence@muffler ~/kibana
 [source.console]
 ----
 terrence@muffler ~/elasticsearch
-𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/config/elasticsearch.yml":/usr/share/elasticsearch/config/elasticsearch.yml -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticsearch6 docker.elastic.co/elasticsearch/elasticsearch:6.3.2
+𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/config/elasticsearch.yml":/usr/share/elasticsearch/config/elasticsearch.yml -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticsearch6 docker.elastic.co/elasticsearch/elasticsearch:6.4.0
 
 terrence@igloo ~/elasticsearch
 𝜆 cat config/elasticsearch.yml
@@ -122,17 +121,21 @@ http.cors.allow-credentials: true
 # http.cors.allow-headers: "Authorization, X-Requested-With, Content-Type, Content-Length"
 ----
 
+- Start ElasticSearch (6.x.x), with minimum dependencies
+[source.console]
+----
+𝜆 docker run -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticsearch6 docker.elastic.co/elasticsearch/elasticsearch:6.4.0
+----
+
 - Start Kibana (6.x.x)
 [source.console]
 ----
-terrence@muffler /Users/terrence
-𝜆 docker run -d --link elasticsearch6:elasticsearch -p 5601:5601 --name kibana6 docker.elastic.co/kibana/kibana:6.3.2
+𝜆 docker run -d --link elasticsearch6:elasticsearch -p 5601:5601 --name kibana6 docker.elastic.co/kibana/kibana:6.4.0
 ----
 
 - Start ElasticSearch plugins (docker images)
 [source.console]
 ----
-terrence@muffler ~/elasticsearch
 𝜆 docker run -d -p 9100:9100 --name elasticsearch-head mobz/elasticsearch-head:5-alpine
 
 𝜆 docker run -d -p 1358:1358 --name dejavu appbaseio/dejavu
@@ -143,10 +146,8 @@ terrence@muffler ~/elasticsearch
 - Log on ElasticSearch and Kibana container instances with SHELL
 [source.console]
 ----
-terrence@muffler ~
 𝜆 docker exec -it elasticsearch /bin/bash
 
-terrence@muffler ~
 𝜆 docker exec -it kibana /bin/bash
 ----
 
