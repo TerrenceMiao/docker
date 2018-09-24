@@ -6,7 +6,7 @@ MAINTAINER Terrence Miao <TerrenceMiao@users.noreply.github.com>
 
 ## Tomcat Version
 ENV TOMCAT_MAJOR 8
-ENV TOMCAT_VERSION 8.0.32
+ENV TOMCAT_VERSION 8.0.53
 
 ENV CATALINA_HOME /usr/local/tomcat
 ENV PATH $PATH:$CATALINA_HOME/bin
