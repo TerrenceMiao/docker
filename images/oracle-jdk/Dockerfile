@@ -1,6 +1,6 @@
 ## Alpine Linux with a glibc-2.21 and Oracle Java 8
 
-FROM alpine:3.3
+FROM alpine:3.8
 
 MAINTAINER Terrence Miao <TerrenceMiao@users.noreply.github.com>
 
@@ -19,10 +19,10 @@ RUN echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswit
 
 ## Java Version
 ENV JAVA_VERSION_MAJOR 8
-ENV JAVA_VERSION_MINOR 131
-ENV JAVA_VERSION_BUILD 11
+ENV JAVA_VERSION_MINOR 191
+ENV JAVA_VERSION_BUILD 12
 ENV JAVA_PACKAGE       jdk
-ENV JAVA_CHECKSUM      d54c1d3a095b4ff2b6607d096fa80163
+ENV JAVA_CHECKSUM      2787e4a523244c269598db4e85c51e0c
 
 ## Download and install Java
 RUN curl -jksSLH "Cookie: oraclelicense=accept-securebackup-cookie"\
