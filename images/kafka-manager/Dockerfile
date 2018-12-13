@@ -8,9 +8,10 @@ RUN apk add bash && \
     wget https://github.com/yahoo/kafka-manager/archive/${KM_VERSION}.tar.gz && \
     tar xzf ${KM_VERSION}.tar.gz && \
     cd kafka-manager-${KM_VERSION} && \
+    echo 'scalacOptions ++= Seq("-Xmax-classfile-name", "200")' >> build.sbt && \
     ./sbt clean dist && \
     unzip  -d / ./target/universal/kafka-manager-${KM_VERSION}.zip && \
-    rm -fr /tmp/${KM_VERSION} /tmp/kafka-manager-${KM_VERSION}
+    rm -fr /tmp/* /root/.sbt /root/.ivy2
 
 WORKDIR /kafka-manager-${KM_VERSION}
 
