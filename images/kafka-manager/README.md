@@ -25,7 +25,7 @@ How To
 𝜆 docker run -it --rm  -p 9000:9000 -e ZK_HOSTS="10.101.32.74:2181" jtech/kafka-manager
 ```
 
-Without luxury DNS resolver, "10.101.32.74" is the ip address of host that Zookeeper and Kafa run on.
+Without luxury DNS resolver, "**10.101.32.74**" is the ip address of host that Zookeeper and Kafa run on.
 
 Without define ZK_HOSTS, default value is "localhost:2181"
 
