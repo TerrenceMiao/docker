@@ -1,7 +1,10 @@
 FROM jtech/oracle-jdk
 
 ENV ZK_HOSTS=localhost:2181 \
-    KM_VERSION=1.3.3.18
+    KM_VERSION=1.3.3.18 \
+    KM_CONFIGFILE="conf/application.conf"
+
+ADD startup.sh /kafka-manager-${KM_VERSION}/startup.sh
 
 RUN apk add bash && \
     cd /tmp && \
@@ -11,9 +14,10 @@ RUN apk add bash && \
     echo 'scalacOptions ++= Seq("-Xmax-classfile-name", "200")' >> build.sbt && \
     ./sbt clean dist && \
     unzip  -d / ./target/universal/kafka-manager-${KM_VERSION}.zip && \
+    chmod +x /kafka-manager-${KM_VERSION}/startup.sh && \
     rm -fr /tmp/* /root/.sbt /root/.ivy2
 
 WORKDIR /kafka-manager-${KM_VERSION}
 
 EXPOSE 9000
-ENTRYPOINT ["./bin/kafka-manager","-Dconfig.file=conf/application.conf"]
+ENTRYPOINT ["./startup.sh"]
