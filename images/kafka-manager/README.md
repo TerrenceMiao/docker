@@ -92,6 +92,16 @@ Or with Docker Compose:
 𝜆 docker-compose up
 ```
 
+Go to http://localhost:9000 Kafka Manager UI.
+
+Add a Kafka cluster at first. Give **zookeeper:2181** as Cluster Zookeeper Hosts. Others use default values.
+
+![Kafka Cluster](https://terrencemiao.github.io/blog/img/Kafka%20Cluster.png "Kafka Cluster")
+
+Visit "test" topic in Kafka cluster.
+
+![Kafka Manager](https://terrencemiao.github.io/blog/img/Kafka%20Manager.png "Kafka Manager")
+
 References
 ----------
 - Kafka Manager Download, _https://github.com/yahoo/kafka-manager_
