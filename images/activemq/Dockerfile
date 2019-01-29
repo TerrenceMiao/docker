@@ -1,8 +1,6 @@
 ## Latest ActiveMQ distribution
 
-FROM jtech/oracle-jdk:latest 
-
-MAINTAINER Terrence Miao <TerrenceMiao@users.noreply.github.com>
+FROM openjdk:8-jre-alpine
 
 ENV ACTIVEMQ_VERSION 5.13.1
 ENV ACTIVEMQ apache-activemq-$ACTIVEMQ_VERSION
@@ -11,7 +9,7 @@ ENV ACTIVEMQ_TCP=61616 ACTIVEMQ_AMQP=5672 ACTIVEMQ_STOMP=61613 ACTIVEMQ_MQTT=188
 ENV ACTIVEMQ_HOME /usr/local/activemq
 
 RUN \
-    curl -O http://archive.apache.org/dist/activemq/${ACTIVEMQ_VERSION}/${ACTIVEMQ}-bin.tar.gz && \
+    wget --no-verbose http://archive.apache.org/dist/activemq/${ACTIVEMQ_VERSION}/${ACTIVEMQ}-bin.tar.gz && \
     tar xf ${ACTIVEMQ}-bin.tar.gz -C /usr/local/ && \
     rm ${ACTIVEMQ}-bin.tar.gz && \
     ln -s /usr/local/${ACTIVEMQ} ${ACTIVEMQ_HOME}
