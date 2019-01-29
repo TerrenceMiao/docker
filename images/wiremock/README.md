@@ -1,5 +1,5 @@
-Kafka Manager in Docker
-=======================
+WireMock in Docker
+==================
 [![Codefresh build status](https://g.codefresh.io/api/badges/pipeline/terrencemiao/TerrenceMiao%2Fdocker%2Fwiremock?type=cf-2)]( https://g.codefresh.io/public/accounts/terrencemiao/pipelines/TerrenceMiao/docker/wiremock) [![](https://images.microbadger.com/badges/image/jtech/wiremock.svg)](https://microbadger.com/images/jtech/wiremock "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/jtech/wiremock.svg)](https://microbadger.com/images/jtech/wiremock "Get your own version badge on microbadger.com") [![](https://img.shields.io/docker/pulls/jtech/wiremock.svg)](https://hub.docker.com/r/jtech/wiremock "Get your own docker pull badge on shields.io")
 
 A WireMock Docker image based on the smallest Linux - Alpine with latest Oracle JDK.
