@@ -1,4 +1,4 @@
-FROM jtech/oracle-jdk
+FROM openjdk:8-jdk-alpine
 
 ENV ZK_HOSTS=localhost:2181 \
     KM_VERSION=1.3.3.18 \

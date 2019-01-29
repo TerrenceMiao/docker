@@ -1,6 +1,6 @@
 Kafka Manager in Docker
 =======================
-[![](https://images.microbadger.com/badges/image/jtech/kafka-manager.svg)](https://microbadger.com/images/jtech/kafka-manager "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/jtech/kafka-manager.svg)](https://microbadger.com/images/jtech/kafka-manager "Get your own version badge on microbadger.com")
+[![Codefresh build status]( https://g.codefresh.io/api/badges/pipeline/terrencemiao/TerrenceMiao%2Fdocker%2Fkafka-manager?type=cf-2)]( https://g.codefresh.io/public/accounts/terrencemiao/pipelines/TerrenceMiao/docker/kafka-manager) [![](https://images.microbadger.com/badges/image/jtech/kafka-manager.svg)](https://microbadger.com/images/jtech/kafka-manager "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/jtech/kafka-manager.svg)](https://microbadger.com/images/jtech/kafka-manager "Get your own version badge on microbadger.com") [![](https://img.shields.io/docker/pulls/jtech/kafka-manager.svg)](https://hub.docker.com/r/jtech/kafka-manager "Get your own docker pull badge on shields.io")
 
 A Docker image based on the smallest Linux - Alpine with latest Oracle JDK, Kafka Manager.
 
