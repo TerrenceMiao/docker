@@ -1,7 +1,7 @@
 # Scala and sbt Dockerfile
 
 # Pull base image
-FROM jtech/oracle-jdk:latest
+FROM openjdk:8-jdk-alpine
 
 # Env variables
 ENV SCALA_VERSION 2.12.8
