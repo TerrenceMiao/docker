@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-alpine:latest
+FROM openjdk:8-jre-alpine
 
 ENV WM_PACKAGE wiremock
 ARG WM_VERSION=2.20.0
