@@ -10,7 +10,7 @@ Prerequisites
 
 Source Repository
 -----------------
-https://github.com/TerrenceMiao/docker/images/scala-sbt
+https://github.com/TerrenceMiao/docker/tree/master/images/scala-sbt
 
 References
 ----------
