@@ -2,7 +2,7 @@ Kafka Manager in Docker
 =======================
 [![](https://images.microbadger.com/badges/image/jtech/kafka-manager.svg)](https://microbadger.com/images/jtech/kafka-manager "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/jtech/kafka-manager.svg)](https://microbadger.com/images/jtech/kafka-manager "Get your own version badge on microbadger.com")
 
-A Docker image based on based on the smallest Linux - Alpine with latest Oracle JDK, Kafka Manager.
+A Docker image based on the smallest Linux - Alpine with latest Oracle JDK, Kafka Manager.
 
 Prerequisites
 -------------
