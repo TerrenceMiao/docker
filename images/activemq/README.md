@@ -7,7 +7,10 @@ Build a docker image which has the latest Apache ActiveMQ.
 Prerequisites
 -------------
 - Install Docker on host
-- Pre-built image "docker/oracle-jdk:latest" on local Docker images list
+
+Source Repository
+-----------------
+_https://github.com/TerrenceMiao/docker/tree/master/images/activemq_
 
 References
 ----------

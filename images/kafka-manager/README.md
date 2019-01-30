@@ -11,7 +11,7 @@ Prerequisites
 
 Source Repository
 -----------------
-_https://github.com/TerrenceMiao/docker/images/kafka-manager_
+_https://github.com/TerrenceMiao/docker/tree/master/images/kafka-manager_
 
 How To
 ------
