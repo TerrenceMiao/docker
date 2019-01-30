@@ -19,10 +19,10 @@ RUN echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswit
 
 ## Java Version
 ENV JAVA_VERSION_MAJOR 8
-ENV JAVA_VERSION_MINOR 191
-ENV JAVA_VERSION_BUILD 12
+ENV JAVA_VERSION_MINOR 201
+ENV JAVA_VERSION_BUILD 09
 ENV JAVA_PACKAGE       jdk
-ENV JAVA_CHECKSUM      2787e4a523244c269598db4e85c51e0c
+ENV JAVA_CHECKSUM      42970487e3af4f5aa5bca3f542482c60
 
 ## Download and install Java
 RUN curl -jksSLH "Cookie: oraclelicense=accept-securebackup-cookie"\
