@@ -1,0 +1,377 @@
+Terraform and AWS Serverless
+============================
+
+Setting up an application on AWS, with Lambda function and AWS DynamoDB a NoSQL database, also expose Lambda function through AWS API gateway.
+
+[source.console]
+----
+𝜆 terraform init
+
+Initializing provider plugins...
+- Checking for available provider plugins on https://releases.hashicorp.com...
+- Downloading plugin for provider "aws" (1.60.0)...
+- Downloading plugin for provider "template" (2.0.0)...
+
+The following providers do not have any version constraints in configuration,
+so the latest version was installed.
+
+To prevent automatic upgrades to new major versions that may contain breaking
+changes, it is recommended to add version = "..." constraints to the
+corresponding provider blocks in configuration, with the constraint strings
+suggested below.
+
+* provider.aws: version = "~> 1.60"
+* provider.template: version = "~> 2.0"
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+----
+
+[source.console]
+----
+𝜆 terraform apply
+data.aws_iam_policy_document.api-gateway-logs-policy-document: Refreshing state...
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  + create
+ <= read (data resources)
+
+Terraform will perform the following actions:
+
+ <= data.template_file.ideation_aws_api_swagger
+      id:                        <computed>
+      rendered:                  <computed>
+      template:                  "swagger: '2.0'\ninfo:\n  version: '1.0'\n  title: \"IdeationAWS\"\nschemes:\n  - https\npaths:\n  \"/api\":\n    get:\n      description: \"Get ideation AWS\"\n      produces:\n        - application/json\n      responses:\n        200:\n          description: \"The ideation AWS request successful.\"\n          schema:\n            type: array\n            items:\n              $ref: \"#/definitions/IdeationAWS\"\n      x-amazon-apigateway-integration:\n        uri: ${get_lambda_arn}\n        passthroughBehavior: \"when_no_match\"\n        httpMethod: \"POST\"\n        type: \"aws_proxy\"\n    post:\n      description: \"Post an ideation AWS\"\n      consumes:\n        - application/json\n      responses:\n        200:\n          description: \"The ideation AWS was added successfully\"\n      x-amazon-apigateway-integration:\n        uri: ${post_lambda_arn}\n        passthroughBehavior: \"when_no_match\"\n        httpMethod: \"POST\"\n        type: \"aws_proxy\"\n\ndefinitions:\n  IdeationAWS:\n    type: object\n    description: \"An ideation AWS\"\n    properties:\n      aws:\n        type: string\n        description: \"The ideation AWS\"\n      id:\n        type: number\n        description: \"Id of the ideation AWS\"\n      name:\n        type: string\n        description: \"Name of the ideation AWS\"\n      category:\n        type: string\n        description: \"category of the ideation AWS\"\n    required:\n      - aws\n\n\n"
+      vars.%:                    <computed>
+
+  + aws_api_gateway_deployment.ideation-aws-api-gateway-deployment
+      id:                        <computed>
+      created_date:              <computed>
+      execution_arn:             <computed>
+      invoke_url:                <computed>
+      rest_api_id:               "${aws_api_gateway_rest_api.ideation-aws-api-gateway.id}"
+      stage_name:                "default"
+
+  + aws_api_gateway_rest_api.ideation-aws-api-gateway
+      id:                        <computed>
+      api_key_source:            "HEADER"
+      body:                      "${data.template_file.ideation_aws_api_swagger.rendered}"
+      created_date:              <computed>
+      description:               "API to access Ideation AWS application"
+      endpoint_configuration.#:  <computed>
+      execution_arn:             <computed>
+      minimum_compression_size:  "-1"
+      name:                      "Ideation AWS API"
+      root_resource_id:          <computed>
+
+  + aws_dynamodb_table.ideation-aws-dynamodb-table
+      id:                        <computed>
+      arn:                       <computed>
+      attribute.#:               "2"
+      attribute.3206617783.name: "Name"
+      attribute.3206617783.type: "S"
+      attribute.3292831115.name: "Id"
+      attribute.3292831115.type: "N"
+      billing_mode:              "PROVISIONED"
+      hash_key:                  "Id"
+      name:                      "IdeationAWS"
+      point_in_time_recovery.#:  <computed>
+      range_key:                 "Name"
+      read_capacity:             "5"
+      server_side_encryption.#:  <computed>
+      stream_arn:                <computed>
+      stream_label:              <computed>
+      stream_view_type:          <computed>
+      write_capacity:            "5"
+
+  + aws_iam_role.lambda-iam-role
+      id:                        <computed>
+      arn:                       <computed>
+      assume_role_policy:        "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"lambda.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}\n"
+      create_date:               <computed>
+      force_detach_policies:     "false"
+      max_session_duration:      "3600"
+      name:                      "ideation-aws-lambda-iam-role"
+      path:                      "/"
+      unique_id:                 <computed>
+
+  + aws_iam_role_policy.cloudwatch-lambda-policy
+      id:                        <computed>
+      name:                      "ideation-aws-cloudwatch-lambda-policy"
+      policy:                    "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"\",\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"logs:PutLogEvents\",\n        \"logs:CreateLogStream\",\n        \"logs:CreateLogGroup\"\n      ],\n      \"Resource\": \"arn:aws:logs:*:*:*\"\n    }\n  ]\n}"
+      role:                      "${aws_iam_role.lambda-iam-role.id}"
+
+  + aws_iam_role_policy.dynamodb-lambda-policy
+      id:                        <computed>
+      name:                      "ideation-aws-dynamodb-lambda-policy"
+      policy:                    "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"dynamodb:*\"\n      ],\n      \"Resource\": \"${aws_dynamodb_table.ideation-aws-dynamodb-table.arn}\"\n    }\n  ]\n}\n"
+      role:                      "${aws_iam_role.lambda-iam-role.id}"
+
+  + aws_lambda_function.get-lambda
+      id:                        <computed>
+      arn:                       <computed>
+      function_name:             "ideationAWS-get"
+      handler:                   "index.handler"
+      invoke_arn:                <computed>
+      last_modified:             <computed>
+      memory_size:               "128"
+      publish:                   "false"
+      qualified_arn:             <computed>
+      role:                      "${aws_iam_role.lambda-iam-role.arn}"
+      runtime:                   "nodejs8.10"
+      s3_bucket:                 "ideation-aws-node-bucket"
+      s3_key:                    "v1.0.0/getLambda.zip"
+      source_code_hash:          <computed>
+      source_code_size:          <computed>
+      timeout:                   "3"
+      tracing_config.#:          <computed>
+      version:                   <computed>
+
+  + aws_lambda_function.post-lambda
+      id:                        <computed>
+      arn:                       <computed>
+      function_name:             "ideationAWS-post"
+      handler:                   "index.handler"
+      invoke_arn:                <computed>
+      last_modified:             <computed>
+      memory_size:               "128"
+      publish:                   "false"
+      qualified_arn:             <computed>
+      role:                      "${aws_iam_role.lambda-iam-role.arn}"
+      runtime:                   "nodejs8.10"
+      s3_bucket:                 "ideation-aws-node-bucket"
+      s3_key:                    "v1.0.0/postLambda.zip"
+      source_code_hash:          <computed>
+      source_code_size:          <computed>
+      timeout:                   "3"
+      tracing_config.#:          <computed>
+      version:                   <computed>
+
+  + aws_lambda_permission.api-gateway-invoke-get-lambda
+      id:                        <computed>
+      action:                    "lambda:InvokeFunction"
+      function_name:             "${aws_lambda_function.get-lambda.arn}"
+      principal:                 "apigateway.amazonaws.com"
+      source_arn:                "${aws_api_gateway_deployment.ideation-aws-api-gateway-deployment.execution_arn}/*/*"
+      statement_id:              "AllowAPIGatewayInvoke"
+
+  + aws_lambda_permission.api-gateway-invoke-post-lambda
+      id:                        <computed>
+      action:                    "lambda:InvokeFunction"
+      function_name:             "${aws_lambda_function.post-lambda.arn}"
+      principal:                 "apigateway.amazonaws.com"
+      source_arn:                "${aws_api_gateway_deployment.ideation-aws-api-gateway-deployment.execution_arn}/*/*"
+      statement_id:              "AllowAPIGatewayInvoke"
+
+
+Plan: 10 to add, 0 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+----
+
+[source.console]
+----
+aws_iam_role.lambda-iam-role: Creating...
+  arn:                   "" => "<computed>"
+  assume_role_policy:    "" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"lambda.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}\n"
+  create_date:           "" => "<computed>"
+  force_detach_policies: "" => "false"
+  max_session_duration:  "" => "3600"
+  name:                  "" => "ideation-aws-lambda-iam-role"
+  path:                  "" => "/"
+  unique_id:             "" => "<computed>"
+aws_dynamodb_table.ideation-aws-dynamodb-table: Creating...
+  arn:                       "" => "<computed>"
+  attribute.#:               "" => "2"
+  attribute.3206617783.name: "" => "Name"
+  attribute.3206617783.type: "" => "S"
+  attribute.3292831115.name: "" => "Id"
+  attribute.3292831115.type: "" => "N"
+  billing_mode:              "" => "PROVISIONED"
+  hash_key:                  "" => "Id"
+  name:                      "" => "IdeationAWS"
+  point_in_time_recovery.#:  "" => "<computed>"
+  range_key:                 "" => "Name"
+  read_capacity:             "" => "5"
+  server_side_encryption.#:  "" => "<computed>"
+  stream_arn:                "" => "<computed>"
+  stream_label:              "" => "<computed>"
+  stream_view_type:          "" => "<computed>"
+  write_capacity:            "" => "5"
+aws_iam_role.lambda-iam-role: Creation complete after 3s (ID: ideation-aws-lambda-iam-role)
+aws_iam_role_policy.cloudwatch-lambda-policy: Creating...
+  name:   "" => "ideation-aws-cloudwatch-lambda-policy"
+  policy: "" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Sid\": \"\",\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"logs:PutLogEvents\",\n        \"logs:CreateLogStream\",\n        \"logs:CreateLogGroup\"\n      ],\n      \"Resource\": \"arn:aws:logs:*:*:*\"\n    }\n  ]\n}"
+  role:   "" => "ideation-aws-lambda-iam-role"
+aws_lambda_function.post-lambda: Creating...
+  arn:              "" => "<computed>"
+  function_name:    "" => "ideationAWS-post"
+  handler:          "" => "index.handler"
+  invoke_arn:       "" => "<computed>"
+  last_modified:    "" => "<computed>"
+  memory_size:      "" => "128"
+  publish:          "" => "false"
+  qualified_arn:    "" => "<computed>"
+  role:             "" => "arn:aws:iam::558667613730:role/ideation-aws-lambda-iam-role"
+  runtime:          "" => "nodejs8.10"
+  s3_bucket:        "" => "ideation-aws-node-bucket"
+  s3_key:           "" => "v1.0.0/postLambda.zip"
+  source_code_hash: "" => "<computed>"
+  source_code_size: "" => "<computed>"
+  timeout:          "" => "3"
+  tracing_config.#: "" => "<computed>"
+  version:          "" => "<computed>"
+aws_lambda_function.get-lambda: Creating...
+  arn:              "" => "<computed>"
+  function_name:    "" => "ideationAWS-get"
+  handler:          "" => "index.handler"
+  invoke_arn:       "" => "<computed>"
+  last_modified:    "" => "<computed>"
+  memory_size:      "" => "128"
+  publish:          "" => "false"
+  qualified_arn:    "" => "<computed>"
+  role:             "" => "arn:aws:iam::558667613730:role/ideation-aws-lambda-iam-role"
+  runtime:          "" => "nodejs8.10"
+  s3_bucket:        "" => "ideation-aws-node-bucket"
+  s3_key:           "" => "v1.0.0/getLambda.zip"
+  source_code_hash: "" => "<computed>"
+  source_code_size: "" => "<computed>"
+  timeout:          "" => "3"
+  tracing_config.#: "" => "<computed>"
+  version:          "" => "<computed>"
+aws_iam_role_policy.cloudwatch-lambda-policy: Creation complete after 2s (ID: ideation-aws-lambda-iam-role:ideation-aws-cloudwatch-lambda-policy)
+aws_dynamodb_table.ideation-aws-dynamodb-table: Creation complete after 9s (ID: IdeationAWS)
+aws_iam_role_policy.dynamodb-lambda-policy: Creating...
+  name:   "" => "ideation-aws-dynamodb-lambda-policy"
+  policy: "" => "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Effect\": \"Allow\",\n      \"Action\": [\n        \"dynamodb:*\"\n      ],\n      \"Resource\": \"arn:aws:dynamodb:ap-southeast-2:558667613730:table/IdeationAWS\"\n    }\n  ]\n}\n"
+  role:   "" => "ideation-aws-lambda-iam-role"
+aws_iam_role_policy.dynamodb-lambda-policy: Creation complete after 2s (ID: ideation-aws-lambda-iam-role:ideation-aws-dynamodb-lambda-policy)
+aws_lambda_function.get-lambda: Creation complete after 9s (ID: ideationAWS-get)
+aws_lambda_function.post-lambda: Creation complete after 9s (ID: ideationAWS-post)
+data.template_file.ideation_aws_api_swagger: Refreshing state...
+aws_api_gateway_rest_api.ideation-aws-api-gateway: Creating...
+  api_key_source:           "" => "HEADER"
+  body:                     "" => "swagger: '2.0'\ninfo:\n  version: '1.0'\n  title: \"IdeationAWS\"\nschemes:\n  - https\npaths:\n  \"/api\":\n    get:\n      description: \"Get ideation AWS\"\n      produces:\n        - application/json\n      responses:\n        200:\n          description: \"The ideation AWS request successful.\"\n          schema:\n            type: array\n            items:\n              $ref: \"#/definitions/IdeationAWS\"\n      x-amazon-apigateway-integration:\n        uri: arn:aws:apigateway:ap-southeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-southeast-2:558667613730:function:ideationAWS-get/invocations\n        passthroughBehavior: \"when_no_match\"\n        httpMethod: \"POST\"\n        type: \"aws_proxy\"\n    post:\n      description: \"Post an ideation AWS\"\n      consumes:\n        - application/json\n      responses:\n        200:\n          description: \"The ideation AWS was added successfully\"\n      x-amazon-apigateway-integration:\n        uri: arn:aws:apigateway:ap-southeast-2:lambda:path/2015-03-31/functions/arn:aws:lambda:ap-southeast-2:558667613730:function:ideationAWS-post/invocations\n        passthroughBehavior: \"when_no_match\"\n        httpMethod: \"POST\"\n        type: \"aws_proxy\"\n\ndefinitions:\n  IdeationAWS:\n    type: object\n    description: \"An ideation AWS\"\n    properties:\n      aws:\n        type: string\n        description: \"The ideation AWS\"\n      id:\n        type: number\n        description: \"Id of the ideation AWS\"\n      name:\n        type: string\n        description: \"Name of the ideation AWS\"\n      category:\n        type: string\n        description: \"category of the ideation AWS\"\n    required:\n      - aws\n\n\n"
+  created_date:             "" => "<computed>"
+  description:              "" => "API to access Ideation AWS application"
+  endpoint_configuration.#: "" => "<computed>"
+  execution_arn:            "" => "<computed>"
+  minimum_compression_size: "" => "-1"
+  name:                     "" => "Ideation AWS API"
+  root_resource_id:         "" => "<computed>"
+aws_api_gateway_rest_api.ideation-aws-api-gateway: Creation complete after 1s (ID: sy7tv8bxkl)
+aws_api_gateway_deployment.ideation-aws-api-gateway-deployment: Creating...
+  created_date:  "" => "<computed>"
+  execution_arn: "" => "<computed>"
+  invoke_url:    "" => "<computed>"
+  rest_api_id:   "" => "sy7tv8bxkl"
+  stage_name:    "" => "default"
+aws_api_gateway_deployment.ideation-aws-api-gateway-deployment: Creation complete after 1s (ID: 4alg95)
+aws_lambda_permission.api-gateway-invoke-get-lambda: Creating...
+  action:        "" => "lambda:InvokeFunction"
+  function_name: "" => "arn:aws:lambda:ap-southeast-2:558667613730:function:ideationAWS-get"
+  principal:     "" => "apigateway.amazonaws.com"
+  source_arn:    "" => "arn:aws:execute-api:ap-southeast-2:558667613730:sy7tv8bxkl/default/*/*"
+  statement_id:  "" => "AllowAPIGatewayInvoke"
+aws_lambda_permission.api-gateway-invoke-post-lambda: Creating...
+  action:        "" => "lambda:InvokeFunction"
+  function_name: "" => "arn:aws:lambda:ap-southeast-2:558667613730:function:ideationAWS-post"
+  principal:     "" => "apigateway.amazonaws.com"
+  source_arn:    "" => "arn:aws:execute-api:ap-southeast-2:558667613730:sy7tv8bxkl/default/*/*"
+  statement_id:  "" => "AllowAPIGatewayInvoke"
+aws_lambda_permission.api-gateway-invoke-post-lambda: Creation complete after 0s (ID: AllowAPIGatewayInvoke)
+aws_lambda_permission.api-gateway-invoke-get-lambda: Creation complete after 0s (ID: AllowAPIGatewayInvoke)
+
+Apply complete! Resources: 10 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+url = https://sy7tv8bxkl.execute-api.ap-southeast-2.amazonaws.com/default/api
+----
+
+[source.console]
+----
+𝜆 terraform destroy
+aws_dynamodb_table.ideation-aws-dynamodb-table: Refreshing state... (ID: IdeationAWS)
+aws_iam_role.lambda-iam-role: Refreshing state... (ID: ideation-aws-lambda-iam-role)
+data.aws_iam_policy_document.api-gateway-logs-policy-document: Refreshing state...
+aws_lambda_function.get-lambda: Refreshing state... (ID: ideationAWS-get)
+aws_iam_role_policy.cloudwatch-lambda-policy: Refreshing state... (ID: ideation-aws-lambda-iam-role:ideation-aws-cloudwatch-lambda-policy)
+aws_lambda_function.post-lambda: Refreshing state... (ID: ideationAWS-post)
+aws_iam_role_policy.dynamodb-lambda-policy: Refreshing state... (ID: ideation-aws-lambda-iam-role:ideation-aws-dynamodb-lambda-policy)
+data.template_file.ideation_aws_api_swagger: Refreshing state...
+aws_api_gateway_rest_api.ideation-aws-api-gateway: Refreshing state... (ID: sy7tv8bxkl)
+aws_api_gateway_deployment.ideation-aws-api-gateway-deployment: Refreshing state... (ID: 4alg95)
+aws_lambda_permission.api-gateway-invoke-get-lambda: Refreshing state... (ID: AllowAPIGatewayInvoke)
+aws_lambda_permission.api-gateway-invoke-post-lambda: Refreshing state... (ID: AllowAPIGatewayInvoke)
+
+An execution plan has been generated and is shown below.
+Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  - aws_api_gateway_deployment.ideation-aws-api-gateway-deployment
+
+  - aws_api_gateway_rest_api.ideation-aws-api-gateway
+
+  - aws_dynamodb_table.ideation-aws-dynamodb-table
+
+  - aws_iam_role.lambda-iam-role
+
+  - aws_iam_role_policy.cloudwatch-lambda-policy
+
+  - aws_iam_role_policy.dynamodb-lambda-policy
+
+  - aws_lambda_function.get-lambda
+
+  - aws_lambda_function.post-lambda
+
+  - aws_lambda_permission.api-gateway-invoke-get-lambda
+
+  - aws_lambda_permission.api-gateway-invoke-post-lambda
+
+
+Plan: 0 to add, 0 to change, 10 to destroy.
+
+Do you really want to destroy all resources?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value: yes
+
+aws_iam_role_policy.cloudwatch-lambda-policy: Destroying... (ID: ideation-aws-lambda-iam-role:ideation-aws-cloudwatch-lambda-policy)
+aws_iam_role_policy.dynamodb-lambda-policy: Destroying... (ID: ideation-aws-lambda-iam-role:ideation-aws-dynamodb-lambda-policy)
+aws_lambda_permission.api-gateway-invoke-post-lambda: Destroying... (ID: AllowAPIGatewayInvoke)
+aws_lambda_permission.api-gateway-invoke-get-lambda: Destroying... (ID: AllowAPIGatewayInvoke)
+aws_lambda_permission.api-gateway-invoke-get-lambda: Destruction complete after 0s
+aws_lambda_permission.api-gateway-invoke-post-lambda: Destruction complete after 0s
+aws_api_gateway_deployment.ideation-aws-api-gateway-deployment: Destroying... (ID: 4alg95)
+aws_api_gateway_deployment.ideation-aws-api-gateway-deployment: Destruction complete after 1s
+aws_api_gateway_rest_api.ideation-aws-api-gateway: Destroying... (ID: sy7tv8bxkl)
+aws_iam_role_policy.dynamodb-lambda-policy: Destruction complete after 1s
+aws_dynamodb_table.ideation-aws-dynamodb-table: Destroying... (ID: IdeationAWS)
+aws_iam_role_policy.cloudwatch-lambda-policy: Destruction complete after 1s
+aws_api_gateway_rest_api.ideation-aws-api-gateway: Destruction complete after 1s
+aws_lambda_function.post-lambda: Destroying... (ID: ideationAWS-post)
+aws_lambda_function.get-lambda: Destroying... (ID: ideationAWS-get)
+aws_lambda_function.get-lambda: Destruction complete after 0s
+aws_lambda_function.post-lambda: Destruction complete after 0s
+aws_iam_role.lambda-iam-role: Destroying... (ID: ideation-aws-lambda-iam-role)
+aws_dynamodb_table.ideation-aws-dynamodb-table: Destruction complete after 3s
+aws_iam_role.lambda-iam-role: Destruction complete after 2s
+
+Destroy complete! Resources: 10 destroyed.
+----

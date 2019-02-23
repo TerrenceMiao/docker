@@ -1,0 +1,58 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: "IdeationAWS"
+schemes:
+  - https
+paths:
+  "/api":
+    get:
+      description: "Get ideation AWS"
+      produces:
+        - application/json
+      responses:
+        200:
+          description: "The ideation AWS request successful."
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/IdeationAWS"
+      x-amazon-apigateway-integration:
+        uri: ${get_lambda_arn}
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        type: "aws_proxy"
+    post:
+      description: "Post an ideation AWS"
+      consumes:
+        - application/json
+      responses:
+        200:
+          description: "The ideation AWS was added successfully"
+      x-amazon-apigateway-integration:
+        uri: ${post_lambda_arn}
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        type: "aws_proxy"
+
+definitions:
+  IdeationAWS:
+    type: object
+    description: "An ideation AWS object"
+    properties:
+      tip:
+        type: string
+        description: "The ideation AWS tip"
+      id:
+        type: string
+        description: "Id of the ideation AWS"
+      name:
+        type: string
+        description: "Name of the ideation AWS"
+      category:
+        type: string
+        description: "Category of the ideation AWS"
+    required:
+      - tip
+
+
