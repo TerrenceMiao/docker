@@ -12,14 +12,17 @@ exports.handler = function(event, context, callback){
   let data = JSON.parse(event.body)
   console.log('data is : ' + data)
 
-  let params =  {
-    Item: {
-      Id: generateUUID(),
-      Name: data.name ? data.name : "Anonymous",
-      Tip: data.tip,
-      Category: data.category
-    },
+  let id = generateUUID()
 
+  let item = {
+    Id: id,
+    Name: data.name ? data.name : "Anonymous",
+    Tip: data.tip,
+    Category: data.category
+  }
+
+  let params =  {
+    Item: item,
     TableName: 'IdeationAWS'
   };
 
@@ -27,13 +30,41 @@ exports.handler = function(event, context, callback){
 
   dynamodbClient.put(params, function(error,data){
 
-    if(error) {
+    if (error) {
       console.error('Error thrown: ' + JSON.stringify(error))
 
       callback(error, null)
     } else {
       console.log('Response data: ' + JSON.stringify(data))
       
+      // Write request data as JSON into S3 bucket
+      s3Client.putObject({
+        Bucket: 'ideation-aws-data-bucket',
+        Key: id + '.json',
+        Body: JSON.stringify(item)
+      })
+      .promise()
+        .then(() => console.log('Writing JSON object succeed'))
+        .then(() => callback(null, 'Mission success'))
+        .catch(error => {
+          console.error('Error thrown: ', error);
+          callback(error);
+        });
+
+      // Create the parameters for calling listObjects
+      var bucketParams = {
+        Bucket : 'ideation-aws-data-bucket',
+      };
+    
+      // Call S3 to obtain a list of the objects in the bucket
+      s3Client.listObjects(bucketParams, function(error, data) {
+        if (error) {
+          console.log("Error: ", error);
+        } else {
+          console.log("Data in bucket: ", data);
+        }
+      });
+
       let response = {
         "statusCode": 200,
         "headers": {
@@ -46,19 +77,6 @@ exports.handler = function(event, context, callback){
     }
   });
 
-  // Create the parameters for calling listObjects
-  var bucketParams = {
-    Bucket : 'ideation-aws-data-bucket',
-  };
-
-  // Call S3 to obtain a list of the objects in the bucket
-  s3Client.listObjects(bucketParams, function(error, data) {
-    if (error) {
-      console.log("Error: ", error);
-    } else {
-      console.log("Data in bucket: ", data);
-    }
-  });
 }
 
 function generateUUID() {
