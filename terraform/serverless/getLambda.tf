@@ -3,7 +3,7 @@ resource "aws_lambda_function" "get-lambda" {
   function_name = "ideationAWS-get"
 
   # The bucket name as created earlier with "aws s3api create-bucket"
-  s3_bucket = "${var.s3_bucket}"
+  s3_bucket = "${var.s3_node_bucket}"
   s3_key = "v${var.lambda_version}/getLambda.zip"
 
   # "main" is the filename within the zip file (index.js) and "handler"

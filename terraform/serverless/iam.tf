@@ -43,6 +43,28 @@ resource "aws_iam_role_policy" "dynamodb-lambda-policy"{
 EOF
 }
 
+resource "aws_iam_role_policy" "s3-lambda-policy"{
+
+  name = "ideation-aws-s3-lambda-policy"
+  role = "${aws_iam_role.lambda-iam-role.id}"
+  
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject"
+      ],
+      "Effect": "Allow",
+      "Resource": "${aws_s3_bucket.ideation-aws-s3-bucket.arn}/*"
+    }
+  ]
+}
+EOF
+}
+
 resource "aws_iam_role_policy" "cloudwatch-lambda-policy"{
   
   name = "ideation-aws-cloudwatch-lambda-policy"
