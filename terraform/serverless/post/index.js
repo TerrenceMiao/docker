@@ -3,6 +3,7 @@ console.log('post() function starts')
 const AWS = require('aws-sdk')
 
 const dynamodbClient = new AWS.DynamoDB.DocumentClient({region: 'ap-southeast-2'})
+const s3Client = new AWS.S3({apiVersion: '2006-03-01', region: 'ap-southeast-2'})
 
 exports.handler = function(event, context, callback){
 
@@ -42,6 +43,20 @@ exports.handler = function(event, context, callback){
       };
       
       callback(null, response);
+    }
+  });
+
+  // Create the parameters for calling listObjects
+  var bucketParams = {
+    Bucket : 'ideation-aws-data-bucket',
+  };
+
+  // Call S3 to obtain a list of the objects in the bucket
+  s3Client.listObjects(bucketParams, function(error, data) {
+    if (error) {
+      console.log("Error: ", error);
+    } else {
+      console.log("Data in bucket: ", data);
     }
   });
 }
