@@ -1,6 +1,9 @@
-exports.handler = async(event) => {
+exports.handler = async(event, context) => {
 
-  console.log('SQS Trigger fired event: ' + JSON.stringify(event.body, null, 2));
+  event.Records.forEach(record => {
+    const { body } = record
+    console.log('SQS Trigger fired event: ' + body);
+  });
 
-  return "Hello from Lambda"
+  return {};
 }
