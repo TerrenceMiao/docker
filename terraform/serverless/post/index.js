@@ -18,7 +18,10 @@ exports.handler = function(event, context, callback){
     Id: id,
     Name: data.name ? data.name : "Anonymous",
     Tip: data.tip,
-    Category: data.category
+    Category: data.category,
+    Rates: data.rates,
+    Base: data.base,
+    Date: data.date
   }
 
   let params =  {
