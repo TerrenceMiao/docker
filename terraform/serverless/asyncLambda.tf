@@ -16,3 +16,13 @@ resource "aws_lambda_function" "async-lambda" {
 
   role = "${aws_iam_role.lambda-iam-role.arn}"
 }
+
+resource "aws_lambda_permission" "cloud-watch-invoke-async-lambda" {
+
+  statement_id  = "AllowExecutionFromCloudWatch"
+  action        = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.async-lambda.function_name}"
+  principal     = "events.amazonaws.com"
+
+  source_arn = "${aws_cloudwatch_event_rule.ideation-aws-cloudwatch-event-rule.arn}"
+}
