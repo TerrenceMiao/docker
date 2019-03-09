@@ -7,11 +7,16 @@ const s3Client = new AWS.S3({apiVersion: '2006-03-01', region: 'ap-southeast-2'}
 
 exports.handler = function(event, context, callback){
 
-  console.log('processing event data: ' + JSON.stringify(event.body, null, 2))
+  console.log('Processing event: ' + JSON.stringify(event, null, 2))
 
-  let data = JSON.parse(event.body)
-  console.log('data is : ' + data)
-
+  let data
+  
+  if (typeof event.body === "string") {
+    data = JSON.parse(event.body)
+  } else {
+    data = event.body
+  }
+  
   let id = generateUUID()
 
   let item = {
