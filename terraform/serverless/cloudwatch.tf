@@ -6,7 +6,7 @@ resource "aws_cloudwatch_event_rule" "ideation-aws-cloudwatch-event-rule" {
     "aws_lambda_function.async-lambda"
   ]
 
-  schedule_expression = "rate(1 minute)"
+  schedule_expression = "rate(5 minutes)"
 }
 
 resource "aws_cloudwatch_event_target" "ideation-aws-cloudwatch-event-target" {
