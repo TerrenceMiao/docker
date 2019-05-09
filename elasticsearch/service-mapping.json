@@ -1,0 +1,43 @@
+{
+  "mappings": {
+    "service": {
+      "properties": {
+        "appointment_required": {
+          "type": "boolean"
+        },
+        "attribute": {
+          "type": "integer"
+        },
+        "categories": {
+          "type": "nested",
+          "properties": {
+            "description": {
+              "type": "text"
+            },
+            "name": {
+              "type": "text"
+            }
+          }
+        },
+        "description": {
+          "type": "text"
+        },
+        "is_searchable": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "text"
+        },
+        "partner_code": {
+          "type": "keyword"
+        },
+        "service_code": {
+          "type": "integer"
+        },
+        "url_name": {
+          "type": "text"
+        }
+      }
+    }
+  }
+}

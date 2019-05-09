@@ -1,0 +1,53 @@
+{
+  "mappings": {
+    "postaladdress": {
+      "properties": {
+        "delivy_point_id": {
+          "type": "text"
+        },
+        "flat_unit_nbr": {
+          "type": "text"
+        },
+        "flat_unit_type": {
+          "type": "text"
+        },
+        "floor_level_nbr": {
+          "type": "text"
+        },
+        "floor_level_type": {
+          "type": "text"
+        },
+        "house_nbr_1": {
+          "type": "text"
+        },
+        "house_nbr_sfx_1": {
+          "type": "text"
+        },
+        "locality_name": {
+          "type": "text"
+        },
+        "lot_nbr": {
+          "type": "text"
+        },
+        "postal_delivery_nbr": {
+          "type": "text"
+        },
+        "postal_delivery_type": {
+          "type": "text"
+        },
+        "postcode": {
+          "type": "text"
+        },
+        "state": {
+          "type": "text"
+        },
+        "street_name": {
+          "type": "text"
+        },
+        "street_type": {
+          "type": "text"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "mappings": {
+    "point": {
+      "properties": {
+        "active": {
+          "type": "boolean"
+        },
+        "address": {
+          "properties": {
+            "address_line_1": {
+              "type": "text"
+            },
+            "address_line_2": {
+              "type": "text"
+            },
+            "address_line_3": {
+              "type": "text"
+            },
+            "country": {
+              "type": "text",
+              "fields": {
+                "raw": {
+                  "type": "keyword"
+                }
+              }
+            },
+            "country_code": {
+              "type": "keyword"
+            },
+            "country_name": {
+              "type": "text"
+            },
+            "postcode": {
+              "type": "keyword"
+            },
+            "state": {
+              "type": "keyword"
+            },
+            "suburb": {
+              "type": "text"
+            }
+          }
+        },
+        "delivery_point_id": {
+          "type": "long"
+        },
+        "description": {
+          "type": "text"
+        },
+        "directions": {
+          "type": "text"
+        },
+        "fax_number": {
+          "type": "text"
+        },
+        "geo_location": {
+          "type": "geo_point"
+        },
+        "hatch_description": {
+          "type": "text"
+        },
+        "hours": {
+          "properties": {
+            "end_date": {
+              "type": "text"
+            },
+            "end_time": {
+              "type": "keyword"
+            },
+            "is_24hour": {
+              "type": "boolean"
+            },
+            "start_date": {
+              "type": "text"
+            },
+            "start_time": {
+              "type": "keyword"
+            },
+            "type": {
+              "type": "text"
+            },
+            "weekday": {
+              "type": "text"
+            }
+          }
+        },
+        "is_active": {
+          "type": "boolean"
+        },
+        "location_code": {
+          "type": "text"
+        },
+        "name": {
+          "type": "text"
+        },
+        "partner_code": {
+          "type": "keyword"
+        },
+        "phone_number": {
+          "type": "text"
+        },
+        "quantity": {
+          "type": "integer"
+        },
+        "serviceCodes": {
+          "type": "integer"
+        },
+        "service_codes": {
+          "type": "text"
+        },
+        "type": {
+          "type": "keyword"
+        },
+        "work_centre_id": {
+          "type": "long"
+        }
+      }
+    }
+  }
+}

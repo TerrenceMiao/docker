@@ -1,0 +1,171 @@
+Step by step run Elastic 7 with Docker images
+=============================================
+
+Run two nodes Elasticsearch cluster with Docker compose file:
+
+[source.console]
+----
+terrence@igloo ~/elastic
+𝜆 cat elastic-docker-compose.yml
+version: '2.2'
+
+services:
+  elasticsearch-01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.0.1
+    container_name: elasticsearch-01
+    environment:
+      - node.name=elasticsearch-01
+      - discovery.seed_hosts=elasticsearch-02
+      - cluster.initial_master_nodes=elasticsearch-01,elasticsearch-02
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - esnet
+
+  elasticsearch-02:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.0.1
+    container_name: elasticsearch-02
+    environment:
+      - node.name=elasticsearch-02
+      - discovery.seed_hosts=elasticsearch-01
+      - cluster.initial_master_nodes=elasticsearch-01,elasticsearch-02
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata02:/usr/share/elasticsearch/data
+    networks:
+      - esnet
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.0.1
+    container_name: kibana
+    ports:
+      - 5601:5601
+    environment:
+      SERVER_NAME: localhost
+      ELASTICSEARCH_HOSTS: http://elasticsearch-01:9200/
+    networks:
+      - esnet
+
+volumes:
+  esdata01:
+    driver: local
+  esdata02:
+    driver: local
+
+networks:
+  esnet:
+
+𝜆 docker-compose -f elastic-docker-compose.yml up -d  
+----
+
+Dump data from Elasticsearch 6.x:
+
+[source.console]
+----
+𝜆 docker run --rm -ti -v /Users/terrence/elastic/backup:/tmp taskrabbit/elasticsearch-dump --input=http://10.101.36.117:9200/location --output=/tmp/location-mapping.json --type=mapping
+Thu, 09 May 2019 04:59:12 GMT | starting dump
+Thu, 09 May 2019 04:59:12 GMT | got 1 objects from source elasticsearch (offset: 0)
+Thu, 09 May 2019 04:59:12 GMT | sent 1 objects to destination file, wrote 1
+Thu, 09 May 2019 04:59:12 GMT | got 0 objects from source elasticsearch (offset: 1)
+Thu, 09 May 2019 04:59:12 GMT | Total Writes: 1
+Thu, 09 May 2019 04:59:12 GMT | dump complete
+
+𝜆 docker run --rm -ti -v /Users/terrence/elastic/backup:/tmp taskrabbit/elasticsearch-dump --input=http://10.101.36.117:9200/location --output=/tmp/location.json --type=data --limit=10000
+Thu, 09 May 2019 05:01:23 GMT | starting dump
+Thu, 09 May 2019 05:01:24 GMT | got 10000 objects from source elasticsearch (offset: 0)
+Thu, 09 May 2019 05:01:24 GMT | sent 10000 objects to destination file, wrote 10000
+Thu, 09 May 2019 05:01:25 GMT | got 10000 objects from source elasticsearch (offset: 10000)
+Thu, 09 May 2019 05:01:25 GMT | sent 10000 objects to destination file, wrote 10000
+Thu, 09 May 2019 05:01:25 GMT | got 1348 objects from source elasticsearch (offset: 20000)
+Thu, 09 May 2019 05:01:25 GMT | sent 1348 objects to destination file, wrote 1348
+Thu, 09 May 2019 05:01:25 GMT | got 0 objects from source elasticsearch (offset: 21348)
+Thu, 09 May 2019 05:01:25 GMT | Total Writes: 21348
+Thu, 09 May 2019 05:01:25 GMT | dump complete
+
+𝜆 docker run --rm -ti -v /Users/terrence/elastic/backup:/tmp taskrabbit/elasticsearch-dump --input=http://10.101.36.117:9200/postaladdress --output=/tmp/postaladdress-mapping.json --type=mapping
+
+𝜆 docker run --rm -ti -v /Users/terrence/elastic/backup:/tmp taskrabbit/elasticsearch-dump --input=http://10.101.36.117:9200/postaladdress --output=/tmp/postaladdress.json --type=data --limit=10000
+----
+
+Can't use the dumped data directly because Elasticsearch 7.x drops off type, multiple mappings support ... Have to modify the mapping files:
+
+- point-mapping.json
+- service-mapping.json
+- postaladdress-mapping.json
+
+and split location data index file into two files:
+
+- point.json, modify index to "point", type to "point"
+- service.json, modify index to "service", type to "service"
+
+then create mappings and import data:
+
+[source.console]
+----
+𝜆 curl -X PUT \
+  'http://localhost:9200/service?include_type_name=true' \
+  -H 'Accept: */*' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: application/json' \
+  -d @service-mapping.json
+
+𝜆 docker run --rm -ti -v /Users/terrence/elastic/backup:/tmp taskrabbit/elasticsearch-dump --input=/tmp/service.json --output=http://10.101.36.117:9200/service --type=data --limit=10000
+Thu, 09 May 2019 07:05:14 GMT | starting dump
+Thu, 09 May 2019 07:05:14 GMT | got 96 objects from source file (offset: 0)
+Thu, 09 May 2019 07:05:15 GMT | sent 96 objects to destination elasticsearch, wrote 96
+Thu, 09 May 2019 07:05:15 GMT | got 0 objects from source file (offset: 96)
+Thu, 09 May 2019 07:05:15 GMT | Total Writes: 96
+Thu, 09 May 2019 07:05:15 GMT | dump complete
+
+𝜆 curl -X PUT \
+  'http://localhost:9200/point?include_type_name=true' \
+  -H 'Accept: */*' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: application/json' \
+  -d @point-mapping.json
+
+𝜆 docker run --rm -ti -v /Users/terrence/elastic/backup:/tmp taskrabbit/elasticsearch-dump --input=/tmp/point.json --output=http://10.101.36.117:9200/point --type=data --limit=10000
+Thu, 09 May 2019 07:06:57 GMT | starting dump
+Thu, 09 May 2019 07:06:58 GMT | got 10000 objects from source file (offset: 0)
+Thu, 09 May 2019 07:07:08 GMT | sent 10000 objects to destination elasticsearch, wrote 10000
+Thu, 09 May 2019 07:07:09 GMT | got 10020 objects from source file (offset: 10000)
+Thu, 09 May 2019 07:07:15 GMT | sent 10020 objects to destination elasticsearch, wrote 10020
+Thu, 09 May 2019 07:07:16 GMT | got 1232 objects from source file (offset: 20020)
+Thu, 09 May 2019 07:07:17 GMT | sent 1232 objects to destination elasticsearch, wrote 1232
+Thu, 09 May 2019 07:07:17 GMT | got 0 objects from source file (offset: 21252)
+Thu, 09 May 2019 07:07:17 GMT | Total Writes: 21252
+Thu, 09 May 2019 07:07:17 GMT | dump complete
+
+𝜆 curl -X PUT \
+  'http://localhost:9200/postaladdress?include_type_name=true' \
+  -H 'Accept: */*' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: application/json' \
+  -d @postaladdress-mapping.json
+
+𝜆 docker run --rm -ti -v /Users/terrence/elastic/backup:/tmp taskrabbit/elasticsearch-dump --input=/tmp/postaladdress.json --output=http://10.101.36.117:9200/postaladdress --type=data --limit=100000
+----
+
+
+References
+----------
+
+
+Copying
+-------
+Copyright © 2016 - Terrence Miao. Free use of this software is granted under the terms of the GNU General Public License version 3 (GPLv3).
