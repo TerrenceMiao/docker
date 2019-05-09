@@ -158,7 +158,7 @@ Thu, 09 May 2019 07:07:17 GMT | dump complete
   -H 'Content-Type: application/json' \
   -d @postaladdress-mapping.json
 
-𝜆 docker run --rm -ti -v /Users/terrence/elastic/backup:/tmp taskrabbit/elasticsearch-dump --input=/tmp/postaladdress.json --output=http://10.101.36.117:9200/postaladdress --type=data --limit=100000
+𝜆 docker run --rm -ti -v /Users/terrence/elastic/backup:/tmp taskrabbit/elasticsearch-dump --input=/tmp/postaladdress.json --output=http://10.101.36.117:9200/postaladdress --type=data --limit=10000
 ----
 
 
