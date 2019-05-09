@@ -10,13 +10,13 @@ terrence@igloo ~/elastic
 version: '2.2'
 
 services:
-  elasticsearch-01:
+  elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.0.1
-    container_name: elasticsearch-01
+    container_name: elasticsearch
     environment:
-      - node.name=elasticsearch-01
-      - discovery.seed_hosts=elasticsearch-02
-      - cluster.initial_master_nodes=elasticsearch-01,elasticsearch-02
+      - node.name=elasticsearch
+      - discovery.seed_hosts=elasticsearch-slave
+      - cluster.initial_master_nodes=elasticsearch,elasticsearch-slave
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
@@ -31,13 +31,13 @@ services:
     networks:
       - esnet
 
-  elasticsearch-02:
+  elasticsearch-slave:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.0.1
-    container_name: elasticsearch-02
+    container_name: elasticsearch-slave
     environment:
-      - node.name=elasticsearch-02
-      - discovery.seed_hosts=elasticsearch-01
-      - cluster.initial_master_nodes=elasticsearch-01,elasticsearch-02
+      - node.name=elasticsearch-slave
+      - discovery.seed_hosts=elasticsearch
+      - cluster.initial_master_nodes=elasticsearch,elasticsearch-slave
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
@@ -57,7 +57,21 @@ services:
       - 5601:5601
     environment:
       SERVER_NAME: localhost
-      ELASTICSEARCH_HOSTS: http://elasticsearch-01:9200/
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200/
+    networks:
+      - esnet
+
+  apmserver:
+    image: docker.elastic.co/apm/apm-server:7.0.1
+    container_name: apmserver
+    command: --strict.perms=false
+    ports:
+      - 8200:8200
+      - 8201:8200
+    environment:
+      - apm-server.host=0.0.0.0
+      - setup.kibana.host=kibana:5601
+      - output.elasticsearch.hosts=["elasticsearch:9200"]
     networks:
       - esnet
 
@@ -160,10 +174,6 @@ Thu, 09 May 2019 07:07:17 GMT | dump complete
 
 𝜆 docker run --rm -ti -v /Users/terrence/elastic/backup:/tmp taskrabbit/elasticsearch-dump --input=/tmp/postaladdress.json --output=http://10.101.36.117:9200/postaladdress --type=data --limit=10000
 ----
-
-
-References
-----------
 
 
 Copying
