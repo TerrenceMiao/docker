@@ -68,10 +68,9 @@ services:
     ports:
       - 8200:8200
       - 8201:8200
-    environment:
-      - apm-server.host=0.0.0.0
-      - setup.kibana.host=kibana:5601
-      - output.elasticsearch.hosts=["elasticsearch:9200"]
+    ## environment doesn't work in apmserver, have to use volume to overwrite default configuration and CORS 
+    volumes:
+      - "./config/apm-server.yml:/usr/share/apm-server/apm-server.yml"  
     networks:
       - esnet
 
@@ -83,6 +82,26 @@ volumes:
 
 networks:
   esnet:
+
+𝜆 cat config/apm-server.yml
+## https://github.com/elastic/apm-server/blob/master/apm-server.yml
+apm-server:
+  host: "0.0.0.0:8200"
+
+setup.kibana:
+  host: "kibana:5601"
+
+output.elasticsearch:
+  hosts: ["elasticsearch:9200"]
+
+apm-server.rum.enabled: true
+apm-server.rum.event_rate.limit: 300
+apm-server.rum.event_rate.lru_size: 1000
+apm-server.rum.allow_origins: ['*']
+apm-server.rum.library_pattern: "node_modules|bower_components|~"
+apm-server.rum.exclude_from_grouping: "^/webpack"
+apm-server.rum.source_mapping.cache.expiration: 5m
+apm-server.rum.source_mapping.index_pattern: "apm-*-sourcemap*"
 
 𝜆 docker-compose -f elastic-docker-compose.yml up -d  
 ----
