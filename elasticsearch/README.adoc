@@ -3,7 +3,7 @@ Step by step run ElasticSearch / Kibana Docker images
 
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 
-READ the latest updated docs <<Elastic 7#,Elastic 7>> and link:Elasticsearch{outfilesuffix}[Elasticsearch].
+READ the latest updated docs link:Elastic{outfilesuffix}[Elastic] and link:Elasticsearch{outfilesuffix}[Elasticsearch].
 
 This project including instructions to run ElasticSearch / Kibana Docker images on localhost.
 
