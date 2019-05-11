@@ -1,0 +1,254 @@
+Step by step run Elasticsearch 6.x with Docker images
+=====================================================
+
+WE need to backup and dump data from old version Elasticsearch like 5.x or previous version 6.x:
+
+[source.console]
+----
+𝜆 docker run --rm -ti -v /Users/terrence/elasticsearch/backup:/tmp taskrabbit/elasticsearch-dump --input=http://10.0.0.100:9200/location --output=/tmp/location-mapping.json --type=mapping
+𝜆 docker run --rm -ti -v /Users/terrence/elasticsearch/backup:/tmp taskrabbit/elasticsearch-dump --input=http://10.0.0.100:9200/location --output=/tmp/location.json --type=data --limit=10000
+
+𝜆 docker run --rm -ti -v /Users/terrence/elasticsearch/backup:/tmp taskrabbit/elasticsearch-dump --input=http://10.0.0.100:9200/postaladdress --output=/tmp/postaladdress-mapping.json --type=mapping
+𝜆 docker run --rm -ti -v /Users/terrence/elasticsearch/backup:/tmp taskrabbit/elasticsearch-dump --input=http://10.0.0.100:9200/postaladdress --output=/tmp/postaladdress.json --type=data --limit=10000
+----
+
+WE can't use the dumped data directly because latest Elasticsearch 6.x throws errors:
+
+[red]#Error Emitted => {"root_cause":[{"type":"illegal_argument_exception","reason":"Enabling [_all] is disabled in 6.0. As a replacement, you can use [copy_to] on mapping fields to create your own catch all field."}],"type":"illegal_argument_exception","reason":"Enabling [_all] is disabled in 6.0. As a replacement, you can use [copy_to] on mapping fields to create your own catch all field."}#
+
+[red]#Error Emitted => {"root_cause":[{"type":"illegal_argument_exception","reason":"Rejecting mapping update to [location] as the final mapping would have more than 1 type: [service, point]"}],"type":"illegal_argument_exception","reason":"Rejecting mapping update to [location] as the final mapping would have more than 1 type: [service, point]"}#
+
+WE have to modify the mapping files:
+
+- location-point-mapping.json
+- location-service-mapping.json
+- postaladdress-mapping.json
+
+and split location data index file into two files:
+
+- location-point.json, modify index to "point", type to "point"
+- location-service.json, modify index to "service", type to "service"
+
+then create mappings and import data:
+
+[source.console]
+----
+𝜆 curl -X PUT \
+  http://localhost:9200/point \
+  -H 'Accept: */*' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: application/json' \
+  -H 'Host: localhost:9200' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'cache-control: no-cache' \
+  -d '{
+    "mappings": {
+        "point": {
+            "properties": {
+                "active": {
+                    "type": "boolean"
+                },
+                "address": {
+                    "properties": {
+                        "address_line_1": {
+                            "type": "text"
+                        },
+                        "address_line_2": {
+                            "type": "text"
+                        },
+                        "address_line_3": {
+                            "type": "text"
+                        },
+                        "country": {
+                            "type": "text",
+                            "fields": {
+                                "raw": {
+                                    "type": "keyword"
+                                }
+                            }
+                        },
+                        "country_code": {
+                            "type": "keyword"
+                        },
+                        "country_name": {
+                            "type": "text"
+                        },
+                        "postcode": {
+                            "type": "keyword"
+                        },
+                        "state": {
+                            "type": "keyword"
+                        },
+                        "suburb": {
+                            "type": "text"
+                        }
+                    }
+                },
+                "delivery_point_id": {
+                    "type": "long"
+                },
+                "description": {
+                    "type": "text"
+                },
+                "directions": {
+                    "type": "text"
+                },
+                "fax_number": {
+                    "type": "text"
+                },
+                "geo_location": {
+                    "type": "geo_point"
+                },
+                "hatch_description": {
+                    "type": "text"
+                },
+                "hours": {
+                    "properties": {
+                        "end_date": {
+                            "type": "text"
+                        },
+                        "end_time": {
+                            "type": "keyword"
+                        },
+                        "is_24hour": {
+                            "type": "boolean"
+                        },
+                        "start_date": {
+                            "type": "text"
+                        },
+                        "start_time": {
+                            "type": "keyword"
+                        },
+                        "type": {
+                            "type": "text"
+                        },
+                        "weekday": {
+                            "type": "text"
+                        }
+                    }
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "location_code": {
+                    "type": "text"
+                },
+                "name": {
+                    "type": "text"
+                },
+                "partner_code": {
+                    "type": "keyword"
+                },
+                "phone_number": {
+                    "type": "text"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "serviceCodes": {
+                    "type": "integer"
+                },
+                "service_codes": {
+                    "type": "text"
+                },
+                "type": {
+                    "type": "keyword"
+                },
+                "work_centre_id": {
+                    "type": "long"
+                }
+            }
+        }
+    }
+}'
+
+𝜆 docker run --rm -ti -v /Users/terrence/elasticsearch/backup:/tmp taskrabbit/elasticsearch-dump --input=/tmp/location-point.json --output=http://10.0.0.100:9200/point --type=data --limit=10000
+
+
+𝜆 curl -X PUT \
+  http://localhost:9200/service \
+  -H 'Accept: */*' \
+  -H 'Cache-Control: no-cache' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: application/json' \
+  -H 'Host: localhost:9200' \
+  -H 'accept-encoding: gzip, deflate' \
+  -H 'cache-control: no-cache' \
+  -d '{
+    "mappings": {
+        "service": {
+            "properties": {
+                "appointment_required": {
+                    "type": "boolean"
+                },
+                "attribute": {
+                    "type": "integer"
+                },
+                "categories": {
+                    "type": "nested",
+                    "properties": {
+                        "description": {
+                            "type": "text"
+                        },
+                        "name": {
+                            "type": "text"
+                        }
+                    }
+                },
+                "description": {
+                    "type": "text"
+                },
+                "is_searchable": {
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "text"
+                },
+                "partner_code": {
+                    "type": "keyword"
+                },
+                "service_code": {
+                    "type": "integer"
+                },
+                "url_name": {
+                    "type": "text"
+                }
+            }
+        }
+    }
+}'
+
+𝜆 docker run --rm -ti -v /Users/terrence/elasticsearch/backup:/tmp taskrabbit/elasticsearch-dump --input=/tmp/location-service.json --output=http://10.0.0.100:9200/service --type=data --limit=10000
+
+
+𝜆 docker run --rm -ti -v /Users/terrence/elasticsearch/backup:/tmp taskrabbit/elasticsearch-dump --input=/tmp/postaladdress-mapping.json --output=http://10.0.0.100:9200/postaladdress --type=mapping
+
+𝜆 docker run --rm -ti -v /Users/terrence/elasticsearch/backup:/tmp taskrabbit/elasticsearch-dump --input=/tmp/postaladdress.json --output=http://10.0.0.100:9200/postaladdress --type=data --limit=10000
+----
+
+In order to overwrite CORS, WE have to have a customised elasticsearch.yml:
+
+[source.console]
+----
+𝜆 cat config/elasticsearch.yml
+http.host: 0.0.0.0
+
+## ElasticSearch CORS enabled
+http.cors:
+  enabled: true
+  # ALL domains. Open to cross origin requests from anywhere if /https?:\/\/localhost(:[0-9]+)?/
+  allow-origin: /.*/
+  allow-credentials: true
+  # Defaults methods to: OPTIONS, HEAD, GET, POST, PUT, DELETE
+  # allow-methods: OPTIONS, HEAD, GET, POST, PUT, DELETE
+  # Defaults to X-Requested-With, Content-Type, Content-Length
+  # allow-headers: Authorization, X-Requested-With, Content-Type, Content-Length
+
+𝜆 docker run -d -v "$PWD/data":/usr/share/elasticsearch/data -v "$PWD/config/elasticsearch.yml":/usr/share/elasticsearch/config/elasticsearch.yml -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name elasticsearch docker.elastic.co/elasticsearch/elasticsearch:6.7.2
+----
+
+
+Copying
+-------
+Copyright © 2016 - Terrence Miao. Free use of this software is granted under the terms of the GNU General Public License version 3 (GPLv3).
