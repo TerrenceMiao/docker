@@ -20,6 +20,9 @@ services:
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - http.cors.enabled=true
+      - http.cors.allow-origin=/.*/
+      - http.cors.allow-credentials=true      
     ulimits:
       memlock:
         soft: -1
@@ -41,6 +44,9 @@ services:
       - cluster.name=docker-cluster
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - http.cors.enabled=true
+      - http.cors.allow-origin=/.*/
+      - http.cors.allow-credentials=true      
     ulimits:
       memlock:
         soft: -1
