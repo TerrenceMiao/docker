@@ -1,0 +1,23 @@
+Google Chrome Docker image
+==========================
+
+Build a Google Chrome + Node.js, and potential pupperteer to run browserless, headless functional test.
+
+Optionallly, to get custom Google Chrome seccomp profile:
+
+[source.console]
+----
+𝜆 wget https://raw.githubusercontent.com/jfrazelle/dotfiles/master/etc/docker/seccomp/chrome.json -O ~/chrome.json
+----
+
+Run:
+
+[source.console]
+----
+𝜆 docker build -t nodie .
+
+𝜆 docker run -it -p 13000:3000 --cap-add SYS_ADMIN nodie google-chrome -version
+Google Chrome 75.0.3770.80
+
+𝜆 docker run -it -p 13000:3000 --cap-add SYS_ADMIN nodie
+----
