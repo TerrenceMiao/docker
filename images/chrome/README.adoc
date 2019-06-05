@@ -21,3 +21,10 @@ Google Chrome 75.0.3770.80
 
 𝜆 docker run -it -p 13000:3000 --cap-add SYS_ADMIN nodie
 ----
+
+
+References
+----------
+
+- Chrome as a service in docker. Bring your own cloud or hardware, _https://browserless.io_
+- browserless source code, _https://github.com/browserless/chrome_ 
