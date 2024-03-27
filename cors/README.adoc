@@ -1,0 +1,41 @@
+CORS solution with Nginx reverse proxy in Docker
+================================================
+
+Working around with **ChromaDB**, runs in Docker on localhost, but without `no-cors` configuration.
+
+Either:
+
+[source.console]
+----
+$ docker build -t cors .
+$ docker run --name cors -p 8080:80 cors
+----
+
+or:
+
+[source.console]
+----
+$ docker-compose up
+----
+
+To test, without Ngnix reverse proxy, connect **ChromaDB** directly on port `8000`:
+
+[source.console]
+----
+$ curl -1 -X GET -H "Content-Type: application/json" http://localhost:8000/api/v1/collections
+[{"name":"anythingllm-workspace","id":"d523dfa7-414a-4481-bc6a-fd47b684535e","metadata":{"hnsw:space":"cosine"},"tenant":"default_tenant","database":"default_database"}]
+----
+
+To test, with Ngnix reverse proxy, on port `8080`:
+
+[source.console]
+----
+$ curl -1 -X GET -H "Content-Type: application/json" http://localhost:8080/api/v1/collections
+[{"name":"anythingllm-workspace","id":"d523dfa7-414a-4481-bc6a-fd47b684535e","metadata":{"hnsw:space":"cosine"},"tenant":"default_tenant","database":"default_database"}]
+----
+
+
+References
+----------
+
+- Solving CORS problem on local development with Docker, _https://maximillianxavier.medium.com/solving-cors-problem-on-local-development-with-docker-4d4a25cd8cfe_
